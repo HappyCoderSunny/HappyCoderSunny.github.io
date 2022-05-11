@@ -4,6 +4,8 @@ date: 2022-05-09 16:00:00
 tags:
 - Hexo
 - butterfly主题
+categories: 
+- Hexo
 cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%AE%89%E8%A3%85nodejs.png
 ---
 

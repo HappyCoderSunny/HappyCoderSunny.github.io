@@ -12,6 +12,7 @@
     "version": "6.1.0"
   },
   "dependencies": {
+    "aplayer": "^1.10.1",
     "hexo": "^6.0.0",
     "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^3.0.0",
@@ -27,6 +28,7 @@
     "hexo-renderer-marked": "^5.0.0",
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^3.0.0",
+    "hexo-tag-aplayer": "^3.0.4",
     "hexo-theme-landscape": "^0.0.3",
     "hexo-wordcount": "^6.0.1"
   }

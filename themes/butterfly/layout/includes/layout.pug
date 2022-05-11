@@ -6,7 +6,7 @@
 doctype html
 html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside)
   head
-    include ./head.pug
+    include ./head.pug 
   body
     if theme.preloader
       !=partial('includes/loading/loading', {}, {cache: true})
@@ -46,3 +46,4 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
     include ./rightside.pug
     !=partial('includes/third-party/search/index', {}, {cache: true})
     include ./additional-js.pug
+

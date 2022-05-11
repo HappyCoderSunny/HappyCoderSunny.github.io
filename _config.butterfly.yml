@@ -3,12 +3,13 @@
 # --------------------------------------
 
 menu:
-  # Home: / || fas fa-home
+   首页: / || fas fa-home
+   音乐库: /music/ || fas fa-music
   # Archives: /archives/ || fas fa-archive
   # Tags: /tags/ || fas fa-tags
   # Categories: /categories/ || fas fa-folder-open
   # List||fas fa-list:
-  #   Music: /music/ || fas fa-music
+     
   #   Movie: /movies/ || fas fa-video
   # Link: /link/ || fas fa-link
   # About: /about/ || fas fa-heart
@@ -36,7 +37,8 @@ copy:
 #   icon: link || the description
 social:
    fab fa-github: https://github.com/HappyCoderSunny || Github
-   fas fa-envelope: 532619121@qq.com || Email
+   fas fa-envelope:  mailto:532619121@qq.com || Email
+   
 
 # search (搜索)
 # see https://butterfly.js.org/posts/ceeb73f/#搜索系统
@@ -76,28 +78,28 @@ katex:
 # --------------------------------------
 
 # Favicon（网站图标）
-favicon: /img/avatar.png
+favicon: /images/avatar.png
 
 # Avatar (头像)
 avatar:
-  img: /img/avatar.png
+  img: /images/avatar.png
   effect: false
 
 # Disable all banner image
 disable_top_img: false
 
 # The banner image of home page
-index_img: /img/background.png
+index_img: /images/background.png
 
 # If the banner of page not setting, it will show the top_img
-default_top_img: /img/default_top_img.png
+default_top_img: /images/default_post_cover.png
 
 # The banner image of archive page
-archive_img: /img/default_top_img.png
+archive_img: /images/default_post_cover.png
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img: /img/default_top_img.png
+tag_img: /images/default_post_cover.png
 
 # The banner image of tag page
 # format:
@@ -106,7 +108,7 @@ tag_per_img:
 
 # If the banner of category page not setting, it will show the top_img
 # note: category page, not categories page (子分類頁面的 top_img)
-category_img: /img/default_top_img.png
+category_img: /images/default_post_cover.png
 
 # The banner image of category page
 # format:
@@ -127,8 +129,8 @@ cover:
 
 # Replace Broken Images (替换无法显示的图片的图片)
 error_img:
-  flink: /img/friend_404.gif
-  post_page: /img/404.jpg
+  flink: /images/friend_404.gif
+  post_page: /images/404.jpg
 
 # A simple 404 page
 error_404:
@@ -191,12 +193,12 @@ post_copyright:
 
 # Sponsor/reward
 reward:
-  enable: false
+  enable: true
   QR_code:
-     - img: /img/wechat_png.png
+     - img: /images/wechat_pay.png
        link:
        text: 微信
-     - img: /img/ali_pay.png
+     - img: /images/ali_pay.png
        link:
        text: 支付宝
 
@@ -492,7 +494,7 @@ tag_ui: # 留空或 index
 # Website Background (设置网站背景)
 # can set it to color or image (可設置图片 或者 颜色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background: /img/background.png
+background: /images/background.png
 
 # Footer Background
 footer_bg: true
@@ -629,7 +631,7 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: Follow Me
+      text: Github
       link: https://github.com/HappyCoderSunny
   card_announcement:
     enable: true
@@ -767,14 +769,14 @@ note:
 # It may contain bugs and unstable, give feedback when you find the bugs.
 # https://github.com/MoOx/pjax
 pjax:
-  enable: false
+  enable: true
   exclude:
     # - xxxx
     # - xxxx
 
 # Inject the css and script (aplayer/meting)
 aplayerInject:
-  enable: false
+  enable: true
   per_page: true
 
 # Snackbar (Toast Notification 彈窗)
@@ -830,7 +832,7 @@ inject:
   head:
      - <link rel="stylesheet" href="/css/background.css">
   bottom:
-    # - <script src="xxxx"></script>
+    <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div>
 
 # CDN
 # Don't modify the following settings unless you know how they work
