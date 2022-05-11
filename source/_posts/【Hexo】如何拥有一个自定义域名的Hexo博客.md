@@ -36,23 +36,23 @@ cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220511_02_01.png
 
 在这里面添加两条记录如上所示。
 
-记录值`192.30.252.154`和`192.30.252.153`是Github pages官网说的IP地址，写死就行。
+记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照[Github Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)进行设置，也可以使用`ping xxx.github.io`来验证一下。
+
+记录类型为CNAME的记录值必须是`xxx.github.io`。
 
 ## 添加CNAME文件
 
-在`Github`上博客项目里添加`CNAME`文件，这个文件里面指定自己购买的域名，`Github`会根据这个文件里面的域名去自动处理。
+一、在`Github`上博客项目里按照下面步骤配置自定义域名：
 
 ![20220511_02_03](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220511_02_03.png)
 
+这里需要注意的是：我们需要勾选`Enforce HTTPS`，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，`Github Pages`官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。
+
+二、配置完成之后，博客项目下会多一个`CNAME`文件，里面的内容就是我们上面配置的自定义域名：
+
 ![20220511_02_04](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220511_02_04.png)
 
-
-
-文件名：CNAME
-
-文件内容：购买的域名
-
-这个时候检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在/source目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。
+三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在`/source`目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。
 
 ## 修改博客配置文件
 
@@ -72,9 +72,17 @@ hexo d
 
 再次运行博客：
 
+如果不添加`HTTPS`，网站左上角会提示该网站不安全：
+
 ![20220511_02_06](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220511_02_06.png)
 
-会发现我们的博客地址就是我们自己购买的地址了。
+正常添加`HTTPS`，网站左上角会有一个锁头标志，说明这个网站是安全的：
+
+![20220511_02_07](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220511_02_07.png)
+
+这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。
+
+
 
 ## 最后
 
