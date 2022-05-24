@@ -9,25 +9,24 @@ menu:
   # Tags: /tags/ || fas fa-tags
   # Categories: /categories/ || fas fa-folder-open
   # List||fas fa-list:
-     
-  #   Movie: /movies/ || fas fa-video
+  # Movie: /movies/ || fas fa-video
   # Link: /link/ || fas fa-link
   # About: /about/ || fas fa-heart
 
 # Code Blocks (代码相关)
 # --------------------------------------
 
-highlight_theme: mac #  darker / pale night / light / ocean / mac / mac light / false
-highlight_copy: true # copy button
-highlight_lang: true # show the code language
-highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
+highlight_theme: mac # 高亮主题： darker / pale night / light / ocean / mac / mac light / false
+highlight_copy: true # 是否展示复制按钮 copy button
+highlight_lang: true # 是否展示代码块语言 show the code language
+highlight_shrink: false # 是否展开代码框 true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
 highlight_height_limit: false # unit: px
-code_word_wrap: true
+code_word_wrap: true # 是否关闭代码滚动条
 
 # copy settings
 # copyright: Add the copyright information after copied content (复制的内容加上版权信息)
 copy:
-  enable: true
+  enable: true # 是否开启复制内容的版权信息
   copyright:
     enable: true
     limit_count: 50
@@ -74,65 +73,36 @@ katex:
   per_page: false
   hide_scrollbar: true
 
-# Image (圖片設置)
+# Image (图片设置)
 # --------------------------------------
-
 # Favicon（网站图标）
 favicon: /images/avatar.png
-
 # Avatar (头像)
 avatar:
-  img: /images/avatar.png
-  effect: false
-
-# Disable all banner image
-disable_top_img: false
-
-# The banner image of home page
-index_img: /images/background.png
-
-# If the banner of page not setting, it will show the top_img
-default_top_img: /images/default_post_cover.png
-
-# The banner image of archive page
-archive_img: /images/default_post_cover.png
-
-# If the banner of tag page not setting, it will show the top_img
-# note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img: /images/default_post_cover.png
-
-# The banner image of tag page
-# format:
-#  - tag name: xxxxx
-tag_per_img:
-
-# If the banner of category page not setting, it will show the top_img
-# note: category page, not categories page (子分類頁面的 top_img)
-category_img: /images/default_post_cover.png
-
-# The banner image of category page
-# format:
-#  - category name: xxxxx
-category_per_img:
+  img: /img/avatar.png
+  effect: false # 是否开启头像的动效
+disable_top_img: false # 如果不需要展示顶部图 设置为true
+index_img: /images/background.png # 主页的背景图
+default_top_img: /images/default_post_cover.png # 默认的顶部图 如果top_img没有配置时，会显示default_top_img
+archive_img: /images/default_post_cover.png # 归档页面的top_img
+tag_img: /images/default_post_cover.png # tag子页面的top_img
+tag_per_img: # tag子页面的 top_img，可配置每个tag 的 top_img
+category_img: /images/default_post_cover.png  # category子页面的top_img
+category_per_img:  # category子页面的 category_img，可配置每个category 的 top_img
 
 cover:
-  # display the cover or not (是否显示文章封面)
-  index_enable: true
-  aside_enable: true
-  archives_enable: true
-  # the position of cover in home page (封面显示的位置)
-  # left/right/both
-  position: both
-  # When cover is not set, the default cover is displayed (当沒有设置cover時，默认的封面显示)
-  default_cover:
+  index_enable: true # 是否显示文章封面
+  aside_enable: true # 文章侧边栏是否开启
+  archives_enable: true # 归档是否开启
+  position: both # 封面显示的位置 left/right/both both表示左右两边交替显示
+  default_cover: # 当没有设置文章封面时 默认的封面展示
      - https://sunny-blog.oss-cn-beijing.aliyuncs.com/default_post_cover.png
 
-# Replace Broken Images (替换无法显示的图片的图片)
+# 替换无法显示的图片的图片
 error_img:
   flink: /images/friend_404.gif
   post_page: /images/404.jpg
-
-# A simple 404 page
+# 404页面
 error_404:
   enable: true
   subtitle: '抱歉，页面没有找到～'
@@ -149,7 +119,7 @@ post_meta:
     date_type: created # created or updated or both 文章日期是创建日或者更新日或都显示
     date_format: date # date/relative 显示日期还是相对日期
     categories: true # true or false 文章是否显示分类
-    tags: true # true or false 文章頁是否显示白噢钱
+    tags: true # true or false 文章頁是否显示标签
     label: true # true or false 显示描述性文字
 
 # wordcount (字数统计)
@@ -185,15 +155,15 @@ toc:
   style_simple: false # for post
 
 post_copyright:
-  enable: true
-  decode: true
+  enable: true # 是否开启文章后面的复制信息
+  decode: true # 是否解码
   author_href:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-# Sponsor/reward
+# 打赏功能
 reward:
-  enable: true
+  enable: true # 是否开启
   QR_code:
      - img: /images/wechat_pay.png
        link:
@@ -431,7 +401,7 @@ microsoft_clarity:
 # Advertisement
 # --------------------------------------
 
-# Google Adsense (谷歌廣告)
+# Google Adsense (谷歌广告)
 google_adsense:
   enable: false
   auto_ads: true
@@ -439,13 +409,13 @@ google_adsense:
   client:
   enable_page_level_ads: true
 
-# Insert ads manually (手動插入廣告)
+# Insert ads manually (手动插入廣告)
 # ad:
 #   index:
 #   aside:
 #   post:
 
-# Verification (站長驗證)
+# Verification (站長验证)
 # --------------------------------------
 
 site_verification:
@@ -569,10 +539,10 @@ display_mode: light
 
 # Beautify (美化页面显示)
 beautify:
-  enable: false
-  field: post # site/post
-  title-prefix-icon: # '\f0c1'
-  title-prefix-icon-color: # '#F47466'
+  enable: true
+  field: post  # site/post
+  title-prefix-icon: '\f0c1'
+  title-prefix-icon-color: '#F47466'
 
 # Global font settings
 # Don't modify the following settings unless you know how they work (非必要不要修改)
@@ -619,11 +589,11 @@ preloader: true
 # --------------------------------------
 
 aside:
-  enable: true
+  enable: true # 侧边栏是否开启
   hide: false
   button: true
-  mobile: true # display on mobile
-  position: left # left or right
+  mobile: true # 是否在手机上显示
+  position: left # 侧边栏位置 left or right
   archives: true
   card_author:
     enable: true
@@ -631,14 +601,14 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: Github
+      text: Follow me
       link: https://github.com/HappyCoderSunny
   card_announcement:
     enable: true
     content: 欢迎来到Sunny的技术杂货铺，如果喜欢记得收藏奥～
-  card_recent_post:
+  card_recent_post: # 最新文章
     enable: true
-    limit: 5 # if set 0 will show all
+    limit: 5 # 如果设置为0 将会展示所有文章
     sort: date # date or updated
     sort_order: # Don't modify the setting unless you know how it works
   card_categories:

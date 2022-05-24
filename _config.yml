@@ -6,15 +6,15 @@
 title: Sunny
 subtitle: ''
 description: 千里之行，始于足下
-keywords: iOS技术博客、Hexo、iOS开发
+keywords:
 author: Sunny
 language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://codersunny.com
-permalink: :year/:month/:day/:title/
+url: https://codersunny.com
+permalink: :title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -94,7 +94,7 @@ include:
 exclude:
 ignore:
 
-# Extensions
+# 主题相关
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: butterfly
@@ -106,9 +106,24 @@ deploy:
   repo: git@github.com:HappyCoderSunny/HappyCoderSunny.github.io.git
   branch: master
   
+# 音频播放器相关
 aplayer:
   meting: true
   asset_inject: false
+  
+live2d:
+  enable: true
+  scriptFrom: local # 默认
+  pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径)
+  pluginJsPath: lib/ # 脚本文件相对与插件根目录路径
+  pluginModelPath: assets/ # 模型文件相对与插件根目录路径
+  tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中
+  debug: false # 调试, 是否在控制台输出日志
+  model:
+    use: live2d-widget-model-tororo # npm-module package name
+  display:
+    vOffset: 300
+    hOffset: 10
   
 
   

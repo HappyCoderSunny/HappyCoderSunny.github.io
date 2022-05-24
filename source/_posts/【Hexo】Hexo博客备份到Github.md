@@ -11,11 +11,15 @@ categories:
 
 在[这篇文章](https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/)中我们把`Hexo` 和 `Github`结合起来搭建了自己的个人博客，`hexo d`部署到`Github`的其实`Hexo`编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：
 
-![0511_01](https://sunny-blog.oss-cn-beijing.aliyuncs.com/0511_01.png)
+![20220511_01](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png)
+
+
 
 它其实上传到`Github` 的是在我们本地目录里的`.deploy_git`里面的内容：
 
-![20220511_02](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_02.png)
+![20220511_02](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png)
+
+
 
 我们的源文件比如相关`source `文件、配置文件等都是没有上传到`Github`上的，所以我们要利用`git`来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件`clone`到本地安装相应的环境就可以继续写我们的博客了。
 
@@ -29,25 +33,25 @@ categories:
 
 在`Github`上博客仓库下创建一个新的分支`hexo`，并且将这个分支设置为默认分支，具体操作如下：
 
-![20220511_03](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_03.png)
+![20220511_03](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png)
 
-![20220511_04](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_04.png)
+![20220511_04](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png)
 
-![20220511_05](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_05.png)
+![20220511_05](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png)
 
 ### 克隆Hexo分支
 
 在本地把我们刚建的分支`hexo`克隆到本地：
 
-![20220511_06](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_06.png)
+![20220511_06](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png)
 
 
 
 把克隆下来的项目里面的`.git`文件复制到我们的Hexo博客目录下:
 
-![20220511_07](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_07.png)
+![20220511_07](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png)
 
-##### 注意：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的`.git`文件删除。
+> **注意**：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的`.git`文件删除。
 
 ### 开始备份
 
@@ -61,7 +65,7 @@ git push origin hexo
 
 这时候我们会看到`Github`上的`hexo` 分支就有我们的源文件了。
 
-![20220511_08](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511_08.png)
+![20220511_08](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png)
 
 
 
