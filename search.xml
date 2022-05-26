@@ -1,6 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>iOS重学之启动优化（一）</title>
+    <url>/iOS%E9%87%8D%E5%AD%A6%E4%B9%8B%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="APP是如何启动的"><a href="#APP是如何启动的" class="headerlink" title="APP是如何启动的"></a>APP是如何启动的</h2><h3 id="APP启动"><a href="#APP启动" class="headerlink" title="APP启动"></a>APP启动</h3><p>热启动：系统里面存在APP的进程缓存信息，比如杀掉APP后短时间内重启APP。</p>
+<p>冷启动：系统里面没有APP的进程缓存信息，例如重启手机打开应用、APP长时间不用系统替换掉已有的进程缓存。</p>
+<p>APP的启动流程图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_01.png" alt="20220525_01"></p>
+<h4 id="main函数之前"><a href="#main函数之前" class="headerlink" title="main函数之前"></a>main函数之前</h4><p>main函数之前所干的事大概可以总结为：</p>
+<p><code>dyld</code>：动态链接器，把所有的可执行文件所依赖的动态库递归加载到内存中。</p>
+<p><code>rebase/bindging</code>：<code>rebase</code> 是指调整镜像内部的指针，<code>binding</code>是指绑定外部函数的指针。</p>
+<p><code>objc setup</code>：Runtime的初始化，对class和category注册，对selector的唯一性判断。</p>
+<p><code>load &amp; initialize &amp; constructor</code>：调用所有类的+load方法，初始化C&amp;C++静态常量，调用<code>__attribute__((constructor))</code>修饰的函数。</p>
+<p>总结为如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_02.png" alt="20220525_02"></p>
+<p>其他的都很好理解，我这里重点解释一下<code>rebase</code>和<code>binding</code>到底在干什么？</p>
+<p><strong>rebase &amp; binding</strong></p>
+<p><strong>虚拟内存 &amp; 物理内存</strong></p>
+<p>物理内存：指的是通过物理内存条获取的内存空间。</p>
+<p>虚拟内存：指的是将硬盘的一块区域划分出来作为内存。</p>
+<p>在long long ago，没有虚拟内存的概念，那时候每个进程运行的时候是整个应用全部丢进物理内存，概述图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_03.png" alt="20220525_03"></p>
+<p>物理内存存在的问题：</p>
+<ol>
+<li>内存问题 - 每次直接把一个进程全部丢进物理内存，很可能出现内存不够用的情况。</li>
+<li>进程安全问题 - 很容易拿到其他应用的内存地址，就会出现进程不安全的问题。</li>
+</ol>
+<p>操作系统出现虚拟内存的技术之后，进程运行时并不是整个被装载进物理内存，而是通过内存分页的技术来装载进物理内存的，概述图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_04.png" alt="20220525_04"></p>
+<p>虚拟内存的技术出现以后，就出现一个ASLR（地址空间布局随机），比如一个应用每次运行的地址是变化的，比如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_05.png" alt="20220525_05"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_06.png" alt="20220525_06"></p>
+<p><strong>修正偏移（rebase）</strong></p>
+<p>那么问题来了：既然我们每次启动应用地址都是随机的，那我们怎么找到真正存储某个函数的地址呢？</p>
+<p>Link Map File：链接映射文件，里面记录了每个类所生成的可执行文件的路径、CPU架构、目标文件、符号等信息。</p>
+<p>请现在Xcode - Build Settings - 设置Write Link Map File为YES，将Link Map File（链接映射文件）写入到本地。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_07.png" alt="20220525_07"></p>
+<p>按照上图的Path找到我们的Link Map File文件，打开如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_08.png" alt="20220525_08"></p>
+<p>根据我们前面的ASLR 和 Link Map File中某个方法的偏移量来修复成这个函数的真实内存地址，这个过程就是rebase。</p>
+<p>比如：ASLR为<code>0x000000010260f000</code>，偏移量为<code>0x1E80</code></p>
+<p>rebase结果如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_09.png" alt="20220525_09"></p>
+<p>从上面的打印可以看到：通过rebase之后的地址就是存放<code>-[ViewController viewDidload]</code>的真实地址。</p>
+<p><strong>绑定符号（binding）</strong></p>
+<p>binding（符号绑定）主要是针对外部函数的绑定，指的是在运行时通过外部符号去找到真正的存放这个外部函数的地址。</p>
+<p>举例：我们如何绑定<code>Foundation</code>框架中的<code>NSLog</code>函数？</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_10.png" alt="20220525_10"></p>
+<p>上图是通过汇编看到的<code>NSLog</code>的地址存放内容：会发现打印的<code>NSLog</code> 其实还是项目本身的，并不是我们要找的<code>Foundation</code>的<code>NSLog</code>。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_11.png" alt="20220525_11"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_12.png" alt="20220525_12"></p>
+<p>ASLR为<code>0x00000001017ab000</code>，通过烂苹果工具可以看到<code>NSLog</code>的符号为<code>0x4020</code>，我们看一下内存分布：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_13.png" alt="20220525_13"></p>
+<p>通过上图可以清晰的发现：原来我们<code>Foundation</code>框架的<code>NSLog</code>地址为：<code>0x7fff25762dfa</code>。</p>
+<p><strong>注意</strong>：因为<code>binding</code>的都是针对外部函数的绑定，所以我们可以肯定符号和这个外部函数的真实地址针对一个函数是相同的。</p>
+<h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><p>在经过了<code>main</code>函数之前的过程之后，这个时候就会调用一个项目的<code>main</code>函数，在这里面一般我们什么都不会干。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    NSString * appDelegateClassName;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">        appDelegateClassName = NSStringFromClass([AppDelegate class]);</span><br><span class="line">    &#125;</span><br><span class="line">    return UIApplicationMain(argc, argv, nil, appDelegateClassName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="main函数之后"><a href="#main函数之后" class="headerlink" title="main函数之后"></a>main函数之后</h4><p><code>main</code>函数之后，接着调用的是<code>didFinishLaunchingWithOptions</code>方法，一般我们在这里面做一些SDK的初始化，初始化RootVc等操作，因为这里面的代码都是我们开发者自己写的，所以可操作性也是最强的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="衡量APP的启动时长"><a href="#衡量APP的启动时长" class="headerlink" title="衡量APP的启动时长"></a>衡量APP的启动时长</h2><h3 id="main函数之前的时长统计"><a href="#main函数之前的时长统计" class="headerlink" title="main函数之前的时长统计"></a>main函数之前的时长统计</h3><p>首先在<code>Edit Scheme</code> - <code>Run</code> - <code>Arguments</code> - <code>DYLD_PRINT_STATISTICS</code>设置为1:</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_14.png" alt="20220525_14"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_15.png" alt="20220525_15"></p>
+<h3 id="main函数之后的时长统计"><a href="#main函数之后的时长统计" class="headerlink" title="main函数之后的时长统计"></a>main函数之后的时长统计</h3><p><code>main</code>函数之后的时长统计我们可以从<code>didFinishLaunchingWithOptions</code>调用开始计时到第一个页面渲染出来结束的时长，我们可以直接在这两个地方打点估算这个时间：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();</span><br><span class="line">    sleep(2.0);//假装我是didFinishLaunchingWithOptions里的耗时方法</span><br><span class="line">    CFAbsoluteTime endTime = CFAbsoluteTimeGetCurrent() - startTime;</span><br><span class="line">    NSLog(@&quot;main函数之后的时长统计1：%f ms&quot;,endTime * 1000);</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动优化的方案"><a href="#启动优化的方案" class="headerlink" title="启动优化的方案"></a>启动优化的方案</h2><h3 id="Main函数之前的优化"><a href="#Main函数之前的优化" class="headerlink" title="Main函数之前的优化"></a>Main函数之前的优化</h3><h4 id="dyld加载"><a href="#dyld加载" class="headerlink" title="dyld加载"></a>dyld加载</h4><ul>
+<li>严格控制动态库的引入，Apple官方建议一个项目使用的动态库不要超过6个，如果大于6个就需要考虑合并动态库。</li>
+</ul>
+<h4 id="rebase-amp-binding"><a href="#rebase-amp-binding" class="headerlink" title="rebase &amp; binding"></a>rebase &amp; binding</h4><ul>
+<li><p>减少类、分类、方法的数量，定期检查项目中不用的类或方法及时清理等。</p>
+</li>
+<li><p>减少C++虚函数数量（创建虚函数表也是有开销）</p>
+</li>
+</ul>
+<h4 id="objc-setup"><a href="#objc-setup" class="headerlink" title="objc setup"></a>objc setup</h4><ul>
+<li>如果前面两步做了处理，这一步就没有什么可以优化的空间了。</li>
+</ul>
+<h4 id="load-amp-initialize-amp-Constructor"><a href="#load-amp-initialize-amp-Constructor" class="headerlink" title="load &amp; initialize &amp; Constructor"></a>load &amp; initialize &amp; Constructor</h4><ul>
+<li>load方法尽量不要使用</li>
+<li><code>__attribute__((constructor))</code> 修饰的函数尽量不要使用</li>
+</ul>
+<h3 id="Main函数之后的优化"><a href="#Main函数之后的优化" class="headerlink" title="Main函数之后的优化"></a>Main函数之后的优化</h3><ul>
+<li><p>使用纯代码的方式而不是Storyboard加载首页UI。</p>
+</li>
+<li><p>对于didFinishLaunchingWithOptions：里的方法挖掘是否有可能延迟加载。</p>
+</li>
+<li><p>跟各个业务方PM和RD共同check一些已经下线的业务，删除冗余的代码</p>
+<p>…………</p>
+</li>
+</ul>
+<h2 id="一些检测工具推荐"><a href="#一些检测工具推荐" class="headerlink" title="一些检测工具推荐"></a>一些检测工具推荐</h2><ul>
+<li><a href="https://github.com/HSFGitHub/XcodeProjectArrangementTool">https://github.com/HSFGitHub/XcodeProjectArrangementTool</a></li>
+<li><a href="https://github.com/dblock/fui">https://github.com/dblock/fui</a></li>
+<li><a href="https://github.com/nst/objc_cover">https://github.com/nst/objc_cover</a></li>
+<li><a href="https://www.jetbrains.com/objc">https://www.jetbrains.com/objc</a></li>
+<li><a href="https://github.com/yan998/SelectorsUnrefs">https://github.com/yan998/SelectorsUnrefs</a></li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>下一篇预告：iOS重学之启动优化（二）- 二进制重排</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>启动优化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo框架Butterfly主题配置（持续更新）</title>
     <url>/Hexo%E6%A1%86%E6%9E%B6Butterfly%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</url>
     <content><![CDATA[<h2 id="升级建议"><a href="#升级建议" class="headerlink" title="升级建议"></a>升级建议</h2><p>为了减少升级以后带来的不便，建议请按照下面的方式进行操作：</p>
@@ -104,114 +212,6 @@
       <tags>
         <tag>Hexo</tag>
         <tag>butterfly主题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS重学之启动优化（一）</title>
-    <url>/iOS%E9%87%8D%E5%AD%A6%E4%B9%8B%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="APP是如何启动的"><a href="#APP是如何启动的" class="headerlink" title="APP是如何启动的"></a>APP是如何启动的</h2><h3 id="APP启动"><a href="#APP启动" class="headerlink" title="APP启动"></a>APP启动</h3><p>热启动：系统里面存在APP的进程缓存信息，比如杀掉APP后短时间内重启APP。</p>
-<p>冷启动：系统里面没有APP的进程缓存信息，例如重启手机打开应用、APP长时间不用系统替换掉已有的进程缓存。</p>
-<p>APP的启动流程图如下：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_01.png" alt="20220525_01"></p>
-<h4 id="main函数之前"><a href="#main函数之前" class="headerlink" title="main函数之前"></a>main函数之前</h4><p>main函数之前所干的事大概可以总结为：</p>
-<p><code>dyld</code>：动态链接器，把所有的可执行文件所依赖的动态库递归加载到内存中。</p>
-<p><code>rebase/bindging</code>：<code>rebase</code> 是指调整镜像内部的指针，<code>binding</code>是指绑定外部函数的指针。</p>
-<p><code>objc setup</code>：Runtime的初始化，对class和category注册，对selector的唯一性判断。</p>
-<p><code>load &amp; initialize &amp; constructor</code>：调用所有类的+load方法，初始化C&amp;C++静态常量，调用<code>__attribute__((constructor))</code>修饰的函数。</p>
-<p>总结为如下图：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_02.png" alt="20220525_02"></p>
-<p>其他的都很好理解，我这里重点解释一下<code>rebase</code>和<code>binding</code>到底在干什么？</p>
-<p><strong>rebase &amp; binding</strong></p>
-<p><strong>虚拟内存 &amp; 物理内存</strong></p>
-<p>物理内存：指的是通过物理内存条获取的内存空间。</p>
-<p>虚拟内存：指的是将硬盘的一块区域划分出来作为内存。</p>
-<p>在long long ago，没有虚拟内存的概念，那时候每个进程运行的时候是整个应用全部丢进物理内存，概述图如下：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_03.png" alt="20220525_03"></p>
-<p>物理内存存在的问题：</p>
-<ol>
-<li>内存问题 - 每次直接把一个进程全部丢进物理内存，很可能出现内存不够用的情况。</li>
-<li>进程安全问题 - 很容易拿到其他应用的内存地址，就会出现进程不安全的问题。</li>
-</ol>
-<p>操作系统出现虚拟内存的技术之后，进程运行时并不是整个被装载进物理内存，而是通过内存分页的技术来装载进物理内存的，概述图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_04.png" alt="20220525_04"></p>
-<p>虚拟内存的技术出现以后，就出现一个ASLR（地址空间布局随机），比如一个应用每次运行的地址是变化的，比如下图：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_05.png" alt="20220525_05"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_06.png" alt="20220525_06"></p>
-<p><strong>修正偏移（rebase）</strong></p>
-<p>那么问题来了：既然我们每次启动应用地址都是随机的，那我们怎么找到真正存储某个函数的地址呢？</p>
-<p>Link Map File：链接映射文件，里面记录了每个类所生成的可执行文件的路径、CPU架构、目标文件、符号等信息。</p>
-<p>请现在Xcode - Build Settings - 设置Write Link Map File为YES，将Link Map File（链接映射文件）写入到本地。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_07.png" alt="20220525_07"></p>
-<p>按照上图的Path找到我们的Link Map File文件，打开如下图：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_08.png" alt="20220525_08"></p>
-<p>根据我们前面的ASLR 和 Link Map File中某个方法的偏移量来修复成这个函数的真实内存地址，这个过程就是rebase。</p>
-<p>比如：ASLR为<code>0x000000010260f000</code>，偏移量为<code>0x1E80</code></p>
-<p>rebase结果如下图：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_09.png" alt="20220525_09"></p>
-<p>从上面的打印可以看到：通过rebase之后的地址就是存放<code>-[ViewController viewDidload]</code>的真实地址。</p>
-<p><strong>绑定符号（binding）</strong></p>
-<p>binding（符号绑定）主要是针对外部函数的绑定，指的是在运行时通过外部符号去找到真正的存放这个外部函数的地址。</p>
-<p>举例：我们如何绑定<code>Foundation</code>框架中的<code>NSLog</code>函数？</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_10.png" alt="20220525_10"></p>
-<p>上图是通过汇编看到的<code>NSLog</code>的地址存放内容：会发现打印的<code>NSLog</code> 其实还是项目本身的，并不是我们要找的<code>Foundation</code>的<code>NSLog</code>。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_11.png" alt="20220525_11"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_12.png" alt="20220525_12"></p>
-<p>ASLR为<code>0x00000001017ab000</code>，通过烂苹果工具可以看到<code>NSLog</code>的符号为<code>0x4020</code>，我们看一下内存分布：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_13.png" alt="20220525_13"></p>
-<p>通过上图可以清晰的发现：原来我们<code>Foundation</code>框架的<code>NSLog</code>地址为：<code>0x7fff25762dfa</code>。</p>
-<p><strong>注意</strong>：因为<code>binding</code>的都是针对外部函数的绑定，所以我们可以肯定符号和这个外部函数的真实地址针对一个函数是相同的。</p>
-<h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><p>在经过了<code>main</code>函数之前的过程之后，这个时候就会调用一个项目的<code>main</code>函数，在这里面一般我们什么都不会干。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    NSString * appDelegateClassName;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">        appDelegateClassName = NSStringFromClass([AppDelegate class]);</span><br><span class="line">    &#125;</span><br><span class="line">    return UIApplicationMain(argc, argv, nil, appDelegateClassName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="main函数之后"><a href="#main函数之后" class="headerlink" title="main函数之后"></a>main函数之后</h4><p><code>main</code>函数之后，接着调用的是<code>didFinishLaunchingWithOptions</code>方法，一般我们在这里面做一些SDK的初始化，初始化RootVc等操作，因为这里面的代码都是我们开发者自己写的，所以可操作性也是最强的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="衡量APP的启动时长"><a href="#衡量APP的启动时长" class="headerlink" title="衡量APP的启动时长"></a>衡量APP的启动时长</h2><h3 id="main函数之前的时长统计"><a href="#main函数之前的时长统计" class="headerlink" title="main函数之前的时长统计"></a>main函数之前的时长统计</h3><p>首先在<code>Edit Scheme</code> - <code>Run</code> - <code>Arguments</code> - <code>DYLD_PRINT_STATISTICS</code>设置为1:</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_14.png" alt="20220525_14"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_15.png" alt="20220525_15"></p>
-<h3 id="main函数之后的时长统计"><a href="#main函数之后的时长统计" class="headerlink" title="main函数之后的时长统计"></a>main函数之后的时长统计</h3><p><code>main</code>函数之后的时长统计我们可以从<code>didFinishLaunchingWithOptions</code>调用开始计时到第一个页面渲染出来结束的时长，我们可以直接在这两个地方打点估算这个时间：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();</span><br><span class="line">    sleep(2.0);//假装我是didFinishLaunchingWithOptions里的耗时方法</span><br><span class="line">    CFAbsoluteTime endTime = CFAbsoluteTimeGetCurrent() - startTime;</span><br><span class="line">    NSLog(@&quot;main函数之后的时长统计1：%f ms&quot;,endTime * 1000);</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动优化的方案"><a href="#启动优化的方案" class="headerlink" title="启动优化的方案"></a>启动优化的方案</h2><h3 id="Main函数之前的优化"><a href="#Main函数之前的优化" class="headerlink" title="Main函数之前的优化"></a>Main函数之前的优化</h3><h4 id="dyld加载"><a href="#dyld加载" class="headerlink" title="dyld加载"></a>dyld加载</h4><ul>
-<li>严格控制动态库的引入，Apple官方建议一个项目使用的动态库不要超过6个，如果大于6个就需要考虑合并动态库。</li>
-</ul>
-<h4 id="rebase-amp-binding"><a href="#rebase-amp-binding" class="headerlink" title="rebase &amp; binding"></a>rebase &amp; binding</h4><ul>
-<li><p>减少类、分类、方法的数量，定期检查项目中不用的类或方法及时清理等。</p>
-</li>
-<li><p>减少C++虚函数数量（创建虚函数表也是有开销）</p>
-</li>
-</ul>
-<h4 id="objc-setup"><a href="#objc-setup" class="headerlink" title="objc setup"></a>objc setup</h4><ul>
-<li>如果前面两步做了处理，这一步就没有什么可以优化的空间了。</li>
-</ul>
-<h4 id="load-amp-initialize-amp-Constructor"><a href="#load-amp-initialize-amp-Constructor" class="headerlink" title="load &amp; initialize &amp; Constructor"></a>load &amp; initialize &amp; Constructor</h4><ul>
-<li>load方法尽量不要使用</li>
-<li><code>__attribute__((constructor))</code> 修饰的函数尽量不要使用</li>
-</ul>
-<h3 id="Main函数之后的优化"><a href="#Main函数之后的优化" class="headerlink" title="Main函数之后的优化"></a>Main函数之后的优化</h3><ul>
-<li><p>使用纯代码的方式而不是Storyboard加载首页UI。</p>
-</li>
-<li><p>对于didFinishLaunchingWithOptions：里的方法挖掘是否有可能延迟加载。</p>
-</li>
-<li><p>跟各个业务方PM和RD共同check一些已经下线的业务，删除冗余的代码</p>
-<p>…………</p>
-</li>
-</ul>
-<h2 id="一些检测工具推荐"><a href="#一些检测工具推荐" class="headerlink" title="一些检测工具推荐"></a>一些检测工具推荐</h2><ul>
-<li><a href="https://github.com/HSFGitHub/XcodeProjectArrangementTool">https://github.com/HSFGitHub/XcodeProjectArrangementTool</a></li>
-<li><a href="https://github.com/dblock/fui">https://github.com/dblock/fui</a></li>
-<li><a href="https://github.com/nst/objc_cover">https://github.com/nst/objc_cover</a></li>
-<li><a href="https://www.jetbrains.com/objc">https://www.jetbrains.com/objc</a></li>
-<li><a href="https://github.com/yan998/SelectorsUnrefs">https://github.com/yan998/SelectorsUnrefs</a></li>
-</ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>下一篇预告：iOS重学之启动优化（二）- 二进制重排</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>启动优化</tag>
       </tags>
   </entry>
   <entry>

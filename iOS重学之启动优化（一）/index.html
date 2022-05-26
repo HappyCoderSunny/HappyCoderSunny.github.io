@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://codersunny.com/img/default_post_cover.png">
 <meta property="article:published_time" content="2022-05-25T09:13:49.000Z">
-<meta property="article:modified_time" content="2022-05-26T05:11:08.964Z">
+<meta property="article:modified_time" content="2022-05-26T12:32:55.711Z">
 <meta property="article:author" content="Sunny">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="启动优化">
@@ -54,7 +54,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2022-05-26 13:11:08'
+  postUpdate: '2022-05-26 20:32:55'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -147,21 +147,21 @@
 </head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default_post_cover.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sunny</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">iOS重学之启动优化（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-05-25T09:13:49.000Z" title="发表于 2022-05-25 17:13:49">2022-05-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="iOS重学之启动优化（一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="APP是如何启动的"><a href="#APP是如何启动的" class="headerlink" title="APP是如何启动的"></a>APP是如何启动的</h2><h3 id="APP启动"><a href="#APP启动" class="headerlink" title="APP启动"></a>APP启动</h3><p>热启动：系统里面存在APP的进程缓存信息，比如杀掉APP后短时间内重启APP。</p>
 <p>冷启动：系统里面没有APP的进程缓存信息，例如重启手机打开应用、APP长时间不用系统替换掉已有的进程缓存。</p>
 <p>APP的启动流程图如下：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_01.png" alt="20220525_01"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_01.png" alt="20220525_01"></p>
 <h4 id="main函数之前"><a href="#main函数之前" class="headerlink" title="main函数之前"></a>main函数之前</h4><p>main函数之前所干的事大概可以总结为：</p>
 <p><code>dyld</code>：动态链接器，把所有的可执行文件所依赖的动态库递归加载到内存中。</p>
 <p><code>rebase/bindging</code>：<code>rebase</code> 是指调整镜像内部的指针，<code>binding</code>是指绑定外部函数的指针。</p>
 <p><code>objc setup</code>：Runtime的初始化，对class和category注册，对selector的唯一性判断。</p>
 <p><code>load &amp; initialize &amp; constructor</code>：调用所有类的+load方法，初始化C&amp;C++静态常量，调用<code>__attribute__((constructor))</code>修饰的函数。</p>
 <p>总结为如下图：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_02.png" alt="20220525_02"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_02.png" alt="20220525_02"></p>
 <p>其他的都很好理解，我这里重点解释一下<code>rebase</code>和<code>binding</code>到底在干什么？</p>
 <p><strong>rebase &amp; binding</strong></p>
 <p><strong>虚拟内存 &amp; 物理内存</strong></p>
 <p>物理内存：指的是通过物理内存条获取的内存空间。</p>
 <p>虚拟内存：指的是将硬盘的一块区域划分出来作为内存。</p>
 <p>在long long ago，没有虚拟内存的概念，那时候每个进程运行的时候是整个应用全部丢进物理内存，概述图如下：</p>
-<p><img src="/Users/sunny/Desktop/20220525%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87/20220525_03.png" alt="20220525_03"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220525/20220525_03.png" alt="20220525_03"></p>
 <p>物理内存存在的问题：</p>
 <ol>
 <li>内存问题 - 每次直接把一个进程全部丢进物理内存，很可能出现内存不够用的情况。</li>
@@ -288,7 +288,7 @@ window.addEventListener('load',preloader.endLoading())</script><div class="js-pj
       setTimeout(runFn,0)
       return
     } 
-    getScript('https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/twikoo/1.4.18/twikoo.all.min.js').then(runFn)
+    getScript('https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js').then(runFn)
   }
 
   if ('Twikoo' === 'Twikoo' || !true) {
