@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://codersunny.com/music/index.html</loc>
+    
+    <lastmod>2022-05-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://codersunny.com/%E3%80%90Hexo%E3%80%91Hexo%E5%8D%9A%E5%AE%A2%E5%A4%87%E4%BB%BD%E5%88%B0Github/</loc>
     
     <lastmod>2022-05-29</lastmod>
@@ -32,15 +41,6 @@
     <loc>https://codersunny.com/Butterfly-%E5%A6%82%E4%BD%95%E6%9B%BF%E6%8D%A2jsdelivr%E6%8F%90%E5%8D%87%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/</loc>
     
     <lastmod>2022-05-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/music/index.html</loc>
-    
-    <lastmod>2022-05-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
