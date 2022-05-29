@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://codersunny.com/pictures/index.html</loc>
+    <loc>https://codersunny.com/link/index.html</loc>
     
     <lastmod>2022-05-29</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/link/index.html</loc>
+    <loc>https://codersunny.com/pictures/index.html</loc>
     
     <lastmod>2022-05-29</lastmod>
     
@@ -124,6 +124,13 @@
   </url>
   
   <url>
+    <loc>https://codersunny.com/tags/butterfly%E4%B8%BB%E9%A2%98/</loc>
+    <lastmod>2022-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://codersunny.com/tags/iOS/</loc>
     <lastmod>2022-05-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -137,24 +144,17 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://codersunny.com/tags/butterfly%E4%B8%BB%E9%A2%98/</loc>
-    <lastmod>2022-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://codersunny.com/categories/iOS/</loc>
+    <loc>https://codersunny.com/categories/Hexo/</loc>
     <lastmod>2022-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://codersunny.com/categories/Hexo/</loc>
+    <loc>https://codersunny.com/categories/iOS/</loc>
     <lastmod>2022-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
