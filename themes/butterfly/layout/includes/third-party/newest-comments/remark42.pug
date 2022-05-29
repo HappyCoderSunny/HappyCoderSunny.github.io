@@ -1,3 +1,5 @@
+- const { host, siteId } = theme.remark42
+
 script.
   window.addEventListener('load', () => {
     const changeContent = (content) => {
@@ -14,39 +16,6 @@ script.
       return content
     }
 
-    const getComment = () => {
-      const runTwikoo = () => {
-        twikoo.getRecentComments({
-          envId: '!{theme.twikoo.envId}',
-          region: '!{theme.twikoo.region}',
-          pageSize: !{theme.newest_comments.limit},
-          includeReply: true
-        }).then(function (res) {
-          const twikooArray = res.map(e => {
-            return {
-              'content': changeContent(e.comment),
-              'avatar': e.avatar,
-              'nick': e.nick,
-              'url': e.url + '#' + e.id,
-              'date': new Date(e.created).toISOString()
-            }
-          })
-
-          saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), !{theme.newest_comments.storage}/(60*24))
-          generateHtml(twikooArray)
-        }).catch(function (err) {
-          const $dom = document.querySelector('#card-newest-comments .aside-list')
-          $dom.innerHTML= "!{_p('aside.card_newest_comments.error')}"
-        })
-      }
-
-      if (typeof twikoo === 'object') {
-        runTwikoo()
-      } else {
-        getScript('!{url_for(theme.asset.twikoo)}').then(runTwikoo)
-      }
-    }
-
     const generateHtml = array => {
       let result = ''
 
@@ -58,7 +27,7 @@ script.
             const name = '!{theme.lazyload.enable ? "data-lazy-src" : "src"}'
             result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
           }
-          
+
           result += `<div class='content'>
           <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
           <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
@@ -74,9 +43,30 @@ script.
       window.pjax && window.pjax.refresh($dom)
     }
 
+    const getComment = () => {
+      fetch('!{host}/api/v1/last/!{theme.newest_comments.limit}?site=!{siteId}')
+        .then(response => response.json())
+        .then(data => {
+          const remark42 = data.map(function (e) {
+            return {
+              'avatar': e.user.picture,
+              'content': changeContent(e.text),
+              'nick': e.user.name,
+              'url': e.locator.url,
+              'date': e.time,
+            }
+          })
+          saveToLocal.set('remark42-newest-comments', JSON.stringify(remark42), !{theme.newest_comments.storage}/(60*24))
+          generateHtml(remark42)
+        }).catch(e => {
+          const $dom = document.querySelector('#card-newest-comments .aside-list')
+          $dom.innerHTML= "!{_p('aside.card_newest_comments.error')}"
+        })
+    }
+
     const newestCommentInit = () => {
       if (document.querySelector('#card-newest-comments .aside-list')) {
-        const data = saveToLocal.get('twikoo-newest-comments')
+        const data = saveToLocal.get('valine-newest-comments')
         if (data) {
           generateHtml(JSON.parse(data))
         } else {
@@ -88,6 +78,3 @@ script.
     newestCommentInit()
     document.addEventListener('pjax:complete', newestCommentInit)
   })
-
-
-

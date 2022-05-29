@@ -6,7 +6,7 @@ tags:
 - butterfly主题
 categories: 
 - Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/default_post_cover.png
+cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_08.png
 ---
 
 ## 升级建议

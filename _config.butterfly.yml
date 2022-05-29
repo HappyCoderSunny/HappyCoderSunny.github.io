@@ -1,21 +1,20 @@
-# Main menu navigation (导航目录)
-# see https://butterfly.js.org/posts/4aa8abbe/#导航菜单
+# Main menu navigation (導航目錄)
+# see https://butterfly.js.org/posts/4aa8abbe/#導航菜單
 # --------------------------------------
 
 menu:
    首页: / || fas fa-home
    音乐库: /music/ || fas fa-music
-  # Archives: /archives/ || fas fa-archive
   # Tags: /tags/ || fas fa-tags
   # Categories: /categories/ || fas fa-folder-open
   # List||fas fa-list:
-  # Movie: /movies/ || fas fa-video
+  #   Music: /music/ || fas fa-music
+  #   Movie: /movies/ || fas fa-video
   # Link: /link/ || fas fa-link
   # About: /about/ || fas fa-heart
 
 # Code Blocks (代码相关)
 # --------------------------------------
-
 highlight_theme: mac # 高亮主题： darker / pale night / light / ocean / mac / mac light / false
 highlight_copy: true # 是否展示复制按钮 copy button
 highlight_lang: true # 是否展示代码块语言 show the code language
@@ -24,23 +23,22 @@ highlight_height_limit: false # unit: px
 code_word_wrap: true # 是否关闭代码滚动条
 
 # copy settings
-# copyright: Add the copyright information after copied content (复制的内容加上版权信息)
+# copyright: Add the copyright information after copied content (複製的內容後面加上版權信息)
 copy:
-  enable: true # 是否开启复制内容的版权信息
+  enable: true
   copyright:
-    enable: true
+    enable: false
     limit_count: 50
 
-# social settings (社交图标设置)
+# social settings (社交圖標設置)
 # formal:
 #   icon: link || the description
 social:
-   fab fa-github: https://github.com/HappyCoderSunny || Github
-   fas fa-envelope:  mailto:532619121@qq.com || Email
-   
+    fab fa-github: https://github.com/HappyCoderSunny || Github
+    fas fa-envelope: mailto:532619121@qq.com || Email
 
 # search (搜索)
-# see https://butterfly.js.org/posts/ceeb73f/#搜索系统
+# see https://butterfly.js.org/posts/ceeb73f/#搜索系統
 # --------------------------------------
 
 # Algolia search
@@ -48,10 +46,14 @@ algolia_search:
   enable: false
   hits:
     per_page: 6
+  labels:
+    input_placeholder: Search for Posts
+    hits_empty: "我们没有找到任何搜索结果: ${query}"
+    hits_stats: "找到${hits}条结果（用时${time} ms）"
 
 # Local search
 local_search:
-  enable: false
+  enable: true
   preload: false
   CDN:
 
@@ -76,18 +78,18 @@ katex:
 # Image (图片设置)
 # --------------------------------------
 # Favicon（网站图标）
-favicon: /images/avatar.png
+favicon: /img/favicon.png
 # Avatar (头像)
 avatar:
   img: /img/avatar.png
   effect: false # 是否开启头像的动效
 disable_top_img: false # 如果不需要展示顶部图 设置为true
-index_img: /images/background.png # 主页的背景图
-default_top_img: /images/default_post_cover.png # 默认的顶部图 如果top_img没有配置时，会显示default_top_img
-archive_img: /images/default_post_cover.png # 归档页面的top_img
-tag_img: /images/default_post_cover.png # tag子页面的top_img
+index_img: /img/background.png # 主页的背景图
+default_top_img: /img/default_post_cover.png # 默认的顶部图 如果top_img没有配置时，会显示default_top_img
+archive_img: /img/default_post_cover.png # 归档页面的top_img
+tag_img: /img/default_post_cover.png # tag子页面的top_img
 tag_per_img: # tag子页面的 top_img，可配置每个tag 的 top_img
-category_img: /images/default_post_cover.png  # category子页面的top_img
+category_img: /img/default_post_cover.png  # category子页面的top_img
 category_per_img:  # category子页面的 category_img，可配置每个category 的 top_img
 
 cover:
@@ -95,13 +97,12 @@ cover:
   aside_enable: true # 文章侧边栏是否开启
   archives_enable: true # 归档是否开启
   position: both # 封面显示的位置 left/right/both both表示左右两边交替显示
-  default_cover: # 当没有设置文章封面时 默认的封面展示
-     - https://sunny-blog.oss-cn-beijing.aliyuncs.com/default_post_cover.png
+  default_cover: /img/default_post_cover.png # 当没有设置文章封面时 默认的封面展示
 
 # 替换无法显示的图片的图片
 error_img:
-  flink: /images/friend_404.gif
-  post_page: /images/404.jpg
+  flink: /img/friend_404.gif
+  post_page: /img/404.jpg
 # 404页面
 error_404:
   enable: true
@@ -146,7 +147,7 @@ anchor: false
 # Post
 # --------------------------------------
 
-# toc (目录)
+# toc (目錄)
 toc:
   post: true
   page: false
@@ -155,8 +156,8 @@ toc:
   style_simple: false # for post
 
 post_copyright:
-  enable: true # 是否开启文章后面的复制信息
-  decode: true # 是否解码
+  enable: true
+  decode: true
   author_href:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
@@ -165,10 +166,10 @@ post_copyright:
 reward:
   enable: true # 是否开启
   QR_code:
-     - img: /images/wechat_pay.png
+     - img: /img/wechat_pay.png
        link:
        text: 微信
-     - img: /images/ali_pay.png
+     - img: /img/ali_pay.png
        link:
        text: 支付宝
 
@@ -184,19 +185,19 @@ post_edit:
 related_post:
   enable: true
   limit: 6 # Number of posts displayed
-  date_type: created # or created or updated 文章日期显示创建日或者更新日
+  date_type: created # or created or updated 文章日期顯示創建日或者更新日
 
-# figcaption (图片描述文字)
+# figcaption (圖片描述文字)
 photofigcaption: false
 
-# post_pagination (分页)
+# post_pagination (分頁)
 # value: 1 || 2 || false
 # 1: The 'next post' will link to old post
 # 2: The 'next post' will link to new post
 # false: disable pagination
 post_pagination: 1
 
-# Displays outdated notice for a post (文章过期提醒)
+# Displays outdated notice for a post (文章過期提醒)
 noticeOutdate:
   enable: false
   style: flat # style: simple/flat
@@ -231,14 +232,14 @@ addtoany:
 
 comments:
   # Up to two comments system, the first will be shown as default
-  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus
+  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42
   use: Twikoo # Valine,Disqus
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
   lazyload: true
   count: true # Display comment count in post's top_img
-  card_post_count: false # Display comment count in Home Page
+  card_post_count: true # Display comment count in Home Page
 
 # disqus
 # https://disqus.com/
@@ -310,9 +311,9 @@ facebook_comments:
 # Twikoo
 # https://github.com/imaegoo/twikoo
 twikoo:
-  envId: hello-cloudbase-3g3xcclc511687e9
+  envId: cloudbase-prepaid-5et06hb271c3b7
   region:
-  visitor: false
+  visitor: true
   option:
 
 # Giscus
@@ -324,6 +325,13 @@ giscus:
   theme:
     light: light
     dark: dark
+  option:
+
+# Remark42
+# https://remark42.com/docs/configuration/frontend/
+remark42:
+  host: # Your Host URL
+  siteId: # Your Site ID
   option:
 
 # Chat Services
@@ -401,7 +409,7 @@ microsoft_clarity:
 # Advertisement
 # --------------------------------------
 
-# Google Adsense (谷歌广告)
+# Google Adsense (谷歌廣告)
 google_adsense:
   enable: false
   auto_ads: true
@@ -409,13 +417,13 @@ google_adsense:
   client:
   enable_page_level_ads: true
 
-# Insert ads manually (手动插入廣告)
+# Insert ads manually (手動插入廣告)
 # ad:
 #   index:
 #   aside:
 #   post:
 
-# Verification (站長验证)
+# Verification (站長驗證)
 # --------------------------------------
 
 site_verification:
@@ -461,24 +469,24 @@ index_top_img_height:
 category_ui: # 留空或 index
 tag_ui: # 留空或 index
 
-# Website Background (设置网站背景)
-# can set it to color or image (可設置图片 或者 颜色)
+# Website Background (設置網站背景)
+# can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background: /images/background.png
+background: /img/background.png
 
 # Footer Background
 footer_bg: true
 
-# the position of bottom right button/default unit: px (右下角按鈕距离底部的距离/默认单位为px)
+# the position of bottom right button/default unit: px (右下角按鈕距離底部的距離/默認單位為px)
 rightside-bottom:
 
-# Enter transitions (开启网页进入效果)
+# Enter transitions (開啓網頁進入效果)
 enter_transitions: true
 
 # Background effects (背景特效)
 # --------------------------------------
 
-# canvas_ribbon (静止彩带背景)
+# canvas_ribbon (靜止彩帶背景)
 # See: https://github.com/hustcc/ribbon.js
 canvas_ribbon:
   enable: false
@@ -488,7 +496,7 @@ canvas_ribbon:
   click_to_change: false
   mobile: false
 
-# Fluttering Ribbon (动感彩带)
+# Fluttering Ribbon (動態彩帶)
 canvas_fluttering_ribbon:
   enable: false
   mobile: false
@@ -496,33 +504,33 @@ canvas_fluttering_ribbon:
 # canvas_nest
 # https://github.com/hustcc/canvas-nest.js
 canvas_nest:
-  enable: true
+  enable: false
   color: '0,0,255' #color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
   opacity: 0.7 # the opacity of line (0~1), default: 0.5.
   zIndex: -1 # z-index property of the background, default: -1.
   count: 99 # the number of lines, default: 99.
-  mobile: true
+  mobile: false
 
 # Typewriter Effect (打字效果)
 # https://github.com/disjukr/activate-power-mode
 activate_power_mode:
   enable: true
   colorful: true # open particle animation (冒光特效)
-  shake: false #  open shake (抖动特效)
+  shake: false #  open shake (抖動特效)
   mobile: true
 
-# Mouse click effects: fireworks (鼠标点击效果: 烟火特效)
+# Mouse click effects: fireworks (鼠標點擊效果: 煙火特效)
 fireworks:
   enable: true
   zIndex: 9999 # -1 or 9999
-  mobile: true
+  mobile: false
 
-# Mouse click effects: Heart symbol (鼠标点击效果: 爱心)
+# Mouse click effects: Heart symbol (鼠標點擊效果: 愛心)
 click_heart:
   enable: false
   mobile: false
 
-# Mouse click effects: words (鼠标点击效果: 文字)
+# Mouse click effects: words (鼠標點擊效果: 文字)
 ClickShowText:
   enable: false
   text:
@@ -533,11 +541,11 @@ ClickShowText:
   random: false
   mobile: false
 
-# Default display mode (网站默认的显示模式)
+# Default display mode (網站默認的顯示模式)
 # light (default) / dark
 display_mode: light
 
-# Beautify (美化页面显示)
+# Beautify (美化頁面顯示)
 beautify:
   enable: true
   field: post  # site/post
@@ -558,34 +566,34 @@ blog_title_font:
   font_link:
   font-family:
 
-# The setting of divider icon (水平分割线图标设置)
+# The setting of divider icon (水平分隔線圖標設置)
 hr_icon:
   enable: true
   icon: # the unicode value of Font Awesome icon, such as '\3423'
   icon-top:
 
-# the subtitle on homepage (主页subtitle)
+# the subtitle on homepage (主頁subtitle)
 subtitle:
   enable: true
   # Typewriter Effect (打字效果)
   effect: false
-  # loop (循环打字)
+  # loop (循環打字)
   loop: true
-  # source 调用第三方服务
-  # source: false 开闭调用
-  # source: 1  调用一言网的一句話（简体） https://hitokoto.cn/
-  # source: 2  调用一句网（简体） http://yijuzhan.com/
-  # source: 3  调用今日诗词（简体） https://www.jinrishici.com/
-  # subtitle 會先显示 source , 再显示 sub 的內容
+  # source 調用第三方服務
+  # source: false 關閉調用
+  # source: 1  調用一言網的一句話（簡體） https://hitokoto.cn/
+  # source: 2  調用一句網（簡體） http://yijuzhan.com/
+  # source: 3  調用今日詩詞（簡體） https://www.jinrishici.com/
+  # subtitle 會先顯示 source , 再顯示 sub 的內容
   source: false
-  # 如果关闭打字效果，subtitle 只会显示 sub 的第一行文字
+  # 如果關閉打字效果，subtitle 只會顯示 sub 的第一行文字
   sub:
-  - 自信且温和，温和且坚定
+    - 自信且温和，温和且坚定
 
-# Loading Animation (加载动画)
+# Loading Animation (加載動畫)
 preloader: true
 
-# aside (侧边栏)
+# aside (側邊欄)
 # --------------------------------------
 
 aside:
@@ -635,13 +643,13 @@ aside:
     sort_order: # Don't modify the setting unless you know how it works
 
 # busuanzi count for PV / UV in site
-# 访问人数
+# 訪問人數
 busuanzi:
   site_uv: true
   site_pv: true
   page_pv: true
 
-# Time difference between publish date and now (网页运行时间)
+# Time difference between publish date and now (網頁運行時間)
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: false
@@ -655,14 +663,14 @@ newest_comments:
   storage: 10 # unit: mins, save data to localStorage
   avatar: true
 
-# Bottom right button (右下角按钮)
+# Bottom right button (右下角按鈕)
 # --------------------------------------
 
-# Conversion between Traditional and Simplified Chinese (简繁转换)
+# Conversion between Traditional and Simplified Chinese (簡繁轉換)
 translate:
   enable: true
   # The text of a button
-  default: 简
+  default: 繁
   # the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）
   defaultEncoding: 2
   # Time delay
@@ -672,7 +680,7 @@ translate:
   # The text of the button when the language is Traditional Chinese
   msgToSimplifiedChinese: '简'
 
-# Read Mode (阅读模式)
+# Read Mode (閲讀模式)
 readmode: true
 
 # dark mode
@@ -680,23 +688,23 @@ darkmode:
   enable: true
   # Toggle Button to switch dark/light mode
   button: true
-  # Switch dark/light mode automatically (自动切换 dark mode和 light mode)
+  # Switch dark/light mode automatically (自動切換 dark mode和 light mode)
   # autoChangeMode: 1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am
   # autoChangeMode: 2  Switch dark mode between 6 pm to 6 am
   # autoChangeMode: false
   autoChangeMode: false
 
-# Don't modify the following settings unless you know how they work (非必要请不要修改)
+# Don't modify the following settings unless you know how they work (非必要請不要修改 )
 # Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
-# Don't repeat 不要重复
+# Don't repeat 不要重複
 rightside_item_order:
   enable: false
   hide: # readmode,translate,darkmode,hideAside
   show: # toc,chat,comment
 
-# Lightbox (图片大图查看模式)
+# Lightbox (圖片大圖查看模式)
 # --------------------------------------
-# You can only choose one, or neither (只能选择一个 或者 两个都不选)
+# You can only choose one, or neither (只能選擇一個 或者 兩個都不選)
 
 # medium-zoom
 # https://github.com/francoischalifour/medium-zoom
@@ -739,7 +747,7 @@ note:
 # It may contain bugs and unstable, give feedback when you find the bugs.
 # https://github.com/MoOx/pjax
 pjax:
-  enable: true
+  enable: false
   exclude:
     # - xxxx
     # - xxxx
@@ -760,19 +768,19 @@ snackbar:
   bg_dark: '#1f1f1f' # The background color of Toast Notification in dark mode
 
 # https://instant.page/
-# prefetch (预加载)
+# prefetch (預加載)
 instantpage: false
 
 # https://github.com/vinta/pangu.js
-# Insert a space between Chinese character and English character (中英文之间添加空格)
+# Insert a space between Chinese character and English character (中英文之間添加空格)
 pangu:
   enable: false
   field: site # site/post
 
-# Lazyload (图片懒加载)
+# Lazyload (圖片懶加載)
 # https://github.com/verlok/vanilla-lazyload
 lazyload:
-  enable: true
+  enable: false
   field: site # site/post
   placeholder:
   blur: false
@@ -802,37 +810,38 @@ inject:
   head:
      - <link rel="stylesheet" href="/css/background.css">
   bottom:
-    <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div>
+    - <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div>
 
 # CDN
 # Don't modify the following settings unless you know how they work
 # 非必要請不要修改
 CDN:
   # The CDN provider of internal scripts (主題內部 js 的 cdn 配置)
-  # option: local/jsdelivr
-  # Dev version cannot choose jsdelivr (dev版的主題不能設置為 jsdelivr)
+  # option: local/jsdelivr/unpkg
+  # Dev version cannot choose jsdelivr/unpkg (dev版的主題不能設置為 jsdelivr/unpkg)
   internal_provider: local
   # The CDN provider of third party scripts (第三方 js 的 cdn 配置)
-  # option: local/jsdelivr
+  # option: local/jsdelivr/unpkg
   # when set it to local, you need to install hexo-butterfly-extjs
   third_party_provider: jsdelivr
   option:
-    # main_css:
-    # main:
-    # utils:
-    # translate:
-    # local_search:
-    # algolia_js:
-    # algolia_search_v4:
-    # instantsearch_v4:
-    # pjax:
+     main_css: /css/index.css
+     main: /js/main.js
+     utils: /js/utils.js
+     jquery: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js
+     translate: https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js
+     # local_search:
+     # algolia_search_v4:
+     # instantsearch_v4:
+     pjax: https://npm.elemecdn.com/pjax/pjax.min.js
+     # 评论相关
     # gitalk:
     # gitalk_css:
     # blueimp_md5:
     # valine:
     # disqusjs:
     # disqusjs_css:
-    # twikoo:
+     twikoo: https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js
     # waline_js:
     # waline_css:
     # sharejs:
@@ -845,25 +854,25 @@ CDN:
     # canvas_ribbon:
     # canvas_fluttering_ribbon:
     # canvas_nest:
-    # lazyload:
-    # instantpage:
+     lazyload: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js
+     instantpage: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js
     # typed:
     # pangu:
-    # fancybox_css_v4:
-    # fancybox_v4:
+     fancybox_css_v4: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css
+     fancybox_v4: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js
     # medium_zoom:
-    # snackbar_css:
-    # snackbar:
+     snackbar_css: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css
+     snackbar: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js
     # activate_power_mode:
     # fireworks:
     # click_heart:
     # ClickShowText:
-    # fontawesomeV6:
+     fontawesomeV6: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
     # flickr_justified_gallery_js:
     # flickr_justified_gallery_css:
-    # aplayer_css:
-    # aplayer_js:
-    # meting_js:
+     aplayer_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css
+     aplayer_js: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js
+     meting_js: https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js
     # prismjs_js:
     # prismjs_lineNumber_js:
     # prismjs_autoloader:

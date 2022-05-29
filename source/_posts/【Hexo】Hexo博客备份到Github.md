@@ -5,6 +5,7 @@ tags:
 - Hexo
 categories:
 - Hexo
+cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png
 ---
 
 ## 为什么要备份
