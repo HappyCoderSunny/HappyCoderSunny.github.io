@@ -817,6 +817,7 @@ inject:
      - <link rel="stylesheet" href="/css/background.css">
   bottom:
     - <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div>
+    
         
 # CDN
 # Don't modify the following settings unless you know how they work
@@ -831,23 +832,23 @@ CDN:
   # when set it to local, you need to install hexo-butterfly-extjs
   third_party_provider: jsdelivr
   option:
-     main_css: /css/index.css
-     main: /js/main.js
-     utils: /js/utils.js
-     jquery: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js
-     translate: https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js
-     # local_search:
-     # algolia_search_v4:
-     # instantsearch_v4:
-     pjax: https://npm.elemecdn.com/pjax/pjax.min.js
-     # 评论相关
+    # main_css: /css/index.css
+    # main: /js/main.js
+    # utils: /js/utils.js
+    # jquery:
+    # translate:
+    # local_search:
+    # algolia_search_v4:
+    # instantsearch_v4:
+    # pjax:
+    # 评论相关
     # gitalk:
     # gitalk_css:
     # blueimp_md5:
     # valine:
     # disqusjs:
     # disqusjs_css:
-     twikoo: https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js
+    # twikoo:
     # waline_js:
     # waline_css:
     # sharejs:
@@ -860,26 +861,26 @@ CDN:
     # canvas_ribbon:
     # canvas_fluttering_ribbon:
     # canvas_nest:
-     lazyload: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js
-     instantpage: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js
+    # lazyload:
+    # instantpage:
     # typed:
     # pangu:
-     fancybox_css_v4: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css
-     fancybox_v4: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js
+    # fancybox_css_v4:
+    # fancybox_v4:
     # medium_zoom:
-     snackbar_css: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css
-     snackbar: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js
+    # snackbar_css:
+    # snackbar:
     # activate_power_mode:
     # fireworks:
     # click_heart:
     # ClickShowText:
-     fontawesomeV6: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
+    # fontawesomeV6:
     # flickr_justified_gallery_js:
     # flickr_justified_gallery_css:
-     aplayer_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css
-     aplayer_js: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js
-     meting_js: https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js
+    # aplayer_css:
+    # aplayer_js:
+    # meting_js:
     # prismjs_js:
     # prismjs_lineNumber_js:
     # prismjs_autoloader:
-    
+

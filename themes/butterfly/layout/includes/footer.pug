@@ -3,9 +3,9 @@
     - var now = new Date()
     - var nowYear = now.getFullYear()
     if theme.footer.owner.since && theme.footer.owner.since != nowYear
-      .copyright!= `&copy;${theme.footer.owner.since} - ${nowYear} By ${config.author}`
+      .copyright!= `&copy;${theme.footer.owner.since} - ${nowYear + ' '} <i id="heartbeat" class="fa fas fa-heartbeat"></i> ${config.author}`
     else
-      .copyright!= `&copy;${nowYear} By ${config.author}`
+      .copyright!= `&copy;${nowYear + ' '} <i id="heartbeat" class="fa fas fa-heartbeat"></i> ${config.author}`
   if theme.footer.copyright
     .framework-info
       span= _p('footer.framework') + ' '
@@ -15,3 +15,5 @@
       a(href='https://github.com/jerryc127/hexo-theme-butterfly')= 'Butterfly'
   if theme.footer.custom_text
     .footer_custom_text!=`${theme.footer.custom_text}`
+
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css">
