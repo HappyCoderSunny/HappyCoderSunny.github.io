@@ -55,3 +55,23 @@
     rgba(109, 186, 130, 0.1) 100%
   );
 }
+
+/** 解决友链头像和描述之间的间距*/
+#article-container .flink .info img {
+  margin-right: 10px !important;
+}
+
+/** 删除点击友链之后的下划线*/
+#article-container a:hover{
+  text-decoration:none !important;
+}
+
+/* 网站字体设置 */
+body{
+  font-family: 'ZhuZiAWan', sans-serif !important;
+}
+@font-face{
+  font-family:'ZhuZiAWan' ;  /* 字体名自定义即可 */
+  src:url('/fonts/ZhuZiAWan.woff2'); /* 字体文件路径 */
+  font-display : swap;
+}

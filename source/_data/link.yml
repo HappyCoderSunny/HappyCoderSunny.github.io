@@ -1,0 +1,33 @@
+- class_name: 主题作者
+  class_desc: 
+  link_list:
+    - name: Jerry
+      link: https://butterfly.js.org
+      avatar: /img/butterfly_avatar.png
+      descr: 今日事，今日毕
+      siteshot: https://fastly.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg
+
+- class_name: 优秀大佬
+  class_desc: 
+  link_list:
+    - name: 张洪HEO
+      link: https://blog.zhheo.com/
+      avatar: https://npm.elemecdn.com/guli-heo/action/guli-action-find.gif
+      descr: 相信你可以在这里找到对你有用的知识和教程。
+      siteshot: 
+
+    - name: 阿羡吖
+      link: https://axiandaytoy.cn
+      avatar: https://axiandaytoy.cn/images/favicon.png
+      descr: 发自己的光就好，不要吹灭别人的灯。
+      siteshot:
+  
+    - name: CXM
+      link: https://cxmblog.top
+      avatar: https://cxmblog.top/img/avatar.jpeg
+      descr: 我是大神（手动添加无数狗头）！
+      siteshot:
+  
+
+
+

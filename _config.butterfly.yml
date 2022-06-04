@@ -5,6 +5,8 @@
 menu:
    首页: / || fas fa-home
    音乐库: /music/ || fas fa-music
+   图片库: /pictures/ || fas fa-images
+   友情链接: /link/ || fas fa-link
   # Tags: /tags/ || fas fa-tags
   # Categories: /categories/ || fas fa-folder-open
   # List||fas fa-list:
@@ -99,10 +101,14 @@ cover:
   position: both # 封面显示的位置 left/right/both both表示左右两边交替显示
   default_cover: /img/default_post_cover.png # 当没有设置文章封面时 默认的封面展示
 
+# Sunny添加的一些配置项
+# butterfly为默认样式，volantis为站点卡片样式，flexcard为弹性卡片样式
+flink_style: volantis # butterfly | volantis | flexcard
+
 # 替换无法显示的图片的图片
 error_img:
   flink: /img/friend_404.gif
-  post_page: /img/404.jpg
+  post_page: /img/default_post_cover.png
 # 404页面
 error_404:
   enable: true
@@ -555,10 +561,10 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work (非必要不要修改)
 font:
-  global-font-size:
-  code-font-size:
-  font-family:
-  code-font-family:
+  global-font-size: "14px"
+  code-font-size: "16px"
+  font-family: ZhuZiAYuan, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Lato, Roboto, "PingFang SC", "STZhongsong", "Lantinghei SC", sans-serif
+  code-font-family: consolas, Menlo, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif
 
 # Font settings for the site title and site subtitle
 # 左上角網站名字 主頁居中網站名字
@@ -811,7 +817,7 @@ inject:
      - <link rel="stylesheet" href="/css/background.css">
   bottom:
     - <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div>
-
+        
 # CDN
 # Don't modify the following settings unless you know how they work
 # 非必要請不要修改
@@ -876,3 +882,4 @@ CDN:
     # prismjs_js:
     # prismjs_lineNumber_js:
     # prismjs_autoloader:
+    

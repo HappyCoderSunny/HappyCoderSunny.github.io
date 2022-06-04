@@ -33,7 +33,7 @@ cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png
 
 将`third_party_provider`由`jsdelivr`换成`local`：
 
-![20220529_02](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02-20220529144032212.png)
+![20220529_02](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02.png)
 
 替换CDN（部分）：
 

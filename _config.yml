@@ -132,6 +132,7 @@ aplayer:
   meting: true
   asset_inject: false
   
+# 看板娘相关配置
 live2d:
   enable: true
   scriptFrom: local # 默认
