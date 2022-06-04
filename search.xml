@@ -285,6 +285,12 @@
 <p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
 ]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>【Hexo】Hexo博客备份到Github</title>
@@ -322,48 +328,6 @@
 <p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
-    <url>/%E3%80%90Hexo%E3%80%91%E5%A6%82%E4%BD%95%E6%8B%A5%E6%9C%89%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E7%9A%84Hexo%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="如何拥有自己的域名"><a href="#如何拥有自己的域名" class="headerlink" title="如何拥有自己的域名"></a>如何拥有自己的域名</h2><p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
-<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
-<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
-<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
-<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
-<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http://freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
-<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
-<p>在这里面添加两条记录如上所示。</p>
-<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
-<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
-<h2 id="添加CNAME文件"><a href="#添加CNAME文件" class="headerlink" title="添加CNAME文件"></a>添加CNAME文件</h2><p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
-<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
-<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
-<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
-<h2 id="修改博客配置文件"><a href="#修改博客配置文件" class="headerlink" title="修改博客配置文件"></a>修改博客配置文件</h2><p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
-<p>将里面的url替换成我们自己的即可。</p>
-<p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>再次运行博客：</p>
-<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
-<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
-<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -482,6 +446,48 @@
       <tags>
         <tag>Hexo</tag>
         <tag>butterfly主题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
+    <url>/%E3%80%90Hexo%E3%80%91%E5%A6%82%E4%BD%95%E6%8B%A5%E6%9C%89%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E7%9A%84Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="如何拥有自己的域名"><a href="#如何拥有自己的域名" class="headerlink" title="如何拥有自己的域名"></a>如何拥有自己的域名</h2><p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
+<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
+<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
+<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
+<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
+<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http://freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
+<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
+<p>在这里面添加两条记录如上所示。</p>
+<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
+<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
+<h2 id="添加CNAME文件"><a href="#添加CNAME文件" class="headerlink" title="添加CNAME文件"></a>添加CNAME文件</h2><p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
+<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
+<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
+<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
+<h2 id="修改博客配置文件"><a href="#修改博客配置文件" class="headerlink" title="修改博客配置文件"></a>修改博客配置文件</h2><p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
+<p>将里面的url替换成我们自己的即可。</p>
+<p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>再次运行博客：</p>
+<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
+<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
+<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
