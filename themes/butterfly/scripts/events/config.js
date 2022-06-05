@@ -50,7 +50,7 @@ hexo.extend.filter.register('before_generate', () => {
       valine: `${pre}valine/dist/Valine.min.js`,
       disqusjs: `${pre}disqusjs@3/dist/browser/disqusjs.es2015.umd.min.js`,
       disqusjs_css: `${pre}disqusjs@3/dist/browser/styles/disqusjs.css`,
-      twikoo: `${pre}twikoo@1/dist/twikoo.all.min.js`,
+      twikoo: `https://fastly.jsdelivr.net/gh/zhheo/twikoo@dev/dist/twikoo.all.min.js`,
       waline_js: `${pre}@waline/client/dist/waline.js`,
       waline_css: `${pre}@waline/client/dist/waline.css`,
       sharejs: `${pre}butterfly-extsrc@1/ShareJS/dist/js/social-share.min.js`,

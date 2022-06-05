@@ -6,7 +6,7 @@ tags:
  - Butterfly
 catergories:
  - Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png
+cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover9.jpg
 ---
 
 ## 写在前面
