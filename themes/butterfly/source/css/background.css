@@ -75,3 +75,17 @@ body{
   src:url('/fonts/ZhuZiAWan.woff2'); /* 字体文件路径 */
   font-display : swap;
 }
+
+/** 个人名片图标样式*/
+.fa-qq {
+  color: #10a4ff;
+}
+.fa-weixin {
+  color: #00bf03;
+}
+.fa-envelope {
+  color: #ee8c6b;
+}
+.fa-github {
+  color:#5992ae
+}
