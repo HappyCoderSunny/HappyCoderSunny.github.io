@@ -4,8 +4,11 @@
 
 menu:
    首页: / || fas fa-home
-   音乐库: /music/ || fas fa-music
-   图片库: /pictures/ || fas fa-images
+   标签: /tags/ || fas fa-tags
+   分类: /categories/ || fas fa-folder-open
+   娱乐库 ||fas fa-list:
+    音乐库: /music/ || fas fa-music
+    图片库: /pictures/ || fas fa-images
    友情链接: /link/ || fas fa-link
   # Tags: /tags/ || fas fa-tags
   # Categories: /categories/ || fas fa-folder-open
@@ -75,7 +78,7 @@ mathjax:
 
 # KaTeX
 katex:
-  enable: false
+  enable: true
   per_page: false
   hide_scrollbar: true
 
@@ -89,11 +92,11 @@ avatar:
   effect: false # 是否开启头像的动效
 disable_top_img: false # 如果不需要展示顶部图 设置为true
 index_img: /img/background.png # 主页的背景图
-default_top_img: /img/default_post_cover.png # 默认的顶部图 如果top_img没有配置时，会显示default_top_img
-archive_img: /img/default_post_cover.png # 归档页面的top_img
-tag_img: /img/default_post_cover.png # tag子页面的top_img
+default_top_img: /img/default_top_cover.png # 默认的顶部图 如果top_img没有配置时，会显示default_top_img
+archive_img: /img/default_top_cover.png # 归档页面的top_img
+tag_img: /img/default_top_cover.png # tag子页面的top_img
 tag_per_img: # tag子页面的 top_img，可配置每个tag 的 top_img
-category_img: /img/default_post_cover.png  # category子页面的top_img
+category_img: /img/default_top_cover.png  # category子页面的top_img
 category_per_img:  # category子页面的 category_img，可配置每个category 的 top_img
 
 cover:
@@ -817,9 +820,16 @@ css_prefix: true
 inject:
   head:
      - <link rel="stylesheet" href="/css/background.css">
+     - <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+     - <script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
+     - <script> LA.init({id:"JiClMYy0r4fHzdH0",ck:"JiClMYy0r4fHzdH0"})</script>
+     - <script>new LingQue.Monitor().init({id:"JiClV91tQ6XNKpMM",sendSuspicious:true});</script>
+     - <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="defer" onload="this.media='all'">
+
   bottom:
     - <div class="aplayer no-destroy" data-id="173141373" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div>
-    
+    - <script defer src="https://fastly.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script>
+    - <script defer data-pjax src="/js/wow_init.js"></script>
         
 # CDN
 # Don't modify the following settings unless you know how they work
@@ -885,4 +895,21 @@ CDN:
     # prismjs_js:
     # prismjs_lineNumber_js:
     # prismjs_autoloader:
+
+wowjs:
+  enable: true #控制动画开关。true是打开，false是关闭
+  priority: 10 #过滤器优先级
+  mobile: false #移动端是否启用，默认移动端禁用
+  animateitem:
+    - class: recent-post-item #必填项，需要添加动画的元素的class
+      style: animate__zoomIn #必填项，需要添加的动画
+      duration: 2s #选填项，动画持续时间，单位可以是ms也可以是s。例如3s，700ms。
+      delay: 1s #选填项，动画开始的延迟时间，单位可以是ms也可以是s。例如3s，700ms。
+      offset: 100 #选填项，开始动画的距离（相对浏览器底部）
+      iteration: 2 #选填项，动画重复的次数
+    - class: card-widget
+      style: animate__zoomIn
+animate_css: https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css
+wow_js: https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js
+wow_init_js: https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js
 

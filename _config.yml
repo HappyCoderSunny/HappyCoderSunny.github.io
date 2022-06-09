@@ -150,6 +150,14 @@ algolia:
   apiKey: 'e5dd1288ea8d33ac5e46ef2a11c0ce56'
   adminApiKey: '0f00af9c6896a88c57483628ada52fc3'
   indexName: 'hexo_search'
+
+# 配置数学符号显示功能
+markdown:
+  plugins:
+    - plugin:
+      name: '@neilsustc/markdown-it-katex'
+      options:
+        strict: false
     
     
     
