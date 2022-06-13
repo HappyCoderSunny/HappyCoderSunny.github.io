@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Butterfly 如何替换jsdelivr提升网站访问速度</title>
-    <url>/Butterfly-%E5%A6%82%E4%BD%95%E6%9B%BF%E6%8D%A2jsdelivr%E6%8F%90%E5%8D%87%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/</url>
+    <url>/posts/e94df8dd/</url>
     <content><![CDATA[<h2 id="写在前面">写在前面</h2>
 <p>大家都知道<code>jsdelivr</code>，而且经常用这个CDN服务，这是一个很快而且免费的CDN服务，但是从去年还是啥时候开始就逐渐出现挂掉，不太好用的情况，前段时间更是大规模的挂掉，对我最直接的影响就是：我这个博客网站打开就是巨慢无比，控制台一堆报错，各种图片无法显示，这对于一个强迫症来说真的不能忍，于是打算换掉Butterfly主题下的<code>jsdelivr</code>CDN服务。</p>
 <h2 id="解决办法">解决办法</h2>
@@ -31,84 +31,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo中Twikoo评论系统配置教程</title>
-    <url>/Hexo%E4%B8%ADTwikoo%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
-<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
-<blockquote>
-<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
-</blockquote>
-<h2 id="购买云开发套餐">购买云开发套餐</h2>
-<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
-<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
-<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
-<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
-<p>**4、**选择合适的套餐进行购买：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>地域选择【上海】</p>
-<p>计费方式选择【包年包月】</p>
-<p>环境名称自由填写</p>
-<p>套餐版本选择【特惠基础版1】</p>
-</blockquote>
-<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
-<blockquote>
-<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
-</blockquote>
-<h2 id="登录授权">登录授权</h2>
-<p>环境 - 登录授权 - 开启【匿名登录】</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
-<h2 id="安全配置">安全配置</h2>
-<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
-</blockquote>
-<h2 id="云函数">云函数</h2>
-<p>**1、**环境 - 云函数 - 新建云函数</p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>函数名称填写：<code>twikoo</code></p>
-<p>创建方式选择：空白函数</p>
-<p>运行环境选择：Nodejs10.15</p>
-<p>函数内存选择：128M</p>
-<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
-</blockquote>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
-<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
-<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
-<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
-<p>打开<code>主题butterfly</code>下的配置文件</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
-<h2 id="最后-2">最后</h2>
-<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
-<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo框架Butterfly主题配置（持续更新）</title>
-    <url>/Hexo%E6%A1%86%E6%9E%B6Butterfly%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</url>
+    <url>/posts/391caf66/</url>
     <content><![CDATA[<h2 id="升级建议">升级建议</h2>
 <p>为了减少升级以后带来的不便，建议请按照下面的方式进行操作：</p>
 <p>在博客根目录下创建一个文件：<code>_config.butterfly.yml</code>，并把<code>butterfly</code>主题目录下的<code>_config.yml</code>内容复制到该文件中（注意：复制的是<a href="">butterfly主题目录</a>下的<code>_config.yml</code>不是博客根目录中的<code>_config.yml</code>）。</p>
@@ -136,7 +60,7 @@
 </blockquote>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_03.png" alt="20220514_01_03"></p>
 <h2 id="config-butterfly-yml文件">_config.butterfly.yml文件</h2>
-<h3 id="写在前面-3">写在前面</h3>
+<h3 id="写在前面-2">写在前面</h3>
 <p>本文基本上是按照<code>_config.butterfly.yml</code>文件从上到下的顺序来总结的，大家看的时候对照着设置即可。</p>
 <h3 id="导航栏菜单">导航栏菜单</h3>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">   <span class="string">首页:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-home</span></span><br><span class="line">   <span class="string">音乐库:</span> <span class="string">/music/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-music</span></span><br><span class="line">  <span class="comment"># Archives: /archives/ || fas fa-archive</span></span><br><span class="line">  <span class="comment"># Tags: /tags/ || fas fa-tags</span></span><br><span class="line">  <span class="comment"># Categories: /categories/ || fas fa-folder-open</span></span><br><span class="line">  <span class="comment"># List||fas fa-list:</span></span><br><span class="line">  <span class="comment"># Movie: /movies/ || fas fa-video</span></span><br><span class="line">  <span class="comment"># Link: /link/ || fas fa-link</span></span><br><span class="line">  <span class="comment"># About: /about/ || fas fa-heart</span></span><br></pre></td></tr></table></figure>
@@ -206,7 +130,7 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Lightbox (图片大图查看模式)</span></span><br><span class="line"><span class="comment"># You can only choose one, or neither (只能选择一个 或者 两个都不选)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># medium-zoom</span></span><br><span class="line"><span class="comment"># https://github.com/francoischalifour/medium-zoom</span></span><br><span class="line"><span class="attr">medium_zoom:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fancybox</span></span><br><span class="line"><span class="comment"># http://fancyapps.com/fancybox/3/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_17.png" alt="20220514_01_17"></p>
-<h2 id="最后-3">最后</h2>
+<h2 id="最后-2">最后</h2>
 <p>基本上到这里，关于<code>butterfly</code>主题的一些基础配置就可以了，关于更多的模块配置可以参考<a href="https://butterfly.js.org/">butterfly主题官方文档</a>。</p>
 <p>官方文档永远是最好的学习资料。</p>
 ]]></content>
@@ -220,8 +144,84 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo中Twikoo评论系统配置教程</title>
+    <url>/posts/feb84685/</url>
+    <content><![CDATA[<h2 id="写在前面-3">写在前面</h2>
+<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
+<blockquote>
+<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
+</blockquote>
+<h2 id="购买云开发套餐">购买云开发套餐</h2>
+<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
+<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
+<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
+<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
+<p>**4、**选择合适的套餐进行购买：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>地域选择【上海】</p>
+<p>计费方式选择【包年包月】</p>
+<p>环境名称自由填写</p>
+<p>套餐版本选择【特惠基础版1】</p>
+</blockquote>
+<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
+<blockquote>
+<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
+</blockquote>
+<h2 id="登录授权">登录授权</h2>
+<p>环境 - 登录授权 - 开启【匿名登录】</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
+<h2 id="安全配置">安全配置</h2>
+<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
+</blockquote>
+<h2 id="云函数">云函数</h2>
+<p>**1、**环境 - 云函数 - 新建云函数</p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>函数名称填写：<code>twikoo</code></p>
+<p>创建方式选择：空白函数</p>
+<p>运行环境选择：Nodejs10.15</p>
+<p>函数内存选择：128M</p>
+<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
+</blockquote>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
+<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
+<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
+<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
+<p>打开<code>主题butterfly</code>下的配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
+<h2 id="最后-3">最后</h2>
+<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
+<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOS重学之启动优化（一）</title>
-    <url>/iOS%E9%87%8D%E5%AD%A6%E4%B9%8B%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <url>/posts/a5b508b2/</url>
     <content><![CDATA[<h2 id="APP是如何启动的">APP是如何启动的</h2>
 <h3 id="APP启动">APP启动</h3>
 <p>热启动：系统里面存在APP的进程缓存信息，比如杀掉APP后短时间内重启APP。</p>
@@ -348,7 +348,7 @@
   </entry>
   <entry>
     <title>iOS重学之消息发送的完整流程</title>
-    <url>/iOS%E9%87%8D%E5%AD%A6%E4%B9%8B%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B/</url>
+    <url>/posts/4a47f2ea/</url>
     <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
 <p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
 <h2 id="Class结构">Class结构</h2>
@@ -406,7 +406,7 @@
   </entry>
   <entry>
     <title>【Hexo】Hexo博客备份到Github</title>
-    <url>/%E3%80%90Hexo%E3%80%91Hexo%E5%8D%9A%E5%AE%A2%E5%A4%87%E4%BB%BD%E5%88%B0Github/</url>
+    <url>/posts/da31eaeb/</url>
     <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
 <p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
@@ -454,7 +454,7 @@
   </entry>
   <entry>
     <title>【Hexo】Mac OS上使用Hexo + Github搭建博客教程</title>
-    <url>/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
+    <url>/posts/47556fe7/</url>
     <content><![CDATA[<h2 id="Hexo介绍">Hexo介绍</h2>
 <p>Hexo是一个快速、简洁且高效的博客框架，具体可以见<a href="https://hexo.io/zh-cn">Hexo官网</a>，它在github上的star数现在已经到34.7k，Hexo主要有以下特点：</p>
 <ol>
@@ -578,7 +578,7 @@
   </entry>
   <entry>
     <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
-    <url>/%E3%80%90Hexo%E3%80%91%E5%A6%82%E4%BD%95%E6%8B%A5%E6%9C%89%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E7%9A%84Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <url>/posts/9fce234e/</url>
     <content><![CDATA[<h2 id="如何拥有自己的域名">如何拥有自己的域名</h2>
 <p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
 <p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
@@ -626,7 +626,7 @@
   </entry>
   <entry>
     <title>从LCS到IGListKit框架中的Diff算法（上）</title>
-    <url>/%E4%BB%8ELCS%E5%88%B0IGListKit%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84Diff%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%8A%EF%BC%89/</url>
+    <url>/posts/da46549b/</url>
     <content><![CDATA[<h2 id="什么是LCS">什么是LCS</h2>
 <h3 id="子序列">子序列</h3>
 <p>假设有两个序列 <em>X, Z</em>：</p>
@@ -742,7 +742,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   </entry>
   <entry>
     <title>从LCS到IGListKit框架中的Diff算法（下）</title>
-    <url>/%E4%BB%8ELCS%E5%88%B0IGListKit%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84Diff%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%8B%EF%BC%89/</url>
+    <url>/posts/62fa33fe/</url>
     <content><![CDATA[<h2 id="写在前面-5">写在前面</h2>
 <p>在上一篇文章<a href="https://codersunny.com/%E4%BB%8ELCS%E5%88%B0IGListKit%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84Diff%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%8A%EF%BC%89/">从LCS到IGListKit框架中的Diff算法（上）</a>中我们详细讲了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> 是什么、怎么使用动态规划来求解 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> ，最后我们也抛出了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> 还存在的两个问题，本篇文章我们就主要来分析IGListKit框架中的Diff是如何来解决这两个问题的。</p>
 <blockquote>
