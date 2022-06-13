@@ -2,6 +2,12 @@
 User-agent: *
 Allow: /
 Allow: /archives/
+Allow: /posts/
+Allow: /categories/
+Allow: /link/
+Allow: /music/
+Allow: /pictures/
+Allow: /tags/
 
 Disallow: /vendors/
 Disallow: /js/
