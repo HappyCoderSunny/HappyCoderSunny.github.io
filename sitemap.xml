@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://codersunny.com/Pictures/index.html</loc>
+    
+    <lastmod>2022-06-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://codersunny.com/posts/27c4367/</loc>
+    
+    <lastmod>2022-06-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://codersunny.com/Wallpaper/index.html</loc>
+    
+    <lastmod>2022-06-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://codersunny.com/posts/62fa33fe/</loc>
     
     <lastmod>2022-06-13</lastmod>
@@ -92,7 +119,7 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/music/index.html</loc>
+    <loc>https://codersunny.com/Music/index.html</loc>
     
     <lastmod>2022-06-09</lastmod>
     
@@ -101,18 +128,9 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/link/index.html</loc>
+    <loc>https://codersunny.com/Link/index.html</loc>
     
     <lastmod>2022-06-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/pictures/index.html</loc>
-    
-    <lastmod>2022-05-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -128,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/tags/index.html</loc>
+    <loc>https://codersunny.com/Tags/index.html</loc>
     
     <lastmod>2022-05-10</lastmod>
     
@@ -139,7 +157,7 @@
 
   <url>
     <loc>https://codersunny.com/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,56 +165,56 @@
   
   <url>
     <loc>https://codersunny.com/tags/Hexo/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/Butterfly/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/iOS/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/LCS/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/IGListKit/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/tags/Diff/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -205,21 +223,21 @@
   
   <url>
     <loc>https://codersunny.com/categories/Hexo/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/categories/iOS/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://codersunny.com/categories/iOS/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-06-13</lastmod>
+    <lastmod>2022-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
