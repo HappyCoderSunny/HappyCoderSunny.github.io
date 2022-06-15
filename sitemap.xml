@@ -11,16 +11,25 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/posts/27c4367/</loc>
+    <loc>https://codersunny.com/categories/index.html</loc>
     
-    <lastmod>2022-06-14</lastmod>
+    <lastmod>2022-06-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://codersunny.com/Wallpaper/index.html</loc>
+    <loc>https://codersunny.com/music/index.html</loc>
+    
+    <lastmod>2022-06-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://codersunny.com/wallpaper/index.html</loc>
     
     <lastmod>2022-06-14</lastmod>
     
@@ -119,16 +128,7 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/Music/index.html</loc>
-    
-    <lastmod>2022-06-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/Link/index.html</loc>
+    <loc>https://codersunny.com/link/index.html</loc>
     
     <lastmod>2022-06-06</lastmod>
     
@@ -137,16 +137,7 @@
   </url>
   
   <url>
-    <loc>https://codersunny.com/categories/index.html</loc>
-    
-    <lastmod>2022-05-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/Tags/index.html</loc>
+    <loc>https://codersunny.com/tags/index.html</loc>
     
     <lastmod>2022-05-10</lastmod>
     

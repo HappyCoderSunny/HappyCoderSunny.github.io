@@ -31,82 +31,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo中Twikoo评论系统配置教程</title>
-    <url>/posts/feb84685/</url>
-    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
-<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
-<blockquote>
-<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
-</blockquote>
-<h2 id="购买云开发套餐">购买云开发套餐</h2>
-<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
-<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
-<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
-<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
-<p>**4、**选择合适的套餐进行购买：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>地域选择【上海】</p>
-<p>计费方式选择【包年包月】</p>
-<p>环境名称自由填写</p>
-<p>套餐版本选择【特惠基础版1】</p>
-</blockquote>
-<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
-<blockquote>
-<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
-</blockquote>
-<h2 id="登录授权">登录授权</h2>
-<p>环境 - 登录授权 - 开启【匿名登录】</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
-<h2 id="安全配置">安全配置</h2>
-<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
-</blockquote>
-<h2 id="云函数">云函数</h2>
-<p>**1、**环境 - 云函数 - 新建云函数</p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>函数名称填写：<code>twikoo</code></p>
-<p>创建方式选择：空白函数</p>
-<p>运行环境选择：Nodejs10.15</p>
-<p>函数内存选择：128M</p>
-<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
-</blockquote>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
-<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
-<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
-<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
-<p>打开<code>主题butterfly</code>下的配置文件</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
-<h2 id="最后-2">最后</h2>
-<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
-<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo框架Butterfly主题配置（持续更新）</title>
     <url>/posts/391caf66/</url>
     <content><![CDATA[<h2 id="升级建议">升级建议</h2>
@@ -136,7 +60,7 @@
 </blockquote>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_03.png" alt="20220514_01_03"></p>
 <h2 id="config-butterfly-yml文件">_config.butterfly.yml文件</h2>
-<h3 id="写在前面-3">写在前面</h3>
+<h3 id="写在前面-2">写在前面</h3>
 <p>本文基本上是按照<code>_config.butterfly.yml</code>文件从上到下的顺序来总结的，大家看的时候对照着设置即可。</p>
 <h3 id="导航栏菜单">导航栏菜单</h3>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">   <span class="string">首页:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-home</span></span><br><span class="line">   <span class="string">音乐库:</span> <span class="string">/music/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-music</span></span><br><span class="line">  <span class="comment"># Archives: /archives/ || fas fa-archive</span></span><br><span class="line">  <span class="comment"># Tags: /tags/ || fas fa-tags</span></span><br><span class="line">  <span class="comment"># Categories: /categories/ || fas fa-folder-open</span></span><br><span class="line">  <span class="comment"># List||fas fa-list:</span></span><br><span class="line">  <span class="comment"># Movie: /movies/ || fas fa-video</span></span><br><span class="line">  <span class="comment"># Link: /link/ || fas fa-link</span></span><br><span class="line">  <span class="comment"># About: /about/ || fas fa-heart</span></span><br></pre></td></tr></table></figure>
@@ -206,9 +130,85 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Lightbox (图片大图查看模式)</span></span><br><span class="line"><span class="comment"># You can only choose one, or neither (只能选择一个 或者 两个都不选)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># medium-zoom</span></span><br><span class="line"><span class="comment"># https://github.com/francoischalifour/medium-zoom</span></span><br><span class="line"><span class="attr">medium_zoom:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fancybox</span></span><br><span class="line"><span class="comment"># http://fancyapps.com/fancybox/3/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_17.png" alt="20220514_01_17"></p>
-<h2 id="最后-3">最后</h2>
+<h2 id="最后-2">最后</h2>
 <p>基本上到这里，关于<code>butterfly</code>主题的一些基础配置就可以了，关于更多的模块配置可以参考<a href="https://butterfly.js.org/">butterfly主题官方文档</a>。</p>
 <p>官方文档永远是最好的学习资料。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo中Twikoo评论系统配置教程</title>
+    <url>/posts/feb84685/</url>
+    <content><![CDATA[<h2 id="写在前面-3">写在前面</h2>
+<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
+<blockquote>
+<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
+</blockquote>
+<h2 id="购买云开发套餐">购买云开发套餐</h2>
+<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
+<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
+<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
+<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
+<p>**4、**选择合适的套餐进行购买：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>地域选择【上海】</p>
+<p>计费方式选择【包年包月】</p>
+<p>环境名称自由填写</p>
+<p>套餐版本选择【特惠基础版1】</p>
+</blockquote>
+<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
+<blockquote>
+<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
+</blockquote>
+<h2 id="登录授权">登录授权</h2>
+<p>环境 - 登录授权 - 开启【匿名登录】</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
+<h2 id="安全配置">安全配置</h2>
+<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
+</blockquote>
+<h2 id="云函数">云函数</h2>
+<p>**1、**环境 - 云函数 - 新建云函数</p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>函数名称填写：<code>twikoo</code></p>
+<p>创建方式选择：空白函数</p>
+<p>运行环境选择：Nodejs10.15</p>
+<p>函数内存选择：128M</p>
+<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
+</blockquote>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
+<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
+<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
+<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
+<p>打开<code>主题butterfly</code>下的配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
+<h2 id="最后-3">最后</h2>
+<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
+<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -405,68 +405,6 @@
       </tags>
   </entry>
   <entry>
-    <title>test文章标题</title>
-    <url>/posts/27c4367/</url>
-    <content><![CDATA[<div class="note pink icon simple"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上1</p>
-</div>
-<div class="note pink icon modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上2</p>
-</div>
-<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">test1 1</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><mark class="hl-label green">Sunny的测试</mark></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-<div class="timeline green"><div class='timeline-item headline'><div class='timeline-item-title'><div class='item-circle'><p>2022</p>
-</div></div></div><div class='timeline-item'><div class='timeline-item-title'><div class='item-circle'><p>01-02</p>
-</div></div><div class='timeline-item-content'><p>这是测试页面</p>
-</div></div></div>
-]]></content>
-  </entry>
-  <entry>
-    <title>【Hexo】Hexo博客备份到Github</title>
-    <url>/posts/da31eaeb/</url>
-    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
-<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
-<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
-<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
-<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
-<h3 id="创建新分支">创建新分支</h3>
-<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
-<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
-<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
-<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
-<blockquote>
-<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
-</blockquote>
-<h3 id="开始备份">开始备份</h3>
-<p>进入到Blogs根目录下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
-<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="如何恢复博客">如何恢复博客</h2>
-<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
-<p>进入到克隆下来的文件夹，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
-<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
-<h2 id="最后-6">最后</h2>
-<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【Hexo】Mac OS上使用Hexo + Github搭建博客教程</title>
     <url>/posts/47556fe7/</url>
     <content><![CDATA[<h2 id="Hexo介绍">Hexo介绍</h2>
@@ -577,7 +515,7 @@
 <h3 id="访问云端博客主页">访问云端博客主页</h3>
 <p>访问地址：<a href="https://happycodersunny.github.io/">https://happycodersunny.github.io</a></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220509/20220509_20.png" alt="20220509_20"></p>
-<h2 id="最后-7">最后</h2>
+<h2 id="最后-6">最后</h2>
 <p>基本上到这里，属于我们自己的博客就搭建完成啦，撒花🎉🎉🎉～，整个搭建流程如果不出错半个小时之内其实是可以搞定的，但是这路哪里那么好走呢，每个人去搭建的过程中或多或少都会遇到一些问题，我自己在搭建的过程中也碰到了一些问题，我会抽空把遇到的问题详细整理出来，希望能够帮助大家如果要搭建博客的时候少踩点坑。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
@@ -588,6 +526,54 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Hexo】Hexo博客备份到Github</title>
+    <url>/posts/da31eaeb/</url>
+    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
+<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
+<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
+<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
+<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
+<h3 id="创建新分支">创建新分支</h3>
+<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
+<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
+<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
+<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
+<blockquote>
+<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
+</blockquote>
+<h3 id="开始备份">开始备份</h3>
+<p>进入到Blogs根目录下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
+<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
+<h2 id="如何恢复博客">如何恢复博客</h2>
+<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
+<p>进入到克隆下来的文件夹，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
+<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
+<h2 id="最后-7">最后</h2>
+<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>

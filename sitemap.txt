@@ -1,6 +1,7 @@
 https://codersunny.com/pictures/index.html
-https://codersunny.com/posts/27c4367/
-https://codersunny.com/Wallpaper/index.html
+https://codersunny.com/categories/index.html
+https://codersunny.com/music/index.html
+https://codersunny.com/wallpaper/index.html
 https://codersunny.com/posts/62fa33fe/
 https://codersunny.com/posts/da46549b/
 https://codersunny.com/posts/47556fe7/
@@ -11,10 +12,8 @@ https://codersunny.com/posts/a5b508b2/
 https://codersunny.com/posts/feb84685/
 https://codersunny.com/posts/391caf66/
 https://codersunny.com/posts/e94df8dd/
-https://codersunny.com/Music/index.html
-https://codersunny.com/Link/index.html
-https://codersunny.com/categories/index.html
-https://codersunny.com/Tags/index.html
+https://codersunny.com/link/index.html
+https://codersunny.com/tags/index.html
 https://codersunny.com/
 https://codersunny.com/tags/Hexo/
 https://codersunny.com/tags/Butterfly/
