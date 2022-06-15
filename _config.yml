@@ -6,7 +6,7 @@
 title: Sunny's Blog
 subtitle: ''
 description: 千里之行，始于足下
-keywords:
+keywords: iOS,hexo,butterfly,frontend
 author: Sunny
 language: zh-CN
 timezone: Asia/Shanghai
@@ -14,11 +14,15 @@ timezone: Asia/Shanghai
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://codersunny.com
-permalink: :title/
+permalink: posts/:abbrlink/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
+abbrlink:
+  alg: crc32
+  rep: hex
 
 # Directory
 source_dir: source
@@ -123,9 +127,16 @@ search:
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: git
-  repo: git@github.com:HappyCoderSunny/HappyCoderSunny.github.io.git
-  branch: master
+  - type: git
+    repo: git@github.com:HappyCoderSunny/HappyCoderSunny.github.io.git
+    branch: master
+  - type: baidu_url_submitter
+
+baidu_url_submit:
+  count: 100
+  host: codersunny.com
+  token: 6phppY8mOpcIZeAa
+  path: baidu_urls.txt
   
 # 音频播放器相关
 aplayer:

@@ -1,15 +1,17 @@
 ---
 title: 从LCS到IGListKit框架中的Diff算法（上）
 author: Sunny
-date: 2022-06-09 10:24:46
 tags:
-- LCS
-- IGListKit
-- Diff
+  - LCS
+  - IGListKit
+  - Diff
 categories:
-- iOS
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover13.jpg
+  - iOS
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover13.jpg
 katex: true
+abbrlink: da46549b
+date: 2022-06-09 10:24:46
 ---
 
 ## 什么是LCS

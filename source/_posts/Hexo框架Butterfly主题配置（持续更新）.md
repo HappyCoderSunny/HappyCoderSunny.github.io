@@ -1,13 +1,15 @@
 ---
 title: Hexo框架Butterfly主题配置（持续更新）
-date: 2022-05-14 14:35:45
 tags:
-- Hexo
-- Butterfly
-- 教程
-categories: 
-- Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover10.jpg
+  - Hexo
+  - Butterfly
+  - 教程
+categories:
+  - Hexo
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover10.jpg
+abbrlink: 391caf66
+date: 2022-05-14 14:35:45
 ---
 
 ## 升级建议

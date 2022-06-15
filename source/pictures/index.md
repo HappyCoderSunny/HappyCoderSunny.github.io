@@ -1,28 +1,30 @@
 ---
 title: 图片库
 date: 2022-05-29 18:12:10
-type: pictures
+type: "pictures"
 ---
 
-![1](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/1.png)
+<div class="gallery-group-main">
+{% galleryGroup '壁纸' '收藏的一些壁纸' '/wallpaper' https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover13.jpg %}
+</div>
 
-![2](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/2.png)
 
-![3](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/3.png)
 
-![4](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/4.png)
 
-![5](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/5.png)
 
-![6](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/6.png)
 
-![7](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/7.png)
 
-![8](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/8.png)
 
-![9](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/9.png)
 
-![10](https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E5%BA%93/10.png)
+
+
+
+
+
+
+
+
+
 
 
 

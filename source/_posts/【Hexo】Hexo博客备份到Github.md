@@ -1,11 +1,13 @@
 ---
 title: 【Hexo】Hexo博客备份到Github
-date: 2022-05-11 10:24:07
 tags:
-- Hexo
+  - Hexo
 categories:
-- Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover4.jpg
+  - Hexo
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover4.jpg
+abbrlink: da31eaeb
+date: 2022-05-11 10:24:07
 ---
 
 ## 为什么要备份

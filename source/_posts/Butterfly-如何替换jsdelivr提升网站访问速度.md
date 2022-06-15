@@ -1,12 +1,14 @@
 ---
 title: Butterfly 如何替换jsdelivr提升网站访问速度
-date: 2022-05-29 13:54:19
-tags:	
- - Hexo
- - Butterfly
+tags:
+  - Hexo
+  - Butterfly
 catergories:
- - Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover9.jpg
+  - Hexo
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover9.jpg
+abbrlink: e94df8dd
+date: 2022-05-29 13:54:19
 ---
 
 ## 写在前面

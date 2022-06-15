@@ -1,7 +1,7 @@
 ---
 title: 音乐
 date: 2022-05-10 22:17:48
-type: music
+type: "music"
 ---
 
 <font color=#0c74d6 size=3 face="黑体">**温柔治愈系纯音乐**</font>

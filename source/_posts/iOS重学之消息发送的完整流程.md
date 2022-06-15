@@ -1,10 +1,12 @@
 ---
 title: iOS重学之消息发送的完整流程
 author: Sunny
-date: 2022-06-04 17:50:29
 tags: iOS
 categories: iOS
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover7.jpg
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover7.jpg
+abbrlink: 4a47f2ea
+date: 2022-06-04 17:50:29
 ---
 
 ## 写在前面

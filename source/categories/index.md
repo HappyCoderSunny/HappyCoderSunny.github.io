@@ -1,7 +1,7 @@
 ---
 title: 分类
 date: 2022-05-10 08:33:51
-type: categories
+type: "categories"
 ---
 
 <link rel = "stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">

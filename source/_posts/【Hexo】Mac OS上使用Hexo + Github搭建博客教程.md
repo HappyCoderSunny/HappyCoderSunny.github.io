@@ -1,13 +1,15 @@
 ---
 title: 【Hexo】Mac OS上使用Hexo + Github搭建博客教程
-date: 2022-05-09 16:00:00
 tags:
-- Hexo
-- Butterfly
-- 教程
-categories: 
-- Hexo
-cover: https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover5.jpg
+  - Hexo
+  - Butterfly
+  - 教程
+categories:
+  - Hexo
+cover: >-
+  https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover5.jpg
+abbrlink: 47556fe7
+date: 2022-05-09 16:00:00
 ---
 
 
