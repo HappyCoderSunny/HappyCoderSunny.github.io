@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Butterfly 如何替换jsdelivr提升网站访问速度</title>
+    <url>/posts/e94df8dd/</url>
+    <content><![CDATA[<h2 id="写在前面">写在前面</h2>
+<p>大家都知道<code>jsdelivr</code>，而且经常用这个CDN服务，这是一个很快而且免费的CDN服务，但是从去年还是啥时候开始就逐渐出现挂掉，不太好用的情况，前段时间更是大规模的挂掉，对我最直接的影响就是：我这个博客网站打开就是巨慢无比，控制台一堆报错，各种图片无法显示，这对于一个强迫症来说真的不能忍，于是打算换掉Butterfly主题下的<code>jsdelivr</code>CDN服务。</p>
+<h2 id="解决办法">解决办法</h2>
+<h3 id="办法一">办法一</h3>
+<p>这种方法超级简单，只需要简单的一步：</p>
+<p><code>butterfly主题下</code> - <code>scripts</code> - <code>events</code> - <code>config.js</code>文件 修改<code>jsdelivr</code>cdn。</p>
+<p>将<code>https://cdn.jsdelivr.net</code> 换成 <code>https://fastly.jsdelivr.net</code>或<code>https://gcore.jsdelivr.net</code></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png" alt="20220529_01"></p>
+<p>其中<code>fastly</code>是美国的服务器，<code>gcore</code>是俄罗斯的服务器，两个都亲测好用，嫌弃麻烦的同学可以直接替换成这个，访问速度目前来看还是很快的。</p>
+<h3 id="办法二">办法二</h3>
+<p>修改<code>butterfly主题</code>中的<code>_config.yml</code>文件：</p>
+<p>将<code>third_party_provider</code>由<code>jsdelivr</code>换成<code>local</code>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02.png" alt="20220529_02"></p>
+<p>替换CDN（部分）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">main_css:</span> <span class="string">/css/index.css</span></span><br><span class="line"><span class="attr">main:</span> <span class="string">/js/main.js</span></span><br><span class="line"><span class="attr">utils:</span> <span class="string">/js/utils.js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jquery:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js</span></span><br><span class="line"><span class="attr">translate:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js</span></span><br><span class="line"><span class="attr">pjax:</span> <span class="string">https://npm.elemecdn.com/pjax/pjax.min.js</span></span><br><span class="line"><span class="attr">twikoo:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js</span></span><br><span class="line"><span class="attr">lazyload:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js</span></span><br><span class="line"><span class="attr">instantpage:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js</span></span><br><span class="line"><span class="attr">fancybox_css_v4:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css</span></span><br><span class="line"><span class="attr">fancybox_v4:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js</span></span><br><span class="line"><span class="attr">snackbar_css:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css</span></span><br><span class="line"><span class="attr">snackbar:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js</span></span><br><span class="line"><span class="attr">fontawesomeV6:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css</span></span><br><span class="line"><span class="attr">aplayer_css:</span> <span class="string">https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css</span></span><br><span class="line"><span class="attr">aplayer_js:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js</span></span><br><span class="line"><span class="attr">meting_js:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js</span></span><br></pre></td></tr></table></figure>
+<p>以上是我使用的一些cdn，其他的cdn如有补充的可以在评论里留言。</p>
+<p>这里推荐字节跳动的静态资源公共库：<a href="https://cdn.bytedance.com">https://cdn.bytedance.com</a></p>
+<h3 id="办法三">办法三</h3>
+<p>为<code>jsdelivr</code>搭建反向代理服务，比如使用<a href="https://www.cloudflare.com/zh-cn/">Cloudflare</a>自行去搭建。</p>
+<h2 id="最后">最后</h2>
+<p>本文就写到这里了，如有问题，欢迎随时联系博主，博主马上修改。</p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo中Twikoo评论系统配置教程</title>
     <url>/posts/feb84685/</url>
-    <content><![CDATA[<h2 id="写在前面">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
 <p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
 <blockquote>
 <p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
@@ -63,7 +93,7 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
-<h2 id="最后">最后</h2>
+<h2 id="最后-2">最后</h2>
 <p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
 <p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
 ]]></content>
@@ -74,36 +104,6 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Butterfly 如何替换jsdelivr提升网站访问速度</title>
-    <url>/posts/e94df8dd/</url>
-    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
-<p>大家都知道<code>jsdelivr</code>，而且经常用这个CDN服务，这是一个很快而且免费的CDN服务，但是从去年还是啥时候开始就逐渐出现挂掉，不太好用的情况，前段时间更是大规模的挂掉，对我最直接的影响就是：我这个博客网站打开就是巨慢无比，控制台一堆报错，各种图片无法显示，这对于一个强迫症来说真的不能忍，于是打算换掉Butterfly主题下的<code>jsdelivr</code>CDN服务。</p>
-<h2 id="解决办法">解决办法</h2>
-<h3 id="办法一">办法一</h3>
-<p>这种方法超级简单，只需要简单的一步：</p>
-<p><code>butterfly主题下</code> - <code>scripts</code> - <code>events</code> - <code>config.js</code>文件 修改<code>jsdelivr</code>cdn。</p>
-<p>将<code>https://cdn.jsdelivr.net</code> 换成 <code>https://fastly.jsdelivr.net</code>或<code>https://gcore.jsdelivr.net</code></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png" alt="20220529_01"></p>
-<p>其中<code>fastly</code>是美国的服务器，<code>gcore</code>是俄罗斯的服务器，两个都亲测好用，嫌弃麻烦的同学可以直接替换成这个，访问速度目前来看还是很快的。</p>
-<h3 id="办法二">办法二</h3>
-<p>修改<code>butterfly主题</code>中的<code>_config.yml</code>文件：</p>
-<p>将<code>third_party_provider</code>由<code>jsdelivr</code>换成<code>local</code>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02.png" alt="20220529_02"></p>
-<p>替换CDN（部分）：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">main_css:</span> <span class="string">/css/index.css</span></span><br><span class="line"><span class="attr">main:</span> <span class="string">/js/main.js</span></span><br><span class="line"><span class="attr">utils:</span> <span class="string">/js/utils.js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jquery:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js</span></span><br><span class="line"><span class="attr">translate:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js</span></span><br><span class="line"><span class="attr">pjax:</span> <span class="string">https://npm.elemecdn.com/pjax/pjax.min.js</span></span><br><span class="line"><span class="attr">twikoo:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js</span></span><br><span class="line"><span class="attr">lazyload:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js</span></span><br><span class="line"><span class="attr">instantpage:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js</span></span><br><span class="line"><span class="attr">fancybox_css_v4:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css</span></span><br><span class="line"><span class="attr">fancybox_v4:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js</span></span><br><span class="line"><span class="attr">snackbar_css:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css</span></span><br><span class="line"><span class="attr">snackbar:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js</span></span><br><span class="line"><span class="attr">fontawesomeV6:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css</span></span><br><span class="line"><span class="attr">aplayer_css:</span> <span class="string">https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css</span></span><br><span class="line"><span class="attr">aplayer_js:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js</span></span><br><span class="line"><span class="attr">meting_js:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js</span></span><br></pre></td></tr></table></figure>
-<p>以上是我使用的一些cdn，其他的cdn如有补充的可以在评论里留言。</p>
-<p>这里推荐字节跳动的静态资源公共库：<a href="https://cdn.bytedance.com">https://cdn.bytedance.com</a></p>
-<h3 id="办法三">办法三</h3>
-<p>为<code>jsdelivr</code>搭建反向代理服务，比如使用<a href="https://www.cloudflare.com/zh-cn/">Cloudflare</a>自行去搭建。</p>
-<h2 id="最后-2">最后</h2>
-<p>本文就写到这里了，如有问题，欢迎随时联系博主，博主马上修改。</p>
-]]></content>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
       </tags>
   </entry>
   <entry>
