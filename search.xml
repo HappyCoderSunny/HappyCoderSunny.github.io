@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Butterfly 如何替换jsdelivr提升网站访问速度</title>
+    <url>/posts/e94df8dd/</url>
+    <content><![CDATA[<h2 id="写在前面">写在前面</h2>
+<p>大家都知道<code>jsdelivr</code>，而且经常用这个CDN服务，这是一个很快而且免费的CDN服务，但是从去年还是啥时候开始就逐渐出现挂掉，不太好用的情况，前段时间更是大规模的挂掉，对我最直接的影响就是：我这个博客网站打开就是巨慢无比，控制台一堆报错，各种图片无法显示，这对于一个强迫症来说真的不能忍，于是打算换掉Butterfly主题下的<code>jsdelivr</code>CDN服务。</p>
+<h2 id="解决办法">解决办法</h2>
+<h3 id="办法一">办法一</h3>
+<p>这种方法超级简单，只需要简单的一步：</p>
+<p><code>butterfly主题下</code> - <code>scripts</code> - <code>events</code> - <code>config.js</code>文件 修改<code>jsdelivr</code>cdn。</p>
+<p>将<code>https://cdn.jsdelivr.net</code> 换成 <code>https://fastly.jsdelivr.net</code>或<code>https://gcore.jsdelivr.net</code></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png" alt="20220529_01"></p>
+<p>其中<code>fastly</code>是美国的服务器，<code>gcore</code>是俄罗斯的服务器，两个都亲测好用，嫌弃麻烦的同学可以直接替换成这个，访问速度目前来看还是很快的。</p>
+<h3 id="办法二">办法二</h3>
+<p>修改<code>butterfly主题</code>中的<code>_config.yml</code>文件：</p>
+<p>将<code>third_party_provider</code>由<code>jsdelivr</code>换成<code>local</code>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02.png" alt="20220529_02"></p>
+<p>替换CDN（部分）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">main_css:</span> <span class="string">/css/index.css</span></span><br><span class="line"><span class="attr">main:</span> <span class="string">/js/main.js</span></span><br><span class="line"><span class="attr">utils:</span> <span class="string">/js/utils.js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jquery:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js</span></span><br><span class="line"><span class="attr">translate:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js</span></span><br><span class="line"><span class="attr">pjax:</span> <span class="string">https://npm.elemecdn.com/pjax/pjax.min.js</span></span><br><span class="line"><span class="attr">twikoo:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js</span></span><br><span class="line"><span class="attr">lazyload:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js</span></span><br><span class="line"><span class="attr">instantpage:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js</span></span><br><span class="line"><span class="attr">fancybox_css_v4:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css</span></span><br><span class="line"><span class="attr">fancybox_v4:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js</span></span><br><span class="line"><span class="attr">snackbar_css:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css</span></span><br><span class="line"><span class="attr">snackbar:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js</span></span><br><span class="line"><span class="attr">fontawesomeV6:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css</span></span><br><span class="line"><span class="attr">aplayer_css:</span> <span class="string">https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css</span></span><br><span class="line"><span class="attr">aplayer_js:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js</span></span><br><span class="line"><span class="attr">meting_js:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js</span></span><br></pre></td></tr></table></figure>
+<p>以上是我使用的一些cdn，其他的cdn如有补充的可以在评论里留言。</p>
+<p>这里推荐字节跳动的静态资源公共库：<a href="https://cdn.bytedance.com">https://cdn.bytedance.com</a></p>
+<h3 id="办法三">办法三</h3>
+<p>为<code>jsdelivr</code>搭建反向代理服务，比如使用<a href="https://www.cloudflare.com/zh-cn/">Cloudflare</a>自行去搭建。</p>
+<h2 id="最后">最后</h2>
+<p>本文就写到这里了，如有问题，欢迎随时联系博主，博主马上修改。</p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo中Twikoo评论系统配置教程</title>
     <url>/posts/feb84685/</url>
-    <content><![CDATA[<h2 id="写在前面">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
 <p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
 <blockquote>
 <p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
@@ -63,7 +93,7 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
-<h2 id="最后">最后</h2>
+<h2 id="最后-2">最后</h2>
 <p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
 <p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
 ]]></content>
@@ -74,36 +104,6 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Butterfly 如何替换jsdelivr提升网站访问速度</title>
-    <url>/posts/e94df8dd/</url>
-    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
-<p>大家都知道<code>jsdelivr</code>，而且经常用这个CDN服务，这是一个很快而且免费的CDN服务，但是从去年还是啥时候开始就逐渐出现挂掉，不太好用的情况，前段时间更是大规模的挂掉，对我最直接的影响就是：我这个博客网站打开就是巨慢无比，控制台一堆报错，各种图片无法显示，这对于一个强迫症来说真的不能忍，于是打算换掉Butterfly主题下的<code>jsdelivr</code>CDN服务。</p>
-<h2 id="解决办法">解决办法</h2>
-<h3 id="办法一">办法一</h3>
-<p>这种方法超级简单，只需要简单的一步：</p>
-<p><code>butterfly主题下</code> - <code>scripts</code> - <code>events</code> - <code>config.js</code>文件 修改<code>jsdelivr</code>cdn。</p>
-<p>将<code>https://cdn.jsdelivr.net</code> 换成 <code>https://fastly.jsdelivr.net</code>或<code>https://gcore.jsdelivr.net</code></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_01.png" alt="20220529_01"></p>
-<p>其中<code>fastly</code>是美国的服务器，<code>gcore</code>是俄罗斯的服务器，两个都亲测好用，嫌弃麻烦的同学可以直接替换成这个，访问速度目前来看还是很快的。</p>
-<h3 id="办法二">办法二</h3>
-<p>修改<code>butterfly主题</code>中的<code>_config.yml</code>文件：</p>
-<p>将<code>third_party_provider</code>由<code>jsdelivr</code>换成<code>local</code>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220529/20220529_02.png" alt="20220529_02"></p>
-<p>替换CDN（部分）：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">main_css:</span> <span class="string">/css/index.css</span></span><br><span class="line"><span class="attr">main:</span> <span class="string">/js/main.js</span></span><br><span class="line"><span class="attr">utils:</span> <span class="string">/js/utils.js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jquery:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js</span></span><br><span class="line"><span class="attr">translate:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.6/translate/tw_cn.js</span></span><br><span class="line"><span class="attr">pjax:</span> <span class="string">https://npm.elemecdn.com/pjax/pjax.min.js</span></span><br><span class="line"><span class="attr">twikoo:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.3/twikoo/twikoo.all.min.js</span></span><br><span class="line"><span class="attr">lazyload:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js</span></span><br><span class="line"><span class="attr">instantpage:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js</span></span><br><span class="line"><span class="attr">fancybox_css_v4:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css</span></span><br><span class="line"><span class="attr">fancybox_v4:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js</span></span><br><span class="line"><span class="attr">snackbar_css:</span> <span class="string">https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css</span></span><br><span class="line"><span class="attr">snackbar:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js</span></span><br><span class="line"><span class="attr">fontawesomeV6:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css</span></span><br><span class="line"><span class="attr">aplayer_css:</span> <span class="string">https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css</span></span><br><span class="line"><span class="attr">aplayer_js:</span> <span class="string">https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js</span></span><br><span class="line"><span class="attr">meting_js:</span> <span class="string">https://npm.elemecdn.com/js-heo@1.0.12/metingjs/Meting.min.js</span></span><br></pre></td></tr></table></figure>
-<p>以上是我使用的一些cdn，其他的cdn如有补充的可以在评论里留言。</p>
-<p>这里推荐字节跳动的静态资源公共库：<a href="https://cdn.bytedance.com">https://cdn.bytedance.com</a></p>
-<h3 id="办法三">办法三</h3>
-<p>为<code>jsdelivr</code>搭建反向代理服务，比如使用<a href="https://www.cloudflare.com/zh-cn/">Cloudflare</a>自行去搭建。</p>
-<h2 id="最后-2">最后</h2>
-<p>本文就写到这里了，如有问题，欢迎随时联系博主，博主马上修改。</p>
-]]></content>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
       </tags>
   </entry>
   <entry>
@@ -217,6 +217,64 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS重学之消息发送的完整流程</title>
+    <url>/posts/4a47f2ea/</url>
+    <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
+<p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
+<h2 id="Class结构">Class结构</h2>
+<p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
+在<code>objc-runtime-new.h</code>中可以看到<code>objc_class</code>结构如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">      Class superclass; </span><br><span class="line">      cache_t cache;  <span class="comment">// 方法缓存</span></span><br><span class="line">      class_data_bits_t bits; <span class="comment">// 获取具体类信息</span></span><br><span class="line">      class_rw_t *data() <span class="keyword">const</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> bits.data();</span><br><span class="line">     &#125;</span><br><span class="line">    ...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>从上面的结构我们可以看到有一个类<code>cache_t</code>，这个类就是专门拿来做方法缓存相关的类，结构如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> cache_t &#123;</span><br><span class="line">    <span class="keyword">struct</span> bucket_t *buckets();</span><br><span class="line">    mask_t occupied();</span><br><span class="line">    mask_t mask();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> bucket_t &#123;</span><br><span class="line">    cache_key_t _key;</span><br><span class="line">    IMP _imp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```objc</span><br><span class="line">#define FAST_DATA_MASK          0x00007ffffffffff8UL</span><br><span class="line">struct class_data_bits_t &#123;</span><br><span class="line">    uintptr_t bits;</span><br><span class="line">public:</span><br><span class="line">    class_rw_t* data() &#123;</span><br><span class="line">        return (class_rw_t *)(bits &amp; FAST_DATA_MASK);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readWrite：可读可写</span><br><span class="line">struct class_rw_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t version;</span><br><span class="line">    const class_ro_t *ro;</span><br><span class="line">    method_list_t * methods;    // 方法列表</span><br><span class="line">    property_list_t *properties;    // 属性列表</span><br><span class="line">    const protocol_list_t * protocols;  // 协议列表</span><br><span class="line">    Class firstSubclass;</span><br><span class="line">    Class nextSiblingClass;</span><br><span class="line">    char *demangledName;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readOnly:只读</span><br><span class="line">struct class_ro_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t instanceStart;</span><br><span class="line">    uint32_t instanceSize; </span><br><span class="line">#ifdef __LP64__</span><br><span class="line">    uint32_t reserved;</span><br><span class="line">#endif</span><br><span class="line">    const uint8_t * ivarLayout;</span><br><span class="line">    const char * name;  // 类名</span><br><span class="line">    method_list_t * baseMethodList;</span><br><span class="line">    protocol_list_t * baseProtocols;</span><br><span class="line">    const ivar_list_t * ivars;  // 成员变量列表</span><br><span class="line">    const uint8_t * weakIvarLayout;</span><br><span class="line">    property_list_t *baseProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>分析到这里，Class结构我们已了解清楚，接下来就是调用对象的方法来研究一下消息发送的完整流程。</p>
+<h2 id="消息发送阶段">消息发送阶段</h2>
+<p>在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程：</p>
+<p>流程如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/20220604_01.png" alt="20220604_01"></p>
+<blockquote>
+<p><strong>我们来验证一下是否真的缓存了调用的方法：</strong></p>
+<p>未调用personRun时，我们查一下在Person类的cache里面是否能找到personRun方法缓存：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
+<p>打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">30.367394</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88049</span>:<span class="number">12459843</span>] personRun <span class="number">0x0</span></span><br></pre></td></tr></table></figure>
+<p><strong>结果分析</strong>：在cache并没有找到personRun的IMP。</p>
+<p>调用personRun之后，我们查一下Person类的cache里面是否能找到personRun方法缓存：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person personRun];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
+<p>打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">13</span>:<span class="number">30.294687</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88074</span>:<span class="number">12461806</span>] personRun <span class="number">0x78cc0</span></span><br></pre></td></tr></table></figure>
+<p><strong>结果分析</strong>：调用personRun之后，会把personRun缓存到方法缓存里面</p>
+</blockquote>
+<h2 id="动态方法解析阶段">动态方法解析阶段</h2>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060402.png" alt="2022060402"></p>
+<h3 id="动态方法解析流程">动态方法解析流程</h3>
+<p>根据<code>+ (BOOL)resolveInstanceMethod:(SEL)sel （实例方法调用这个）</code> 或<code>+ (BOOL)resolveClassMethod:(SEL)sel(类方法调用这个)</code>来做动态方法解析，然后重新走一遍消息发送的流程（从消息接受者的方法缓存里面开始继续往下执行）。</p>
+<h3 id="动态方法解析代码">动态方法解析代码</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        Method otherMethod = class_getInstanceMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, method_getImplementation(otherMethod), method_getTypeEncoding(otherMethod));</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, imp, <span class="string">&quot;v16@0:8&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="消息转发阶段">消息转发阶段</h2>
+<p>如果前面的两个阶段都没有实现，就会继续进行第三步：消息转发</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060403.png" alt="2022060403"></p>
+<h3 id="消息转发流程">消息转发流程</h3>
+<p>消息转发流程也分为了两步:</p>
+<p>第一步：<code>forwardingTargetForSelector：</code>方法是指把响应这个方法的对象转发给其他的对象，那么消息接受者就发生了变化，会重新调用一遍<code>objc_MsgSend(消息接受者，SEL)</code>流程。<br>
+第二步：<code>forwardingTargetForSelector:</code> 方法返回为<code>nil</code>，继续检查<code>methodSignatureForSelector：</code>是否返回了一个方法签名，然后去执行<code>forwardInvocation:</code>方法。</p>
+<h3 id="消息转发流程相关代码实现">消息转发流程相关代码实现</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一步</span></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="keyword">return</span> [[Student alloc] init]; <span class="comment">// 这里返回的是你想把这个消息转发给哪个对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二步</span></span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="comment">// ⚠️：这里的方法签名的types不能随便写 因为这里的方法签名决定了下一步的NSInvocation的返回值、参数类型等</span></span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSMethodSignature</span> signatureWithObjCTypes:<span class="string">&quot;i@:i&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation &#123;</span><br><span class="line">     [anInvocation invokeWithTarget:[Student new]];</span><br><span class="line">  <span class="comment">// 在这个方法里可以做任何我们想做的事情</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
+<h2 id="最后-4">最后</h2>
+<p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -335,7 +393,7 @@
 <li><a href="https://www.jetbrains.com/objc">https://www.jetbrains.com/objc</a></li>
 <li><a href="https://github.com/yan998/SelectorsUnrefs">https://github.com/yan998/SelectorsUnrefs</a></li>
 </ul>
-<h2 id="最后-4">最后</h2>
+<h2 id="最后-5">最后</h2>
 <p>下一篇预告：iOS重学之启动优化（二）- 二进制重排</p>
 ]]></content>
       <categories>
@@ -344,64 +402,6 @@
       <tags>
         <tag>iOS</tag>
         <tag>启动优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS重学之消息发送的完整流程</title>
-    <url>/posts/4a47f2ea/</url>
-    <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
-<p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
-<h2 id="Class结构">Class结构</h2>
-<p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
-在<code>objc-runtime-new.h</code>中可以看到<code>objc_class</code>结构如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">      Class superclass; </span><br><span class="line">      cache_t cache;  <span class="comment">// 方法缓存</span></span><br><span class="line">      class_data_bits_t bits; <span class="comment">// 获取具体类信息</span></span><br><span class="line">      class_rw_t *data() <span class="keyword">const</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> bits.data();</span><br><span class="line">     &#125;</span><br><span class="line">    ...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>从上面的结构我们可以看到有一个类<code>cache_t</code>，这个类就是专门拿来做方法缓存相关的类，结构如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> cache_t &#123;</span><br><span class="line">    <span class="keyword">struct</span> bucket_t *buckets();</span><br><span class="line">    mask_t occupied();</span><br><span class="line">    mask_t mask();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> bucket_t &#123;</span><br><span class="line">    cache_key_t _key;</span><br><span class="line">    IMP _imp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```objc</span><br><span class="line">#define FAST_DATA_MASK          0x00007ffffffffff8UL</span><br><span class="line">struct class_data_bits_t &#123;</span><br><span class="line">    uintptr_t bits;</span><br><span class="line">public:</span><br><span class="line">    class_rw_t* data() &#123;</span><br><span class="line">        return (class_rw_t *)(bits &amp; FAST_DATA_MASK);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readWrite：可读可写</span><br><span class="line">struct class_rw_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t version;</span><br><span class="line">    const class_ro_t *ro;</span><br><span class="line">    method_list_t * methods;    // 方法列表</span><br><span class="line">    property_list_t *properties;    // 属性列表</span><br><span class="line">    const protocol_list_t * protocols;  // 协议列表</span><br><span class="line">    Class firstSubclass;</span><br><span class="line">    Class nextSiblingClass;</span><br><span class="line">    char *demangledName;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readOnly:只读</span><br><span class="line">struct class_ro_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t instanceStart;</span><br><span class="line">    uint32_t instanceSize; </span><br><span class="line">#ifdef __LP64__</span><br><span class="line">    uint32_t reserved;</span><br><span class="line">#endif</span><br><span class="line">    const uint8_t * ivarLayout;</span><br><span class="line">    const char * name;  // 类名</span><br><span class="line">    method_list_t * baseMethodList;</span><br><span class="line">    protocol_list_t * baseProtocols;</span><br><span class="line">    const ivar_list_t * ivars;  // 成员变量列表</span><br><span class="line">    const uint8_t * weakIvarLayout;</span><br><span class="line">    property_list_t *baseProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>分析到这里，Class结构我们已了解清楚，接下来就是调用对象的方法来研究一下消息发送的完整流程。</p>
-<h2 id="消息发送阶段">消息发送阶段</h2>
-<p>在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程：</p>
-<p>流程如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/20220604_01.png" alt="20220604_01"></p>
-<blockquote>
-<p><strong>我们来验证一下是否真的缓存了调用的方法：</strong></p>
-<p>未调用personRun时，我们查一下在Person类的cache里面是否能找到personRun方法缓存：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
-<p>打印结果如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">30.367394</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88049</span>:<span class="number">12459843</span>] personRun <span class="number">0x0</span></span><br></pre></td></tr></table></figure>
-<p><strong>结果分析</strong>：在cache并没有找到personRun的IMP。</p>
-<p>调用personRun之后，我们查一下Person类的cache里面是否能找到personRun方法缓存：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person personRun];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
-<p>打印结果如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">13</span>:<span class="number">30.294687</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88074</span>:<span class="number">12461806</span>] personRun <span class="number">0x78cc0</span></span><br></pre></td></tr></table></figure>
-<p><strong>结果分析</strong>：调用personRun之后，会把personRun缓存到方法缓存里面</p>
-</blockquote>
-<h2 id="动态方法解析阶段">动态方法解析阶段</h2>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060402.png" alt="2022060402"></p>
-<h3 id="动态方法解析流程">动态方法解析流程</h3>
-<p>根据<code>+ (BOOL)resolveInstanceMethod:(SEL)sel （实例方法调用这个）</code> 或<code>+ (BOOL)resolveClassMethod:(SEL)sel(类方法调用这个)</code>来做动态方法解析，然后重新走一遍消息发送的流程（从消息接受者的方法缓存里面开始继续往下执行）。</p>
-<h3 id="动态方法解析代码">动态方法解析代码</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        Method otherMethod = class_getInstanceMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, method_getImplementation(otherMethod), method_getTypeEncoding(otherMethod));</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, imp, <span class="string">&quot;v16@0:8&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="消息转发阶段">消息转发阶段</h2>
-<p>如果前面的两个阶段都没有实现，就会继续进行第三步：消息转发</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060403.png" alt="2022060403"></p>
-<h3 id="消息转发流程">消息转发流程</h3>
-<p>消息转发流程也分为了两步:</p>
-<p>第一步：<code>forwardingTargetForSelector：</code>方法是指把响应这个方法的对象转发给其他的对象，那么消息接受者就发生了变化，会重新调用一遍<code>objc_MsgSend(消息接受者，SEL)</code>流程。<br>
-第二步：<code>forwardingTargetForSelector:</code> 方法返回为<code>nil</code>，继续检查<code>methodSignatureForSelector：</code>是否返回了一个方法签名，然后去执行<code>forwardInvocation:</code>方法。</p>
-<h3 id="消息转发流程相关代码实现">消息转发流程相关代码实现</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一步</span></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="keyword">return</span> [[Student alloc] init]; <span class="comment">// 这里返回的是你想把这个消息转发给哪个对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二步</span></span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="comment">// ⚠️：这里的方法签名的types不能随便写 因为这里的方法签名决定了下一步的NSInvocation的返回值、参数类型等</span></span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSMethodSignature</span> signatureWithObjCTypes:<span class="string">&quot;i@:i&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation &#123;</span><br><span class="line">     [anInvocation invokeWithTarget:[Student new]];</span><br><span class="line">  <span class="comment">// 在这个方法里可以做任何我们想做的事情</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
-<h2 id="最后-5">最后</h2>
-<p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
