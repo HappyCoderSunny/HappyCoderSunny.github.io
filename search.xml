@@ -347,54 +347,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【Hexo】Hexo博客备份到Github</title>
-    <url>/posts/da31eaeb/</url>
-    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
-<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
-<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
-<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
-<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
-<h3 id="创建新分支">创建新分支</h3>
-<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
-<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
-<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
-<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
-<blockquote>
-<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
-</blockquote>
-<h3 id="开始备份">开始备份</h3>
-<p>进入到Blogs根目录下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
-<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="如何恢复博客">如何恢复博客</h2>
-<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
-<p>进入到克隆下来的文件夹，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
-<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
-<h2 id="最后-5">最后</h2>
-<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS重学之消息发送的完整流程</title>
     <url>/posts/4a47f2ea/</url>
     <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
@@ -442,7 +394,7 @@
 <h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
-<h2 id="最后-6">最后</h2>
+<h2 id="最后-5">最后</h2>
 <p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
 ]]></content>
       <categories>
@@ -450,6 +402,145 @@
       </categories>
       <tags>
         <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS重学启动优化之二进制重排（二）</title>
+    <url>/posts/23c5d0e7/</url>
+    <content><![CDATA[<h2 id="写在前面-5">写在前面</h2>
+<p>在第一部分<a href="https://codersunny.com/posts/a5b508b2/">iOS重学之启动优化（一）</a>中，我们主要从<code>Pre-main</code>和<code>main</code>之后两个时间来衡量一个iOS应用启动的时长，以及详细分析了<code>Pre-main</code>的四个阶段，其中也提到了一些概念：比如<strong>物理内存</strong>、<strong>虚拟内存</strong>、<strong>缺页中断</strong>等，感兴趣的可以移步上一篇文章了解一下，本文主要跟大家详细讨论一下什么是<strong>二进制重排</strong>、<strong>二进制重排为什么能够优化iOS应用启动时间</strong>等问题。</p>
+<h2 id="物理内存-虚拟内存">物理内存 &amp; 虚拟内存</h2>
+<p><strong>物理内存</strong>：指的是通过物理内存条获得的内存空间。</p>
+<p><strong>虚拟内存</strong>：跟物理内存相反，虚拟内存指的一种计算机系统内存管理技术，它使得应用程序认为它拥有连续可用的内存，实际上它通常被分隔成多个物理内存碎片。</p>
+<p>只谈概念太空洞，下面我们用图来解释什么是物理内存、什么是虚拟内存。</p>
+<p>物理内存的概述图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061501.png" alt="2022061501"></p>
+<div class="note pink no-icon flat"><p><strong>分析</strong>：</p>
+<p>在没有虚拟内存的概念之前，每个应用一启动，操作系统就会把整个应用放进物理内存里面。</p>
+</div>
+<div class="note green no-icon flat"><p><strong>物理内存存在的问题</strong>：</p>
+<ul>
+<li>内存紧张的问题 - 由于每次都是直接把整个应用放进物理内存里面，很可能出现内存不够用的情况。</li>
+<li>进程的安全问题 - 没个进程之间的物理地址是连续的，可以拿到别的进程的地址，容易出现进程不安全的问题。</li>
+</ul>
+</div>
+<p>虚拟内存的概述图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061502.png" alt="2022061502"></p>
+<div class="note pink no-icon flat"><p><strong>分析</strong>：</p>
+<p>虚拟内存的技术出现之后，每个进程并不是直接全部扔进物理内存，而是给每个应用分配一个虚拟的内存，虚拟内存通过<strong>虚拟页表</strong>来把相应数据放进物理内存里面。</p>
+<p><strong>虚拟内存</strong>的技术出现之后，也有了<strong>内存分页</strong>的概念，<strong>虚拟页表</strong>把一个进程分成若干页，比如：<code>Page1</code>、<code>Page2</code>、<code>Page3</code>…，当启动进程1的时候，只需要把<code>Page1</code>装载进物理内存，以此类推，如上图。</p>
+<p><strong>PS</strong>：大家注意上图的颜色区分能够很好的理解虚拟内存相关概念。</p>
+</div>
+<div class="note green no-icon flat"><p><strong>虚拟内存</strong>解决了<strong>物理内存</strong>存在的两个问题，由于每个进程的数据被分成了很多页装载进内存，不会再出现内存紧张的问题，而且一个应用在物理内存里面的地址是不连续的，所以无法访问到别的进程的地址，也保证了线程安全。</p>
+</div>
+<p><strong>注意</strong>：虽然一个应用在物理内存中的内存是不连续的，但是访问数据的时候是连续的，原因就在于我们访问数据访问的是对应的虚拟映射表，这个虚拟映射表记录的某个方法、函数对应在物理内存的真实地址。</p>
+<h2 id="缺页中断（PageFault）">缺页中断（PageFault）</h2>
+<p>在上面我们说过在有了<strong>虚拟内存</strong>技术之后，内存以分页的形式装载进物理内存里面，比如我们现在启动一个应用只需要先把启动相关的内存<code>Page1</code>到<code>Page10</code>装载进物理内存，当用到A功能的时候发现数据没有在物理内存里面，此时操作系统会阻塞APP进程触发一次<strong>PageFault</strong>，操作系统会从磁盘中读取相应的数据到物理内存上，再将其映射到虚拟内存页表上面。<strong>PageFault</strong>耗时非常短，平均在0.5ms左右，所以用户一般感知不到，但是有一种情况可能会造成大量的<strong>PageFault</strong>，那就是启动时刻，所以我们就可以思考如何减少启动时的<strong>PageFault</strong>次数，从而优化启动时长。</p>
+<h2 id="二进制重排">二进制重排</h2>
+<p>在分析二进制重排之前，我们先了解一下Link Map File是个什么东西。</p>
+<h3 id="链接映射文件">链接映射文件</h3>
+<p><strong>链接映射文件</strong>：Link Map File，里面记录的是每个类所生成的可执行文件的路径、CPU架构、符号等信息，可以简单的理解为这个文件告诉了我们一个应用的可执行文件的排列顺序。</p>
+<div class="note pink no-icon flat"><p>BuildSetting - Write Link Map File设置为YES。</p>
+</div>
+<p>如图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061504.png" alt="2022061504"></p>
+<p>编译项目之后根据上图的地址找到我们需要的Link Map 文件，如图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061505.png" alt="2022061505"></p>
+<p>文件资源的编译顺序如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061506.png" alt="2022061506"></p>
+<div class="note green no-icon flat"><p>从上图可以看出一个项目可执行文件的排列顺序为：</p>
+<ul>
+<li>先按照项目 - Build Phases - Compile Sources中的顺序排列</li>
+<li>再按每个文件里面从上至下的方法顺序排列</li>
+</ul>
+</div>
+<h3 id="什么是二进制重排">什么是二进制重排</h3>
+<p>重新排列函数符号的位置，降低Mach-o文件载入物理内存时触发的<strong>PageFault</strong>次数，这个就叫<strong>二进制重排</strong>。</p>
+<h3 id="为什么二进制重排能优化启动时长">为什么二进制重排能优化启动时长</h3>
+<p>我们先来举个例子，一个应用启动需要调用<code>方法1</code>、<code>方法3</code>、<code>方法4</code>、<code>方法6</code>、<code>方法7</code>，其中<code>方法1</code>在Page1页上，<code>方法6</code>在Page2页上，<code>方法3</code>、<code>方法7</code>在Page3页上，<code>方法4</code>在Page4页上，如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061503-20220616141820096.png" alt="2022061503"></p>
+<p>二进制排列后，如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061507.png" alt="2022061507"></p>
+<div class="note green no-icon flat"><p>经过二进制重排之后，我们把启动需要调用的方法全部集中在了Page1里面，这样在启动时只需要装载Page1即可，相比之前减少了Page2、Page3、Page4的装载，这就减少了<strong>PageFault</strong>的次数，节省的时间大约为：0.5ms * 3 = 1.5ms。</p>
+<p>这也就解释了为什么二进制重排能够优化启动时长。</p>
+</div>
+<h3 id="二进制重排-2">二进制重排</h3>
+<p>iOS 应用之所以能够进行二进制重排其实是因为苹果爸爸早就有了这一套机制，其实<code>libobjc.order</code>就是利用二进制重排进行了优化。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061508.png" alt="2022061508"></p>
+<p>现在我们来举个简单的例子做二进制重排：</p>
+<p>以一个新的项目<code>LaunchDemo</code>为例，我在<code>ViewController.m</code>文件里面新加了几个方法如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061510.png" alt="2022061510"></p>
+<p><strong>一</strong>、在项目根目录下创建一个<code>.order</code>文件，我们这里叫：<code>LaunchDemo.order</code>文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061509.png" alt="2022061509"></p>
+<p>我们先看一下默认的一个排列顺序：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061511.png" alt="2022061511"></p>
+<p><strong>二</strong>、在<code>LaunchDemo.order</code>文件里面指定每个符号的排列顺序：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061512.png" alt="2022061512"></p>
+<p><strong>三</strong>、在<code>Build Setting</code>里面指定<code>Order File</code>地址，如图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061513.png" alt="2022061513"></p>
+<p><strong>四</strong>、编译项目，打开Link Map File，如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061514.png" alt="2022061514"></p>
+<div class="note orange no-icon flat"><p><strong>分析</strong>：</p>
+<p>经过二进制重排之后我们发现<code>Link MAp File</code>文件里面的符号排列顺序已经按照我们指定的顺序排列，其中我们在<code>LaunchDemo.order</code>文件里面指定的<code>-[LaunchDemo test]</code>符号，项目里面没有这个方法，所以只会被忽略不会报错。</p>
+</div>
+<p>到这里为止，二进制重排的整个核心我们就分析得差不多了，但是这个二进制重排有个最大的问题，那就是：我们如何才能准确获取项目启动时刻调用的方法顺序，换句话说我怎么知道我这个项目启动需要调用到哪些方法。</p>
+<h2 id="写在最后">写在最后</h2>
+<p>二进制重排最大的问题我们已经抛出来了，有兴趣的也可以想想应该怎么办，下一篇文章我们将重点分析如何精确获取项目启动时刻调用的方法顺序。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>启动优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Hexo】Hexo博客备份到Github</title>
+    <url>/posts/da31eaeb/</url>
+    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
+<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
+<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
+<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
+<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
+<h3 id="创建新分支">创建新分支</h3>
+<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
+<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
+<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
+<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
+<blockquote>
+<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
+</blockquote>
+<h3 id="开始备份">开始备份</h3>
+<p>进入到Blogs根目录下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
+<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
+<h2 id="如何恢复博客">如何恢复博客</h2>
+<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
+<p>进入到克隆下来的文件夹，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
+<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
+<h2 id="最后-6">最后</h2>
+<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -574,97 +665,6 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS重学启动优化之二进制重排（二）</title>
-    <url>/posts/23c5d0e7/</url>
-    <content><![CDATA[<h2 id="写在前面-5">写在前面</h2>
-<p>在第一部分<a href="https://codersunny.com/posts/a5b508b2/">iOS重学之启动优化（一）</a>中，我们主要从<code>Pre-main</code>和<code>main</code>之后两个时间来衡量一个iOS应用启动的时长，以及详细分析了<code>Pre-main</code>的四个阶段，其中也提到了一些概念：比如<strong>物理内存</strong>、<strong>虚拟内存</strong>、<strong>缺页中断</strong>等，感兴趣的可以移步上一篇文章了解一下，本文主要跟大家详细讨论一下什么是<strong>二进制重排</strong>、<strong>二进制重排为什么能够优化iOS应用启动时间</strong>等问题。</p>
-<h2 id="物理内存-虚拟内存">物理内存 &amp; 虚拟内存</h2>
-<p><strong>物理内存</strong>：指的是通过物理内存条获得的内存空间。</p>
-<p><strong>虚拟内存</strong>：跟物理内存相反，虚拟内存指的一种计算机系统内存管理技术，它使得应用程序认为它拥有连续可用的内存，实际上它通常被分隔成多个物理内存碎片。</p>
-<p>只谈概念太空洞，下面我们用图来解释什么是物理内存、什么是虚拟内存。</p>
-<p>物理内存的概述图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061501.png" alt="2022061501"></p>
-<div class="note pink no-icon flat"><p><strong>分析</strong>：</p>
-<p>在没有虚拟内存的概念之前，每个应用一启动，操作系统就会把整个应用放进物理内存里面。</p>
-</div>
-<div class="note green no-icon flat"><p><strong>物理内存存在的问题</strong>：</p>
-<ul>
-<li>内存紧张的问题 - 由于每次都是直接把整个应用放进物理内存里面，很可能出现内存不够用的情况。</li>
-<li>进程的安全问题 - 没个进程之间的物理地址是连续的，可以拿到别的进程的地址，容易出现进程不安全的问题。</li>
-</ul>
-</div>
-<p>虚拟内存的概述图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061502.png" alt="2022061502"></p>
-<div class="note pink no-icon flat"><p><strong>分析</strong>：</p>
-<p>虚拟内存的技术出现之后，每个进程并不是直接全部扔进物理内存，而是给每个应用分配一个虚拟的内存，虚拟内存通过<strong>虚拟页表</strong>来把相应数据放进物理内存里面。</p>
-<p><strong>虚拟内存</strong>的技术出现之后，也有了<strong>内存分页</strong>的概念，<strong>虚拟页表</strong>把一个进程分成若干页，比如：<code>Page1</code>、<code>Page2</code>、<code>Page3</code>…，当启动进程1的时候，只需要把<code>Page1</code>装载进物理内存，以此类推，如上图。</p>
-<p><strong>PS</strong>：大家注意上图的颜色区分能够很好的理解虚拟内存相关概念。</p>
-</div>
-<div class="note green no-icon flat"><p><strong>虚拟内存</strong>解决了<strong>物理内存</strong>存在的两个问题，由于每个进程的数据被分成了很多页装载进内存，不会再出现内存紧张的问题，而且一个应用在物理内存里面的地址是不连续的，所以无法访问到别的进程的地址，也保证了线程安全。</p>
-</div>
-<p><strong>注意</strong>：虽然一个应用在物理内存中的内存是不连续的，但是访问数据的时候是连续的，原因就在于我们访问数据访问的是对应的虚拟映射表，这个虚拟映射表记录的某个方法、函数对应在物理内存的真实地址。</p>
-<h2 id="缺页中断（PageFault）">缺页中断（PageFault）</h2>
-<p>在上面我们说过在有了<strong>虚拟内存</strong>技术之后，内存以分页的形式装载进物理内存里面，比如我们现在启动一个应用只需要先把启动相关的内存<code>Page1</code>到<code>Page10</code>装载进物理内存，当用到A功能的时候发现数据没有在物理内存里面，此时操作系统会阻塞APP进程触发一次<strong>PageFault</strong>，操作系统会从磁盘中读取相应的数据到物理内存上，再将其映射到虚拟内存页表上面。<strong>PageFault</strong>耗时非常短，平均在0.5ms左右，所以用户一般感知不到，但是有一种情况可能会造成大量的<strong>PageFault</strong>，那就是启动时刻，所以我们就可以思考如何减少启动时的<strong>PageFault</strong>次数，从而优化启动时长。</p>
-<h2 id="二进制重排">二进制重排</h2>
-<p>在分析二进制重排之前，我们先了解一下Link Map File是个什么东西。</p>
-<h3 id="链接映射文件">链接映射文件</h3>
-<p><strong>链接映射文件</strong>：Link Map File，里面记录的是每个类所生成的可执行文件的路径、CPU架构、符号等信息，可以简单的理解为这个文件告诉了我们一个应用的可执行文件的排列顺序。</p>
-<div class="note pink no-icon flat"><p>BuildSetting - Write Link Map File设置为YES。</p>
-</div>
-<p>如图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061504.png" alt="2022061504"></p>
-<p>编译项目之后根据上图的地址找到我们需要的Link Map 文件，如图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061505.png" alt="2022061505"></p>
-<p>文件资源的编译顺序如下图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061506.png" alt="2022061506"></p>
-<div class="note green no-icon flat"><p>从上图可以看出一个项目可执行文件的排列顺序为：</p>
-<ul>
-<li>先按照项目 - Build Phases - Compile Sources中的顺序排列</li>
-<li>再按每个文件里面从上至下的方法顺序排列</li>
-</ul>
-</div>
-<h3 id="什么是二进制重排">什么是二进制重排</h3>
-<p>重新排列函数符号的位置，降低Mach-o文件载入物理内存时触发的<strong>PageFault</strong>次数，这个就叫<strong>二进制重排</strong>。</p>
-<h3 id="为什么二进制重排能优化启动时长">为什么二进制重排能优化启动时长</h3>
-<p>我们先来举个例子，一个应用启动需要调用<code>方法1</code>、<code>方法3</code>、<code>方法4</code>、<code>方法6</code>、<code>方法7</code>，其中<code>方法1</code>在Page1页上，<code>方法6</code>在Page2页上，<code>方法3</code>、<code>方法7</code>在Page3页上，<code>方法4</code>在Page4页上，如下图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061503-20220616141820096.png" alt="2022061503"></p>
-<p>二进制排列后，如下图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061507.png" alt="2022061507"></p>
-<div class="note green no-icon flat"><p>经过二进制重排之后，我们把启动需要调用的方法全部集中在了Page1里面，这样在启动时只需要装载Page1即可，相比之前减少了Page2、Page3、Page4的装载，这就减少了<strong>PageFault</strong>的次数，节省的时间大约为：0.5ms * 3 = 1.5ms。</p>
-<p>这也就解释了为什么二进制重排能够优化启动时长。</p>
-</div>
-<h3 id="二进制重排-2">二进制重排</h3>
-<p>iOS 应用之所以能够进行二进制重排其实是因为苹果爸爸早就有了这一套机制，其实<code>libobjc.order</code>就是利用二进制重排进行了优化。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061508.png" alt="2022061508"></p>
-<p>现在我们来举个简单的例子做二进制重排：</p>
-<p>以一个新的项目<code>LaunchDemo</code>为例，我在<code>ViewController.m</code>文件里面新加了几个方法如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061510.png" alt="2022061510"></p>
-<p><strong>一</strong>、在项目根目录下创建一个<code>.order</code>文件，我们这里叫：<code>LaunchDemo.order</code>文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061509.png" alt="2022061509"></p>
-<p>我们先看一下默认的一个排列顺序：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061511.png" alt="2022061511"></p>
-<p><strong>二</strong>、在<code>LaunchDemo.order</code>文件里面指定每个符号的排列顺序：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061512.png" alt="2022061512"></p>
-<p><strong>三</strong>、在<code>Build Setting</code>里面指定<code>Order File</code>地址，如图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061513.png" alt="2022061513"></p>
-<p><strong>四</strong>、编译项目，打开Link Map File，如下图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061514.png" alt="2022061514"></p>
-<div class="note orange no-icon flat"><p><strong>分析</strong>：</p>
-<p>经过二进制重排之后我们发现<code>Link MAp File</code>文件里面的符号排列顺序已经按照我们指定的顺序排列，其中我们在<code>LaunchDemo.order</code>文件里面指定的<code>-[LaunchDemo test]</code>符号，项目里面没有这个方法，所以只会被忽略不会报错。</p>
-</div>
-<p>到这里为止，二进制重排的整个核心我们就分析得差不多了，但是这个二进制重排有个最大的问题，那就是：我们如何才能准确获取项目启动时刻调用的方法顺序，换句话说我怎么知道我这个项目启动需要调用到哪些方法。</p>
-<h2 id="写在最后">写在最后</h2>
-<p>二进制重排最大的问题我们已经抛出来了，有兴趣的也可以想想应该怎么办，下一篇文章我们将重点分析如何精确获取项目启动时刻调用的方法顺序。</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>启动优化</tag>
       </tags>
   </entry>
   <entry>
