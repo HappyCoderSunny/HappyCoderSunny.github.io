@@ -1,3 +1,4 @@
+https://codersunny.com/articles/tags/index.html
 https://codersunny.com/articles/categories/index.html
 https://codersunny.com/posts/23c5d0e7/
 https://codersunny.com/posts/a5b508b2/
@@ -16,7 +17,6 @@ https://codersunny.com/posts/feb84685/
 https://codersunny.com/posts/391caf66/
 https://codersunny.com/posts/e94df8dd/
 https://codersunny.com/link/index.html
-https://codersunny.com/articles/tags/index.html
 https://codersunny.com/
 https://codersunny.com/tags/Hexo/
 https://codersunny.com/tags/Butterfly/

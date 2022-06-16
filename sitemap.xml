@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://codersunny.com/articles/tags/index.html</loc>
+    
+    <lastmod>2022-06-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://codersunny.com/articles/categories/index.html</loc>
     
     <lastmod>2022-06-16</lastmod>
@@ -158,15 +167,6 @@
     <loc>https://codersunny.com/link/index.html</loc>
     
     <lastmod>2022-06-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/articles/tags/index.html</loc>
-    
-    <lastmod>2022-05-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
