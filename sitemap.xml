@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://codersunny.com/posts/62fa33fe/</loc>
+    
+    <lastmod>2022-06-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://codersunny.com/posts/23c5d0e7/</loc>
     
     <lastmod>2022-06-16</lastmod>
@@ -59,15 +68,6 @@
     <loc>https://codersunny.com/music/index.html</loc>
     
     <lastmod>2022-06-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/posts/62fa33fe/</loc>
-    
-    <lastmod>2022-06-13</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -248,13 +248,6 @@
   
   <url>
     <loc>https://codersunny.com/categories/iOS/</loc>
-    <lastmod>2022-06-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://codersunny.com/categories/iOS/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2022-06-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
