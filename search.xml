@@ -414,7 +414,7 @@
 <p><strong>虚拟内存</strong>：跟物理内存相反，虚拟内存指的一种计算机系统内存管理技术，它使得应用程序认为它拥有连续可用的内存，实际上它通常被分隔成多个物理内存碎片。</p>
 <p>只谈概念太空洞，下面我们用图来解释什么是物理内存、什么是虚拟内存。</p>
 <p>物理内存的概述图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061501-20220615200334604.png" alt="2022061501"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220615/2022061501.png" alt="2022061501"></p>
 <div class="note pink no-icon flat"><p><strong>分析</strong>：</p>
 <p>在没有虚拟内存的概念之前，每个应用一启动，操作系统就会把整个应用放进物理内存里面。</p>
 </div>
