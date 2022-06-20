@@ -4,8 +4,10 @@
 
 menu:
   首页: / || fas fa-home
-  标签: /tags/ || fas fa-tags
-  分类: /categories/ || fas fa-folder-open
+  文章 ||fas fa-book:
+    归档: /archives/ || fas fa-box-archive
+    标签: /tags/ || fas fa-tags
+    分类: /categories/ || fas fa-folder-open
   娱乐库 ||fas fa-list:
     音乐库: /music/ || fas fa-music
     图片库: /pictures/ || fas fa-images

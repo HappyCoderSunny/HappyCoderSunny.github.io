@@ -206,5 +206,5 @@ int main(int argc, char * argv[]) {
 
 ## 最后
 
-下一篇预告：iOS重学之启动优化（二）- 二进制重排
+下一篇预告：[iOS重学之启动优化（二）- 二进制重排](https://codersunny.com/posts/23c5d0e7/)
 
