@@ -31,6 +31,82 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo中Twikoo评论系统配置教程</title>
+    <url>/posts/feb84685/</url>
+    <content><![CDATA[<h2 id="写在前面-2">写在前面</h2>
+<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
+<blockquote>
+<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
+</blockquote>
+<h2 id="购买云开发套餐">购买云开发套餐</h2>
+<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
+<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
+<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
+<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
+<p>**4、**选择合适的套餐进行购买：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>地域选择【上海】</p>
+<p>计费方式选择【包年包月】</p>
+<p>环境名称自由填写</p>
+<p>套餐版本选择【特惠基础版1】</p>
+</blockquote>
+<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
+<blockquote>
+<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
+</blockquote>
+<h2 id="登录授权">登录授权</h2>
+<p>环境 - 登录授权 - 开启【匿名登录】</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
+<h2 id="安全配置">安全配置</h2>
+<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
+</blockquote>
+<h2 id="云函数">云函数</h2>
+<p>**1、**环境 - 云函数 - 新建云函数</p>
+<blockquote>
+<p><strong>温馨提示</strong>：</p>
+<p>函数名称填写：<code>twikoo</code></p>
+<p>创建方式选择：空白函数</p>
+<p>运行环境选择：Nodejs10.15</p>
+<p>函数内存选择：128M</p>
+<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
+</blockquote>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
+<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
+<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
+<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
+<p>打开<code>主题butterfly</code>下的配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
+<h2 id="最后-2">最后</h2>
+<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
+<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo框架Butterfly主题配置（持续更新）</title>
     <url>/posts/391caf66/</url>
     <content><![CDATA[<h2 id="升级建议">升级建议</h2>
@@ -60,7 +136,7 @@
 </blockquote>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_03.png" alt="20220514_01_03"></p>
 <h2 id="config-butterfly-yml文件">_config.butterfly.yml文件</h2>
-<h3 id="写在前面-2">写在前面</h3>
+<h3 id="写在前面-3">写在前面</h3>
 <p>本文基本上是按照<code>_config.butterfly.yml</code>文件从上到下的顺序来总结的，大家看的时候对照着设置即可。</p>
 <h3 id="导航栏菜单">导航栏菜单</h3>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">   <span class="string">首页:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-home</span></span><br><span class="line">   <span class="string">音乐库:</span> <span class="string">/music/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-music</span></span><br><span class="line">  <span class="comment"># Archives: /archives/ || fas fa-archive</span></span><br><span class="line">  <span class="comment"># Tags: /tags/ || fas fa-tags</span></span><br><span class="line">  <span class="comment"># Categories: /categories/ || fas fa-folder-open</span></span><br><span class="line">  <span class="comment"># List||fas fa-list:</span></span><br><span class="line">  <span class="comment"># Movie: /movies/ || fas fa-video</span></span><br><span class="line">  <span class="comment"># Link: /link/ || fas fa-link</span></span><br><span class="line">  <span class="comment"># About: /about/ || fas fa-heart</span></span><br></pre></td></tr></table></figure>
@@ -130,163 +206,9 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Lightbox (图片大图查看模式)</span></span><br><span class="line"><span class="comment"># You can only choose one, or neither (只能选择一个 或者 两个都不选)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># medium-zoom</span></span><br><span class="line"><span class="comment"># https://github.com/francoischalifour/medium-zoom</span></span><br><span class="line"><span class="attr">medium_zoom:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fancybox</span></span><br><span class="line"><span class="comment"># http://fancyapps.com/fancybox/3/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_17.png" alt="20220514_01_17"></p>
-<h2 id="最后-2">最后</h2>
+<h2 id="最后-3">最后</h2>
 <p>基本上到这里，关于<code>butterfly</code>主题的一些基础配置就可以了，关于更多的模块配置可以参考<a href="https://butterfly.js.org/">butterfly主题官方文档</a>。</p>
 <p>官方文档永远是最好的学习资料。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS重学之启动优化（三）- Clang插桩</title>
-    <url>/posts/37cd28e5/</url>
-    <content><![CDATA[<h2 id="写在前面-3">写在前面</h2>
-<p>在 上一篇文章<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 最后我们提出了一个问题：如何精确获取应用启动时刻的符号调用顺序，本篇文章我们就来详细介绍如何通过Clang插桩来对所有的符号进行100%的Hook。</p>
-<h2 id="Clang插桩">Clang插桩</h2>
-<p>LLVM内置了一个简单的代码覆盖率检测(SanitizerCoverage)。它在函数级、基本块级和边缘级插入对用户定义函数的调用，并提供了这些回调的默认实现。在认为启动结束的位置添加代码，就能够拿到启动到指定位置调用到的所有函数符号。</p>
-<p><a href="https://clang.llvm.org/docs/SanitizerCoverage.html">LLVM官方文档</a> 也具体介绍了如何使用<code>Tracing PCs with guards</code>来做到Hook所有的函数符号。</p>
-<div class="note pink no-icon flat"><p><strong>Tracing PCs with guards:</strong></p>
-<p>可以理解为跟踪代码执行逻辑的一个工具，Clang编译器就可以通过插桩来获取调用的符号顺序。</p>
-</div>
-<h3 id="Xcode配置">Xcode配置</h3>
-<p>在项目Buiding Setting中<code>Other C Flags</code>里面添加 <code>-fsanitize-coverage=trace-pc-guard</code>标识，如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022061601.png" alt="2022061601"></p>
-<h3 id="添加Hook代码">添加Hook代码</h3>
-<p>在项目里面添加如下两个函数：</p>
-<p>首先导入头文件：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sanitizer/coverage_interface.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard_init(<span class="type">uint32_t</span> *start, <span class="type">uint32_t</span> *stop) &#123;</span><br><span class="line">      <span class="type">static</span> <span class="type">uint64_t</span> N;</span><br><span class="line">      <span class="keyword">if</span> (start == stop || *start) <span class="keyword">return</span>;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;INIT: %p %p\n&quot;</span>, start, stop);</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">uint32_t</span> *x = start; x &lt; stop; x++)</span><br><span class="line">        *x = ++N;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard(<span class="type">uint32_t</span> *guard) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!*guard) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">void</span> *PC = __builtin_return_address(<span class="number">0</span>);</span><br><span class="line">  <span class="type">char</span> PcDescr[<span class="number">1024</span>];</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;guard: %p %x PC %s\n&quot;</span>, guard, *guard, PcDescr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="函数分析">函数分析</h3>
-<p><strong>一、</strong> void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)</p>
-<p>运行项目，打印结果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062602.png" alt="2022062602"></p>
-<blockquote>
-<p>可以看到目前stop存放的是14</p>
-</blockquote>
-<p>如果我们在项目里面添加一个方法比如：<code>- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</code>，运行项目之后再看打印结果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062603.png" alt="2022062603"></p>
-<blockquote>
-<p>可以看到目前stop存放的是15</p>
-</blockquote>
-<p>大家如果有兴趣，可以在项目里面再添加几个函数看看stop存放的数字的变化，变化规律是：每添加一个函数、方法、block等，stop存放的数值就会+1。</p>
-<div class="note pink no-icon flat"><p><strong>结论:</strong></p>
-<p><code>__sanitizer_cov_trace_pc_guard_init</code> 函数作用是：获取整个项目中符号的个数。</p>
-</div>
-<p><strong>二、</strong> void __sanitizer_cov_trace_pc_guard(uint32_t *guard)</p>
-<p>我们的需求是：能够获取所有方法、函数、block的调用顺序并且知道符号的名称，这样我们就能排列order文件。</p>
-<p><strong>1</strong>、在项目添加一个OC方法：<code>- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</code></p>
-<p>在合适位置下断点，运行项目，查看函数调用栈：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062604.png" alt="2022062604"></p>
-<p>通过查看汇编也可以看到：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062605.png" alt="2022062605"></p>
-<p><label style="color:green">会发现：调用一个OC方法时，会调用到<code>__sanitizer_cov_trace_pc_guard(uint32_t *guard)</code> 方法。</label></p>
-<p><strong>2</strong>、在项目里面添加一个C函数：<code>void test()</code></p>
-<p>在合适位置下断点，运行项目，查看函数调用栈：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062606.png" alt="2022062606"></p>
-<p>通过查看汇编也可以看到：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062607.png" alt="2022062607"></p>
-<p><label style="color:green">会发现：调用一个C函数时，会调用到<code>__sanitizer_cov_trace_pc_guard(uint32_t *guard)</code> 方法。</label></p>
-<p>同理，你也可以添加一个block然后去看函数调用栈和汇编可以得出相同的结论：</p>
-<div class="note pink no-icon flat"><p><strong>结论:</strong></p>
-<p><code>__sanitizer_cov_trace_pc_guard</code> 函数作用是：Hook了项目所有的方法、函数、block。</p>
-</div>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="meta">#import &lt;dlfcn.h&gt;</span></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard(uint32_t *guard) &#123;</span><br><span class="line">   <span class="keyword">if</span> (!*guard) <span class="keyword">return</span>; // 把这个注释掉 +<span class="keyword">load</span>方法也会hook到</span><br><span class="line">    Dl_info <span class="keyword">info</span>;</span><br><span class="line">    <span class="type">void</span> *PC = __builtin_return_address(<span class="number">0</span>);</span><br><span class="line">    dladdr(PC, &amp;<span class="keyword">info</span>);</span><br><span class="line">    NSLog(@&quot;name:%s\n&quot;,<span class="keyword">info</span>.dli_sname);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PC的值是指返回到上一个函数里面，比如是test()函数调用到该方法里面，那么PC的值就是test()函数的值。</p>
-</blockquote>
-<p>我们通过汇编可以看到PC返回的就是上一个符号的函数地址：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062608.png" alt="2022062608"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062609.png" alt="2022062609"></p>
-<p>通过控制台打印：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062610.png" alt="2022062610"></p>
-<div class="note green no-icon flat"><p><strong>分析:</strong></p>
-<p>这个空项目启动时刻调用的方法有上面打印的这些，一共是14个，也和我们前面讲<code>void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)</code>这个函数的作用时的打印是一致的。</p>
-<p>我们已经通过上面的函数解决了我们的问题：拿到调用顺序和函数的名称，二进制重排最大的问题我们已经解决。</p>
-</div>
-<h3 id="Order文件">Order文件</h3>
-<p>现在我们就可以创建一个.order文件，在文件里面对符号进行排序，把应用启动时刻调用的方法排到前面，这样就可以减少PageFault次数从而减少启动时长，具体如何创建Order文件可以参考上一篇文章：<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 。</p>
-<h2 id="总结">总结</h2>
-<p>关于用Clang插桩的方法去解决二进制重排如何排序的问题到这里就基本结束了，当然也遗留了一些问题：比如如果项目里面有Swift、循环等，这个时候我们的Clang应该如何去做进一步的优化，大家有兴趣的可以自己去研究一下。</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>启动优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo中Twikoo评论系统配置教程</title>
-    <url>/posts/feb84685/</url>
-    <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
-<p>Hexo博客里面支持的评论系统有：<code>Disqus</code>、<code>Disqusjs</code>、<code>Livere</code>、<code>Gitalk</code>、<code>Valine</code>、<code>Waline</code>、<code>Utterances</code>、<code>Facebook Comments</code>、<code>Twikoo</code>、<code>Giscus</code>，这里面有的评论有的是国外的服务器、有的有广告，本文要讲的<code>Twikoo</code>是在butterfly3.3之后支持的，它支持邮件提醒、微信提醒等功能，还是非常好用的。</p>
-<blockquote>
-<p><strong>注意</strong>：本文仅针对腾讯云的部署方式中的「手动部署」，其他详细部署方式请参考<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">官方文档</a>。</p>
-</blockquote>
-<h2 id="购买云开发套餐">购买云开发套餐</h2>
-<p><strong>温馨提示</strong>：如果你已经拥有云开发环境，可以忽略这一步，直接到【登录授权】。</p>
-<p><strong>1、<strong>进入<a href="https://cloud.tencent.com/act?cps_key=44b3b34da3e3b77bae971b11ed4b2639&amp;fromSource=gwzcw.3814800.3814800.3814800&amp;utm_id=gwzcw.3814800.3814800.3814800&amp;utm_medium=cps&amp;page=cloudbase01">云开发CloudBase</a>，进行</strong>登录</strong>、<strong>实名认证</strong>操作，点击<strong>控制台</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060501.png" alt="2022060501"></p>
-<p><strong>2、<strong>点击</strong>云产品</strong>，选择<strong>云开发CloudBase</strong>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060502.png" alt="2022060502"></p>
-<p><strong>3、<strong>点击</strong>新建</strong>，选择<strong>空模板</strong>，点击下一步：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060503.png" alt="2022060503"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png" alt="2022060504"></p>
-<p>**4、**选择合适的套餐进行购买：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png" alt="2022060505"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>地域选择【上海】</p>
-<p>计费方式选择【包年包月】</p>
-<p>环境名称自由填写</p>
-<p>套餐版本选择【特惠基础版1】</p>
-</blockquote>
-<p>**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png" alt="2022060506"></p>
-<blockquote>
-<p><strong>注意</strong>：记录一下这个环境ID，我们后面会用。</p>
-</blockquote>
-<h2 id="登录授权">登录授权</h2>
-<p>环境 - 登录授权 - 开启【匿名登录】</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060507.png" alt="2022060507"></p>
-<h2 id="安全配置">安全配置</h2>
-<p>环境 - 安全配置 - 添加域名：将自己的域名添加进去</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060508.png" alt="2022060508"></p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>如果更改了域名发现评论加载不出来的情况，请记得回来更改为最新域名，尤其是那些刚开始使用 github.io来作为自己博客域名的童鞋，哪天购买了自己的域名，记得换，记得换，记得换（重要的事情说三遍）。</p>
-</blockquote>
-<h2 id="云函数">云函数</h2>
-<p>**1、**环境 - 云函数 - 新建云函数</p>
-<blockquote>
-<p><strong>温馨提示</strong>：</p>
-<p>函数名称填写：<code>twikoo</code></p>
-<p>创建方式选择：空白函数</p>
-<p>运行环境选择：Nodejs10.15</p>
-<p>函数内存选择：128M</p>
-<p>必须按照上面的方式选择，不要瞎选瞎写好吧。</p>
-</blockquote>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060509.png" alt="2022060509"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png" alt="2022060510"></p>
-<p>**2、**清空上图中「函数代码」框里的内容，复制<code>exports.main = require('twikoo-func').main</code>到里面，点击确定，如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png" alt="2022060511"></p>
-<p>**3、**点击「<strong>twikoo</strong>」函数名进入云函数详情页 - <strong>函数代码</strong> - <strong>文件</strong> - <strong>新建文件</strong>，输入<code>package.json</code>确定，将<code>&#123; &quot;dependencies&quot;: &#123; &quot;twikoo-func&quot;: &quot;1.5.11&quot; &#125; &#125;</code>内容复制到新建的文件<code>package.json</code>里面。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png" alt="2022060512"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060513.png" alt="2022060513"></p>
-<h2 id="配置butterfly主题文件">配置butterfly主题文件</h2>
-<p>打开<code>主题butterfly</code>下的配置文件</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Twikoo</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># 文章top_image上是否显示评论数量</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">true</span> <span class="comment"># 首页文章是否显示评论数量</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Twikoo</span></span><br><span class="line"><span class="comment"># https://github.com/imaegoo/twikoo</span></span><br><span class="line"><span class="attr">twikoo:</span></span><br><span class="line">  <span class="attr">envId:</span> <span class="string">xxxxxxxxxxxxx</span> <span class="comment"># 环境ID，即是上面创建的云环境的ID</span></span><br><span class="line">  <span class="attr">region:</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">option:</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060514.png" alt="2022060514"></p>
-<h2 id="最后-3">最后</h2>
-<p>关于其他的评论系统的配置请参考：<a href="https://butterfly.js.org/posts/ceeb73f/">butterfly主题官方文档</a></p>
-<p>关于Twikoo评论系统详细文档请参考：<a href="https://twikoo.js.org/quick-start.html">Twikoo官方文档</a></p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -425,67 +347,87 @@
       </tags>
   </entry>
   <entry>
-    <title>iOS重学之消息发送的完整流程</title>
-    <url>/posts/4a47f2ea/</url>
-    <content><![CDATA[<h2 id="写在前面-5">写在前面</h2>
-<p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
-<h2 id="Class结构">Class结构</h2>
-<p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
-在<code>objc-runtime-new.h</code>中可以看到<code>objc_class</code>结构如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">      Class superclass; </span><br><span class="line">      cache_t cache;  <span class="comment">// 方法缓存</span></span><br><span class="line">      class_data_bits_t bits; <span class="comment">// 获取具体类信息</span></span><br><span class="line">      class_rw_t *data() <span class="keyword">const</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> bits.data();</span><br><span class="line">     &#125;</span><br><span class="line">    ...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>从上面的结构我们可以看到有一个类<code>cache_t</code>，这个类就是专门拿来做方法缓存相关的类，结构如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> cache_t &#123;</span><br><span class="line">    <span class="keyword">struct</span> bucket_t *buckets();</span><br><span class="line">    mask_t occupied();</span><br><span class="line">    mask_t mask();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> bucket_t &#123;</span><br><span class="line">    cache_key_t _key;</span><br><span class="line">    IMP _imp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```objc</span><br><span class="line">#define FAST_DATA_MASK          0x00007ffffffffff8UL</span><br><span class="line">struct class_data_bits_t &#123;</span><br><span class="line">    uintptr_t bits;</span><br><span class="line">public:</span><br><span class="line">    class_rw_t* data() &#123;</span><br><span class="line">        return (class_rw_t *)(bits &amp; FAST_DATA_MASK);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readWrite：可读可写</span><br><span class="line">struct class_rw_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t version;</span><br><span class="line">    const class_ro_t *ro;</span><br><span class="line">    method_list_t * methods;    // 方法列表</span><br><span class="line">    property_list_t *properties;    // 属性列表</span><br><span class="line">    const protocol_list_t * protocols;  // 协议列表</span><br><span class="line">    Class firstSubclass;</span><br><span class="line">    Class nextSiblingClass;</span><br><span class="line">    char *demangledName;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readOnly:只读</span><br><span class="line">struct class_ro_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t instanceStart;</span><br><span class="line">    uint32_t instanceSize; </span><br><span class="line">#ifdef __LP64__</span><br><span class="line">    uint32_t reserved;</span><br><span class="line">#endif</span><br><span class="line">    const uint8_t * ivarLayout;</span><br><span class="line">    const char * name;  // 类名</span><br><span class="line">    method_list_t * baseMethodList;</span><br><span class="line">    protocol_list_t * baseProtocols;</span><br><span class="line">    const ivar_list_t * ivars;  // 成员变量列表</span><br><span class="line">    const uint8_t * weakIvarLayout;</span><br><span class="line">    property_list_t *baseProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>分析到这里，Class结构我们已了解清楚，接下来就是调用对象的方法来研究一下消息发送的完整流程。</p>
-<h2 id="消息发送阶段">消息发送阶段</h2>
-<p>在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程：</p>
-<p>流程如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/20220604_01.png" alt="20220604_01"></p>
+    <title>iOS重学之启动优化（三）- Clang插桩</title>
+    <url>/posts/37cd28e5/</url>
+    <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
+<p>在 上一篇文章<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 最后我们提出了一个问题：如何精确获取应用启动时刻的符号调用顺序，本篇文章我们就来详细介绍如何通过Clang插桩来对所有的符号进行100%的Hook。</p>
+<h2 id="Clang插桩">Clang插桩</h2>
+<p>LLVM内置了一个简单的代码覆盖率检测(SanitizerCoverage)。它在函数级、基本块级和边缘级插入对用户定义函数的调用，并提供了这些回调的默认实现。在认为启动结束的位置添加代码，就能够拿到启动到指定位置调用到的所有函数符号。</p>
+<p><a href="https://clang.llvm.org/docs/SanitizerCoverage.html">LLVM官方文档</a> 也具体介绍了如何使用<code>Tracing PCs with guards</code>来做到Hook所有的函数符号。</p>
+<div class="note pink no-icon flat"><p><strong>Tracing PCs with guards:</strong></p>
+<p>可以理解为跟踪代码执行逻辑的一个工具，Clang编译器就可以通过插桩来获取调用的符号顺序。</p>
+</div>
+<h3 id="Xcode配置">Xcode配置</h3>
+<p>在项目Buiding Setting中<code>Other C Flags</code>里面添加 <code>-fsanitize-coverage=trace-pc-guard</code>标识，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022061601.png" alt="2022061601"></p>
+<h3 id="添加Hook代码">添加Hook代码</h3>
+<p>在项目里面添加如下两个函数：</p>
+<p>首先导入头文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sanitizer/coverage_interface.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard_init(<span class="type">uint32_t</span> *start, <span class="type">uint32_t</span> *stop) &#123;</span><br><span class="line">      <span class="type">static</span> <span class="type">uint64_t</span> N;</span><br><span class="line">      <span class="keyword">if</span> (start == stop || *start) <span class="keyword">return</span>;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;INIT: %p %p\n&quot;</span>, start, stop);</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">uint32_t</span> *x = start; x &lt; stop; x++)</span><br><span class="line">        *x = ++N;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard(<span class="type">uint32_t</span> *guard) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!*guard) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">void</span> *PC = __builtin_return_address(<span class="number">0</span>);</span><br><span class="line">  <span class="type">char</span> PcDescr[<span class="number">1024</span>];</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;guard: %p %x PC %s\n&quot;</span>, guard, *guard, PcDescr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数分析">函数分析</h3>
+<p><strong>一、</strong> void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)</p>
+<p>运行项目，打印结果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062602.png" alt="2022062602"></p>
 <blockquote>
-<p><strong>我们来验证一下是否真的缓存了调用的方法：</strong></p>
-<p>未调用personRun时，我们查一下在Person类的cache里面是否能找到personRun方法缓存：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
-<p>打印结果如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">30.367394</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88049</span>:<span class="number">12459843</span>] personRun <span class="number">0x0</span></span><br></pre></td></tr></table></figure>
-<p><strong>结果分析</strong>：在cache并没有找到personRun的IMP。</p>
-<p>调用personRun之后，我们查一下Person类的cache里面是否能找到personRun方法缓存：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person personRun];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
-<p>打印结果如下：</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">13</span>:<span class="number">30.294687</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88074</span>:<span class="number">12461806</span>] personRun <span class="number">0x78cc0</span></span><br></pre></td></tr></table></figure>
-<p><strong>结果分析</strong>：调用personRun之后，会把personRun缓存到方法缓存里面</p>
+<p>可以看到目前stop存放的是14</p>
 </blockquote>
-<h2 id="动态方法解析阶段">动态方法解析阶段</h2>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060402.png" alt="2022060402"></p>
-<h3 id="动态方法解析流程">动态方法解析流程</h3>
-<p>根据<code>+ (BOOL)resolveInstanceMethod:(SEL)sel （实例方法调用这个）</code> 或<code>+ (BOOL)resolveClassMethod:(SEL)sel(类方法调用这个)</code>来做动态方法解析，然后重新走一遍消息发送的流程（从消息接受者的方法缓存里面开始继续往下执行）。</p>
-<h3 id="动态方法解析代码">动态方法解析代码</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        Method otherMethod = class_getInstanceMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, method_getImplementation(otherMethod), method_getTypeEncoding(otherMethod));</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, imp, <span class="string">&quot;v16@0:8&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="消息转发阶段">消息转发阶段</h2>
-<p>如果前面的两个阶段都没有实现，就会继续进行第三步：消息转发</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060403.png" alt="2022060403"></p>
-<h3 id="消息转发流程">消息转发流程</h3>
-<p>消息转发流程也分为了两步:</p>
-<p>第一步：<code>forwardingTargetForSelector：</code>方法是指把响应这个方法的对象转发给其他的对象，那么消息接受者就发生了变化，会重新调用一遍<code>objc_MsgSend(消息接受者，SEL)</code>流程。<br>
-第二步：<code>forwardingTargetForSelector:</code> 方法返回为<code>nil</code>，继续检查<code>methodSignatureForSelector：</code>是否返回了一个方法签名，然后去执行<code>forwardInvocation:</code>方法。</p>
-<h3 id="消息转发流程相关代码实现">消息转发流程相关代码实现</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一步</span></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="keyword">return</span> [[Student alloc] init]; <span class="comment">// 这里返回的是你想把这个消息转发给哪个对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二步</span></span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="comment">// ⚠️：这里的方法签名的types不能随便写 因为这里的方法签名决定了下一步的NSInvocation的返回值、参数类型等</span></span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSMethodSignature</span> signatureWithObjCTypes:<span class="string">&quot;i@:i&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation &#123;</span><br><span class="line">     [anInvocation invokeWithTarget:[Student new]];</span><br><span class="line">  <span class="comment">// 在这个方法里可以做任何我们想做的事情</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
-<h2 id="最后-5">最后</h2>
-<p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
+<p>如果我们在项目里面添加一个方法比如：<code>- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</code>，运行项目之后再看打印结果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062603.png" alt="2022062603"></p>
+<blockquote>
+<p>可以看到目前stop存放的是15</p>
+</blockquote>
+<p>大家如果有兴趣，可以在项目里面再添加几个函数看看stop存放的数字的变化，变化规律是：每添加一个函数、方法、block等，stop存放的数值就会+1。</p>
+<div class="note pink no-icon flat"><p><strong>结论:</strong></p>
+<p><code>__sanitizer_cov_trace_pc_guard_init</code> 函数作用是：获取整个项目中符号的个数。</p>
+</div>
+<p><strong>二、</strong> void __sanitizer_cov_trace_pc_guard(uint32_t *guard)</p>
+<p>我们的需求是：能够获取所有方法、函数、block的调用顺序并且知道符号的名称，这样我们就能排列order文件。</p>
+<p><strong>1</strong>、在项目添加一个OC方法：<code>- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</code></p>
+<p>在合适位置下断点，运行项目，查看函数调用栈：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062604.png" alt="2022062604"></p>
+<p>通过查看汇编也可以看到：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062605.png" alt="2022062605"></p>
+<p><label style="color:green">会发现：调用一个OC方法时，会调用到<code>__sanitizer_cov_trace_pc_guard(uint32_t *guard)</code> 方法。</label></p>
+<p><strong>2</strong>、在项目里面添加一个C函数：<code>void test()</code></p>
+<p>在合适位置下断点，运行项目，查看函数调用栈：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062606.png" alt="2022062606"></p>
+<p>通过查看汇编也可以看到：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062607.png" alt="2022062607"></p>
+<p><label style="color:green">会发现：调用一个C函数时，会调用到<code>__sanitizer_cov_trace_pc_guard(uint32_t *guard)</code> 方法。</label></p>
+<p>同理，你也可以添加一个block然后去看函数调用栈和汇编可以得出相同的结论：</p>
+<div class="note pink no-icon flat"><p><strong>结论:</strong></p>
+<p><code>__sanitizer_cov_trace_pc_guard</code> 函数作用是：Hook了项目所有的方法、函数、block。</p>
+</div>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="meta">#import &lt;dlfcn.h&gt;</span></span><br><span class="line"><span class="type">void</span> __sanitizer_cov_trace_pc_guard(uint32_t *guard) &#123;</span><br><span class="line">   <span class="keyword">if</span> (!*guard) <span class="keyword">return</span>; // 把这个注释掉 +<span class="keyword">load</span>方法也会hook到</span><br><span class="line">    Dl_info <span class="keyword">info</span>;</span><br><span class="line">    <span class="type">void</span> *PC = __builtin_return_address(<span class="number">0</span>);</span><br><span class="line">    dladdr(PC, &amp;<span class="keyword">info</span>);</span><br><span class="line">    NSLog(@&quot;name:%s\n&quot;,<span class="keyword">info</span>.dli_sname);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PC的值是指返回到上一个函数里面，比如是test()函数调用到该方法里面，那么PC的值就是test()函数的值。</p>
+</blockquote>
+<p>我们通过汇编可以看到PC返回的就是上一个符号的函数地址：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062608.png" alt="2022062608"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062609.png" alt="2022062609"></p>
+<p>通过控制台打印：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220626/2022062610.png" alt="2022062610"></p>
+<div class="note green no-icon flat"><p><strong>分析:</strong></p>
+<p>这个空项目启动时刻调用的方法有上面打印的这些，一共是14个，也和我们前面讲<code>void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)</code>这个函数的作用时的打印是一致的。</p>
+<p>我们已经通过上面的函数解决了我们的问题：拿到调用顺序和函数的名称，二进制重排最大的问题我们已经解决。</p>
+</div>
+<h3 id="Order文件">Order文件</h3>
+<p>现在我们就可以创建一个.order文件，在文件里面对符号进行排序，把应用启动时刻调用的方法排到前面，这样就可以减少PageFault次数从而减少启动时长，具体如何创建Order文件可以参考上一篇文章：<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 。</p>
+<h2 id="总结">总结</h2>
+<p>关于用Clang插桩的方法去解决二进制重排如何排序的问题到这里就基本结束了，当然也遗留了一些问题：比如如果项目里面有Swift、循环等，这个时候我们的Clang应该如何去做进一步的优化，大家有兴趣的可以自己去研究一下。</p>
 ]]></content>
       <categories>
         <category>iOS</category>
       </categories>
       <tags>
         <tag>iOS</tag>
+        <tag>启动优化</tag>
       </tags>
   </entry>
   <entry>
     <title>iOS重学之启动优化（二）- 二进制重排</title>
     <url>/posts/23c5d0e7/</url>
-    <content><![CDATA[<h2 id="写在前面-6">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-5">写在前面</h2>
 <p>在第一部分<a href="https://codersunny.com/posts/a5b508b2/">iOS重学之启动优化（一）</a>中，我们主要从<code>Pre-main</code>和<code>main</code>之后两个时间来衡量一个iOS应用启动的时长，以及详细分析了<code>Pre-main</code>的四个阶段，其中也提到了一些概念：比如<strong>物理内存</strong>、<strong>虚拟内存</strong>、<strong>缺页中断</strong>等，感兴趣的可以移步上一篇文章了解一下，本文主要跟大家详细讨论一下什么是<strong>二进制重排</strong>、<strong>二进制重排为什么能够优化iOS应用启动时间</strong>等问题。</p>
 <h2 id="物理内存-虚拟内存">物理内存 &amp; 虚拟内存</h2>
 <p><strong>物理内存</strong>：指的是通过物理内存条获得的内存空间。</p>
@@ -574,160 +516,61 @@
       </tags>
   </entry>
   <entry>
-    <title>【Hexo】Hexo博客备份到Github</title>
-    <url>/posts/da31eaeb/</url>
-    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
-<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
-<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
-<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
-<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
-<h3 id="创建新分支">创建新分支</h3>
-<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
-<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
-<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
-<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
+    <title>iOS重学之消息发送的完整流程</title>
+    <url>/posts/4a47f2ea/</url>
+    <content><![CDATA[<h2 id="写在前面-6">写在前面</h2>
+<p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
+<h2 id="Class结构">Class结构</h2>
+<p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
+在<code>objc-runtime-new.h</code>中可以看到<code>objc_class</code>结构如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">      Class superclass; </span><br><span class="line">      cache_t cache;  <span class="comment">// 方法缓存</span></span><br><span class="line">      class_data_bits_t bits; <span class="comment">// 获取具体类信息</span></span><br><span class="line">      class_rw_t *data() <span class="keyword">const</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> bits.data();</span><br><span class="line">     &#125;</span><br><span class="line">    ...... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>从上面的结构我们可以看到有一个类<code>cache_t</code>，这个类就是专门拿来做方法缓存相关的类，结构如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> cache_t &#123;</span><br><span class="line">    <span class="keyword">struct</span> bucket_t *buckets();</span><br><span class="line">    mask_t occupied();</span><br><span class="line">    mask_t mask();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> bucket_t &#123;</span><br><span class="line">    cache_key_t _key;</span><br><span class="line">    IMP _imp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```objc</span><br><span class="line">#define FAST_DATA_MASK          0x00007ffffffffff8UL</span><br><span class="line">struct class_data_bits_t &#123;</span><br><span class="line">    uintptr_t bits;</span><br><span class="line">public:</span><br><span class="line">    class_rw_t* data() &#123;</span><br><span class="line">        return (class_rw_t *)(bits &amp; FAST_DATA_MASK);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readWrite：可读可写</span><br><span class="line">struct class_rw_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t version;</span><br><span class="line">    const class_ro_t *ro;</span><br><span class="line">    method_list_t * methods;    // 方法列表</span><br><span class="line">    property_list_t *properties;    // 属性列表</span><br><span class="line">    const protocol_list_t * protocols;  // 协议列表</span><br><span class="line">    Class firstSubclass;</span><br><span class="line">    Class nextSiblingClass;</span><br><span class="line">    char *demangledName;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// readOnly:只读</span><br><span class="line">struct class_ro_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t instanceStart;</span><br><span class="line">    uint32_t instanceSize; </span><br><span class="line">#ifdef __LP64__</span><br><span class="line">    uint32_t reserved;</span><br><span class="line">#endif</span><br><span class="line">    const uint8_t * ivarLayout;</span><br><span class="line">    const char * name;  // 类名</span><br><span class="line">    method_list_t * baseMethodList;</span><br><span class="line">    protocol_list_t * baseProtocols;</span><br><span class="line">    const ivar_list_t * ivars;  // 成员变量列表</span><br><span class="line">    const uint8_t * weakIvarLayout;</span><br><span class="line">    property_list_t *baseProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>分析到这里，Class结构我们已了解清楚，接下来就是调用对象的方法来研究一下消息发送的完整流程。</p>
+<h2 id="消息发送阶段">消息发送阶段</h2>
+<p>在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程：</p>
+<p>流程如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/20220604_01.png" alt="20220604_01"></p>
 <blockquote>
-<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
+<p><strong>我们来验证一下是否真的缓存了调用的方法：</strong></p>
+<p>未调用personRun时，我们查一下在Person类的cache里面是否能找到personRun方法缓存：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
+<p>打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">30.367394</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88049</span>:<span class="number">12459843</span>] personRun <span class="number">0x0</span></span><br></pre></td></tr></table></figure>
+<p><strong>结果分析</strong>：在cache并没有找到personRun的IMP。</p>
+<p>调用personRun之后，我们查一下Person类的cache里面是否能找到personRun方法缓存：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person personRun];</span><br><span class="line">mj_objc_class *personClass = (__bridge  mj_objc_class *)[Person <span class="keyword">class</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %p&quot;</span>,<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(personRun)), personClass-&gt;cache.imp(<span class="keyword">@selector</span>(personRun)));</span><br></pre></td></tr></table></figure>
+<p>打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-04</span><span class="number">-10</span> <span class="number">13</span>:<span class="number">13</span>:<span class="number">30.294687</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">88074</span>:<span class="number">12461806</span>] personRun <span class="number">0x78cc0</span></span><br></pre></td></tr></table></figure>
+<p><strong>结果分析</strong>：调用personRun之后，会把personRun缓存到方法缓存里面</p>
 </blockquote>
-<h3 id="开始备份">开始备份</h3>
-<p>进入到Blogs根目录下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
-<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="如何恢复博客">如何恢复博客</h2>
-<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
-<p>进入到克隆下来的文件夹，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
-<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
-<h2 id="最后-6">最后</h2>
-<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+<h2 id="动态方法解析阶段">动态方法解析阶段</h2>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060402.png" alt="2022060402"></p>
+<h3 id="动态方法解析流程">动态方法解析流程</h3>
+<p>根据<code>+ (BOOL)resolveInstanceMethod:(SEL)sel （实例方法调用这个）</code> 或<code>+ (BOOL)resolveClassMethod:(SEL)sel(类方法调用这个)</code>来做动态方法解析，然后重新走一遍消息发送的流程（从消息接受者的方法缓存里面开始继续往下执行）。</p>
+<h3 id="动态方法解析代码">动态方法解析代码</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        Method otherMethod = class_getInstanceMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, method_getImplementation(otherMethod), method_getTypeEncoding(otherMethod));</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种实现</span></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        IMP imp = class_getMethodImplementation(<span class="keyword">self</span>, <span class="keyword">@selector</span>(otherRun));</span><br><span class="line">        class_addMethod(<span class="keyword">self</span>, sel, imp, <span class="string">&quot;v16@0:8&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>  <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="消息转发阶段">消息转发阶段</h2>
+<p>如果前面的两个阶段都没有实现，就会继续进行第三步：消息转发</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060403.png" alt="2022060403"></p>
+<h3 id="消息转发流程">消息转发流程</h3>
+<p>消息转发流程也分为了两步:</p>
+<p>第一步：<code>forwardingTargetForSelector：</code>方法是指把响应这个方法的对象转发给其他的对象，那么消息接受者就发生了变化，会重新调用一遍<code>objc_MsgSend(消息接受者，SEL)</code>流程。<br>
+第二步：<code>forwardingTargetForSelector:</code> 方法返回为<code>nil</code>，继续检查<code>methodSignatureForSelector：</code>是否返回了一个方法签名，然后去执行<code>forwardInvocation:</code>方法。</p>
+<h3 id="消息转发流程相关代码实现">消息转发流程相关代码实现</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一步</span></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="keyword">return</span> [[Student alloc] init]; <span class="comment">// 这里返回的是你想把这个消息转发给哪个对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二步</span></span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    <span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(personRun)) &#123;</span><br><span class="line">        <span class="comment">// ⚠️：这里的方法签名的types不能随便写 因为这里的方法签名决定了下一步的NSInvocation的返回值、参数类型等</span></span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSMethodSignature</span> signatureWithObjCTypes:<span class="string">&quot;i@:i&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation &#123;</span><br><span class="line">     [anInvocation invokeWithTarget:[Student new]];</span><br><span class="line">  <span class="comment">// 在这个方法里可以做任何我们想做的事情</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
+<h2 id="最后-5">最后</h2>
+<p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>iOS</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
-    <url>/posts/9fce234e/</url>
-    <content><![CDATA[<h2 id="如何拥有自己的域名">如何拥有自己的域名</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
-<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
-<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
-<h2 id="购买域名">购买域名</h2>
-<p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
-<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
-<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http%3A//freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
-<h2 id="域名解析">域名解析</h2>
-<p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
-<p>在这里面添加两条记录如上所示。</p>
-<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
-<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
-<h2 id="添加CNAME文件">添加CNAME文件</h2>
-<p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
-<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
-<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
-<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
-<h2 id="修改博客配置文件">修改博客配置文件</h2>
-<p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
-<p>将里面的url替换成我们自己的即可。</p>
-<p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>再次运行博客：</p>
-<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
-<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
-<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
-<h2 id="最后-7">最后</h2>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【PS学习】初识PS界面</title>
-    <url>/posts/70b04f6f/</url>
-    <content><![CDATA[<h2 id="写在前面-7">写在前面</h2>
-<p>我这里以【<strong>PS2020</strong>】和【<strong>Mac</strong>】为例来带大家初步认识PS，也顺便整理一下我之前学习PS的笔记。</p>
-<h2 id="初识PS界面">初识PS界面</h2>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070501-20220706104214108.png" alt="2022070501"></p>
-<div class="note green no-icon flat"><p>1:【菜单栏】- 包含了文件、编辑、图像、图层、文字、选择、滤镜、3D、视图、窗口、帮助</p>
-<p>2:【工具选项栏】 - 设置工具选项的，根据所选的工具不同【工具选项栏】中的内容也不同</p>
-<p>3:【工具栏】- PS相关的工具</p>
-<p>4:【工作区】- 所有的操作都会显示在工作区</p>
-<p>5:【工作面板】- 用来设置颜色、工具参数等</p>
-</div>
-<h2 id="PS工具栏介绍">PS工具栏介绍</h2>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070530.png" alt="2022070530"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070531.png" alt="2022070531"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070532.png" alt="2022070532"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070533.png" alt="2022070533"></p>
-<div class="note green no-icon flat"><p><strong>总结</strong>：上面按照【PS2020】的工具栏从上至下简单做了个介绍，但是大家会发现有的图标右下角有<strong>展开</strong>标记，说明着里面还包含了其他工具，大概包含了69种工具。</p>
-<p>这里就不一一罗列出来，大家可以打开PS看一下。</p>
-</div>
-<h2 id="部分PS操作">部分PS操作</h2>
-<h3 id="面板显示与隐藏">面板显示与隐藏</h3>
-<p>隐藏所有面板：<label style="color:red">tab键</label></p>
-<p>只显示【工具栏】和【工具选项栏】面板：<label style="color:red">tab键 + shift</label></p>
-<div class="note green no-icon flat"><p><strong>注意</strong>：当鼠标靠近左边，左边面板会出现，当鼠标靠近右边，右边面板会出现。</p>
-</div>
-<h3 id="PS界面如何复位">PS界面如何复位</h3>
-<p><label style="color:red">【PS界面】右上角 - 复位基本功能</label></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070502.png" alt="2022070502"></p>
-<h3 id="多个文档之间如何切换">多个文档之间如何切换</h3>
-<p><label style="color:red">快捷键：control + tab键</label></p>
-<h3 id="如何关闭当前打开的所有文档">如何关闭当前打开的所有文档</h3>
-<p><strong>1</strong>、<label style="color:red">【菜单栏】文件 - 关闭全部 </label></p>
-<p><strong>2</strong>、<label style="color:red">快捷键：option + command + w </label></p>
-<h3 id="如何保存自定义的工作区">如何保存自定义的工作区</h3>
-<p><label style="color:red">【PS界面】右上角 - 新建工作区</label></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070502-20220705194235045.png" alt="2022070502"></p>
-<h3 id="如何缩放图片">如何缩放图片</h3>
-<p><strong>放大</strong>、<label style="color:red">快捷键：Z键</label> 、<label style="color:red">快捷键：command + +</label></p>
-<p><strong>缩小</strong>、<label style="color:red">长按option</label>、<label style="color:red">快捷键：command + -</label></p>
-<p><strong>适合屏幕</strong>、<label style="color:red">【工具选项栏】 -适合屏幕</label>、<label style="color:red">快捷键：command + 0</label></p>
-<h3 id="如何自定义PS里的快捷键">如何自定义PS里的快捷键</h3>
-<p><strong>1</strong>、<label style="color:red">【菜单栏】编辑 - 键盘快捷键</label></p>
-<p><strong>2</strong>、<label style="color:red">快捷键：shift + option + command + k</label></p>
-<h3 id="如何使用智能参考线">如何使用智能参考线</h3>
-<p><label style="color:red">【菜单栏】视图 - 显示 - 智能参考线</label></p>
-<div class="note green no-icon flat"><p><strong>注意</strong>：设置显示智能参考线后，在移动物体的时候就会出现智能参考线。</p>
-</div>
-<h3 id="如何使用网格">如何使用网格</h3>
-<p><label style="color:red">【菜单栏】视图 - 显示 - 网格</label></p>
-<h3 id="如何修改网格的大小">如何修改网格的大小</h3>
-<p><label style="color:red">【菜单栏】PhotoShop - 首选项 - 参考线、网格和切片</label></p>
-]]></content>
-      <categories>
-        <category>PS</category>
-      </categories>
-      <tags>
-        <tag>PS</tag>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -841,7 +684,7 @@
 <h3 id="访问云端博客主页">访问云端博客主页</h3>
 <p>访问地址：<a href="https://happycodersunny.github.io/">https://happycodersunny.github.io</a></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220509/20220509_20.png" alt="20220509_20"></p>
-<h2 id="最后-8">最后</h2>
+<h2 id="最后-6">最后</h2>
 <p>基本上到这里，属于我们自己的博客就搭建完成啦，撒花🎉🎉🎉～，整个搭建流程如果不出错半个小时之内其实是可以搞定的，但是这路哪里那么好走呢，每个人去搭建的过程中或多或少都会遇到一些问题，我自己在搭建的过程中也碰到了一些问题，我会抽空把遇到的问题详细整理出来，希望能够帮助大家如果要搭建博客的时候少踩点坑。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
@@ -852,6 +695,165 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Hexo】Hexo博客备份到Github</title>
+    <url>/posts/da31eaeb/</url>
+    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
+<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
+<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
+<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
+<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
+<h3 id="创建新分支">创建新分支</h3>
+<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
+<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
+<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
+<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
+<blockquote>
+<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
+</blockquote>
+<h3 id="开始备份">开始备份</h3>
+<p>进入到Blogs根目录下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
+<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
+<h2 id="如何恢复博客">如何恢复博客</h2>
+<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
+<p>进入到克隆下来的文件夹，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
+<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
+<h2 id="最后-7">最后</h2>
+<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
+    <url>/posts/9fce234e/</url>
+    <content><![CDATA[<h2 id="如何拥有自己的域名">如何拥有自己的域名</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
+<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
+<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
+<h2 id="购买域名">购买域名</h2>
+<p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
+<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
+<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http%3A//freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
+<h2 id="域名解析">域名解析</h2>
+<p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
+<p>在这里面添加两条记录如上所示。</p>
+<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
+<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
+<h2 id="添加CNAME文件">添加CNAME文件</h2>
+<p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
+<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
+<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
+<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
+<h2 id="修改博客配置文件">修改博客配置文件</h2>
+<p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
+<p>将里面的url替换成我们自己的即可。</p>
+<p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>再次运行博客：</p>
+<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
+<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
+<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
+<h2 id="最后-8">最后</h2>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【PS学习】初识PS界面</title>
+    <url>/posts/70b04f6f/</url>
+    <content><![CDATA[<h2 id="写在前面-7">写在前面</h2>
+<p>我这里以【<strong>PS2020</strong>】和【<strong>Mac</strong>】为例来带大家初步认识PS，也顺便整理一下我之前学习PS的笔记。</p>
+<h2 id="初识PS界面">初识PS界面</h2>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070501-20220706104214108.png" alt="2022070501"></p>
+<div class="note green no-icon flat"><p>1:【菜单栏】- 包含了文件、编辑、图像、图层、文字、选择、滤镜、3D、视图、窗口、帮助</p>
+<p>2:【工具选项栏】 - 设置工具选项的，根据所选的工具不同【工具选项栏】中的内容也不同</p>
+<p>3:【工具栏】- PS相关的工具</p>
+<p>4:【工作区】- 所有的操作都会显示在工作区</p>
+<p>5:【工作面板】- 用来设置颜色、工具参数等</p>
+</div>
+<h2 id="PS工具栏介绍">PS工具栏介绍</h2>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070530.png" alt="2022070530"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070531.png" alt="2022070531"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070532.png" alt="2022070532"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070533.png" alt="2022070533"></p>
+<div class="note green no-icon flat"><p><strong>总结</strong>：上面按照【PS2020】的工具栏从上至下简单做了个介绍，但是大家会发现有的图标右下角有<strong>展开</strong>标记，说明着里面还包含了其他工具，大概包含了69种工具。</p>
+<p>这里就不一一罗列出来，大家可以打开PS看一下。</p>
+</div>
+<h2 id="部分PS操作">部分PS操作</h2>
+<h3 id="面板显示与隐藏">面板显示与隐藏</h3>
+<p>隐藏所有面板：<label style="color:red">tab键</label></p>
+<p>只显示【工具栏】和【工具选项栏】面板：<label style="color:red">tab键 + shift</label></p>
+<div class="note green no-icon flat"><p><strong>注意</strong>：当鼠标靠近左边，左边面板会出现，当鼠标靠近右边，右边面板会出现。</p>
+</div>
+<h3 id="PS界面如何复位">PS界面如何复位</h3>
+<p><label style="color:red">【PS界面】右上角 - 复位基本功能</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070502.png" alt="2022070502"></p>
+<h3 id="多个文档之间如何切换">多个文档之间如何切换</h3>
+<p><label style="color:red">快捷键：control + tab键</label></p>
+<h3 id="如何关闭当前打开的所有文档">如何关闭当前打开的所有文档</h3>
+<p><strong>1</strong>、<label style="color:red">【菜单栏】文件 - 关闭全部 </label></p>
+<p><strong>2</strong>、<label style="color:red">快捷键：option + command + w </label></p>
+<h3 id="如何保存自定义的工作区">如何保存自定义的工作区</h3>
+<p><label style="color:red">【PS界面】右上角 - 新建工作区</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070502-20220705194235045.png" alt="2022070502"></p>
+<h3 id="如何缩放图片">如何缩放图片</h3>
+<p><strong>放大</strong>、<label style="color:red">快捷键：Z键</label> 、<label style="color:red">快捷键：command + +</label></p>
+<p><strong>缩小</strong>、<label style="color:red">长按option</label>、<label style="color:red">快捷键：command + -</label></p>
+<p><strong>适合屏幕</strong>、<label style="color:red">【工具选项栏】 -适合屏幕</label>、<label style="color:red">快捷键：command + 0</label></p>
+<h3 id="如何自定义PS里的快捷键">如何自定义PS里的快捷键</h3>
+<p><strong>1</strong>、<label style="color:red">【菜单栏】编辑 - 键盘快捷键</label></p>
+<p><strong>2</strong>、<label style="color:red">快捷键：shift + option + command + k</label></p>
+<h3 id="如何使用智能参考线">如何使用智能参考线</h3>
+<p><label style="color:red">【菜单栏】视图 - 显示 - 智能参考线</label></p>
+<div class="note green no-icon flat"><p><strong>注意</strong>：设置显示智能参考线后，在移动物体的时候就会出现智能参考线。</p>
+</div>
+<h3 id="如何使用网格">如何使用网格</h3>
+<p><label style="color:red">【菜单栏】视图 - 显示 - 网格</label></p>
+<h3 id="如何修改网格的大小">如何修改网格的大小</h3>
+<p><label style="color:red">【菜单栏】PhotoShop - 首选项 - 参考线、网格和切片</label></p>
+<h3 id="如何在PS界面添加更多面板">如何在PS界面添加更多面板</h3>
+<p><label style="color:red">【菜单栏】 - 窗口 - 选择想要展示的面板</label></p>
+]]></content>
+      <categories>
+        <category>PS</category>
+      </categories>
+      <tags>
+        <tag>PS</tag>
       </tags>
   </entry>
   <entry>
