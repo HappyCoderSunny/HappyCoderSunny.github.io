@@ -516,6 +516,54 @@
       </tags>
   </entry>
   <entry>
+    <title>【Hexo】Hexo博客备份到Github</title>
+    <url>/posts/da31eaeb/</url>
+    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
+<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
+<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
+<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
+<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
+<h3 id="创建新分支">创建新分支</h3>
+<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
+<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
+<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
+<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
+<blockquote>
+<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
+</blockquote>
+<h3 id="开始备份">开始备份</h3>
+<p>进入到Blogs根目录下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
+<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
+<h2 id="如何恢复博客">如何恢复博客</h2>
+<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
+<p>进入到克隆下来的文件夹，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
+<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
+<h2 id="最后-5">最后</h2>
+<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOS重学之消息发送的完整流程</title>
     <url>/posts/4a47f2ea/</url>
     <content><![CDATA[<h2 id="写在前面-6">写在前面</h2>
@@ -563,7 +611,7 @@
 <h3 id="关于NSInvocation类">关于<code>NSInvocation</code>类</h3>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSInvocation</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSInvocation</span> *)invocationWithMethodSignature:(<span class="built_in">NSMethodSignature</span> *)sig;</span><br><span class="line"><span class="comment">// 方法签名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>, <span class="keyword">retain</span>) <span class="built_in">NSMethodSignature</span> *methodSignature;</span><br><span class="line"></span><br><span class="line"><span class="comment">// retain所有参数 防止参数被dealloc</span></span><br><span class="line">- (<span class="type">void</span>)retainArguments;</span><br><span class="line"><span class="comment">// 参数是否都被retained</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="type">BOOL</span> argumentsRetained;</span><br><span class="line"><span class="comment">// 消息接收者</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">assign</span>) <span class="type">id</span> target;</span><br><span class="line"><span class="comment">// 方法名</span></span><br><span class="line"><span class="keyword">@property</span> SEL selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取返回值</span></span><br><span class="line">- (<span class="type">void</span>)getReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 设置返回值</span></span><br><span class="line">- (<span class="type">void</span>)setReturnValue:(<span class="type">void</span> *)retLoc;</span><br><span class="line"><span class="comment">// 获取idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)getArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 设置idx的参数</span></span><br><span class="line">- (<span class="type">void</span>)setArgument:(<span class="type">void</span> *)argumentLocation atIndex:(<span class="built_in">NSInteger</span>)idx;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">- (<span class="type">void</span>)invoke;</span><br><span class="line">- (<span class="type">void</span>)invokeWithTarget:(<span class="type">id</span>)target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>大家有兴趣的话可以去试试NSInvacation的使用。</p>
-<h2 id="最后-5">最后</h2>
+<h2 id="最后-6">最后</h2>
 <p>如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用<code>doesNotRecognizeSelecto:</code>抛出异常。</p>
 ]]></content>
       <categories>
@@ -684,7 +732,7 @@
 <h3 id="访问云端博客主页">访问云端博客主页</h3>
 <p>访问地址：<a href="https://happycodersunny.github.io/">https://happycodersunny.github.io</a></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220509/20220509_20.png" alt="20220509_20"></p>
-<h2 id="最后-6">最后</h2>
+<h2 id="最后-7">最后</h2>
 <p>基本上到这里，属于我们自己的博客就搭建完成啦，撒花🎉🎉🎉～，整个搭建流程如果不出错半个小时之内其实是可以搞定的，但是这路哪里那么好走呢，每个人去搭建的过程中或多或少都会遇到一些问题，我自己在搭建的过程中也碰到了一些问题，我会抽空把遇到的问题详细整理出来，希望能够帮助大家如果要搭建博客的时候少踩点坑。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
@@ -695,54 +743,6 @@
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
         <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Hexo】Hexo博客备份到Github</title>
-    <url>/posts/da31eaeb/</url>
-    <content><![CDATA[<h2 id="为什么要备份">为什么要备份</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们把<code>Hexo</code> 和 <code>Github</code>结合起来搭建了自己的个人博客，<code>hexo d</code>部署到<code>Github</code>的其实<code>Hexo</code>编译后的文件，这些文件是用来生成网页的，并不包含我们的源文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_01.png" alt="20220511_01"></p>
-<p>它其实上传到<code>Github</code> 的是在我们本地目录里的<code>.deploy_git</code>里面的内容：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_02.png" alt="20220511_02"></p>
-<p>我们的源文件比如相关<code>source </code>文件、配置文件等都是没有上传到<code>Github</code>上的，所以我们要利用<code>git</code>来做分支管理，对我们的源文件进行备份，这样我们就可以在另一台电脑上把源文件<code>clone</code>到本地安装相应的环境就可以继续写我们的博客了。</p>
-<p>好了，废话少说，我们直接来说如何进行博客源文件的备份。</p>
-<h2 id="Hexo-博客备份">Hexo 博客备份</h2>
-<h3 id="创建新分支">创建新分支</h3>
-<p>在<code>Github</code>上博客仓库下创建一个新的分支<code>hexo</code>，并且将这个分支设置为默认分支，具体操作如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_03.png" alt="20220511_03"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_04.png" alt="20220511_04"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_05.png" alt="20220511_05"></p>
-<h3 id="克隆Hexo分支">克隆Hexo分支</h3>
-<p>在本地把我们刚建的分支<code>hexo</code>克隆到本地：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_06.png" alt="20220511_06"></p>
-<p>把克隆下来的项目里面的<code>.git</code>文件复制到我们的Hexo博客目录下:</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_07.png" alt="20220511_07"></p>
-<blockquote>
-<p><strong>注意</strong>：如果之前搭建博客的时候自己更换过主题文件的，请把主题文件里面的<code>.git</code>文件删除。</p>
-</blockquote>
-<h3 id="开始备份">开始备份</h3>
-<p>进入到Blogs根目录下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Blog源文件备份&quot;</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<p>这时候我们会看到<code>Github</code>上的<code>hexo</code> 分支就有我们的源文件了。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220511/20220511_08.png" alt="20220511_08"></p>
-<p>如果你想要每次更改东西都希望备份到<code>hexo</code> 分支上，可以执行如下步骤：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;备份&quot;</span></span><br><span class="line">git push</span><br><span class="line">hexo g &amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="如何恢复博客">如何恢复博客</h2>
-<p>假如我们现在更换了电脑，希望在新的电脑上继续写博客，把<code>Github</code>上<code>hexo</code>分支上的项目克隆到本地（注意：是我们备份的那个分支）</p>
-<p>进入到克隆下来的文件夹，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-<p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
-<p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
-<h2 id="最后-7">最后</h2>
-<p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -827,7 +827,7 @@
 <p><label style="color:red">快捷键：control + tab键</label></p>
 <h3 id="如何关闭当前打开的所有文档">如何关闭当前打开的所有文档</h3>
 <p><strong>1</strong>、<label style="color:red">【菜单栏】文件 - 关闭全部 </label></p>
-<p><strong>2</strong>、<label style="color:red">快捷键：option + command + w </label></p>
+<p><strong>2</strong>、<label style="color:red">快捷键：option + command + W </label></p>
 <h3 id="如何保存自定义的工作区">如何保存自定义的工作区</h3>
 <p><label style="color:red">【PS界面】右上角 - 新建工作区</label></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220705/2022070502-20220705194235045.png" alt="2022070502"></p>
@@ -837,7 +837,7 @@
 <p><strong>适合屏幕</strong>、<label style="color:red">【工具选项栏】 -适合屏幕</label>、<label style="color:red">快捷键：command + 0</label></p>
 <h3 id="如何自定义PS里的快捷键">如何自定义PS里的快捷键</h3>
 <p><strong>1</strong>、<label style="color:red">【菜单栏】编辑 - 键盘快捷键</label></p>
-<p><strong>2</strong>、<label style="color:red">快捷键：shift + option + command + k</label></p>
+<p><strong>2</strong>、<label style="color:red">快捷键：shift + option + command + K</label></p>
 <h3 id="如何使用智能参考线">如何使用智能参考线</h3>
 <p><label style="color:red">【菜单栏】视图 - 显示 - 智能参考线</label></p>
 <div class="note green no-icon flat"><p><strong>注意</strong>：设置显示智能参考线后，在移动物体的时候就会出现智能参考线。</p>
@@ -848,6 +848,92 @@
 <p><label style="color:red">【菜单栏】PhotoShop - 首选项 - 参考线、网格和切片</label></p>
 <h3 id="如何在PS界面添加更多面板">如何在PS界面添加更多面板</h3>
 <p><label style="color:red">【菜单栏】 - 窗口 - 选择想要展示的面板</label></p>
+]]></content>
+      <categories>
+        <category>PS</category>
+      </categories>
+      <tags>
+        <tag>PS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【PS学习】文件基本操作</title>
+    <url>/posts/52ee9edd/</url>
+    <content><![CDATA[<h2 id="写在前面-8">写在前面</h2>
+<p>相关文章：1、<a href="https://codersunny.com/posts/70b04f6f/">初识PS界面</a></p>
+<p>本篇主要讲一下PS中关于文件的一些操作，PS版本为【PS2020】。</p>
+<h2 id="文件的相关操作">文件的相关操作</h2>
+<h3 id="如何新建文档">如何新建文档</h3>
+<p><strong>1</strong>、<label style="color:red">PS界面左边【新建】按钮</label></p>
+<p><strong>2</strong>、<label style="color:red">【菜单栏】文件 - 新建</label></p>
+<p><strong>3</strong>、<label style="color:red">快捷键：command + N</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070701.png" alt="2022070701"></p>
+<div class="note green no-icon flat"><p><strong>提示</strong>：里面有很多PS默认为我们提供的模版，如果有合适的可以直接创建。</p>
+</div>
+<h3 id="如何保存预设文档">如何保存预设文档</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070702.png" alt="2022070702"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070703.png" alt="2022070703"></p>
+<h3 id="新建文档注意事项">新建文档注意事项</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070704.png" alt="2022070704"></p>
+<div class="note green no-icon flat"><p><strong>提示</strong>：</p>
+<ol>
+<li>当希望将多个页面的UI放到一个文件时，在创建文件时需要勾选【画板】。</li>
+<li>如果文档是针对【打印输出】，颜色模式一般选择<label style="color:red">CMYK模式</label>，位数保持<label style="color:red">8bit</label>。</li>
+<li>如果文档是针对【屏幕显示】，颜色模式一般选择<label style="color:red">RGB模式</label>，位数保持<label style="color:red">8bit</label>。</li>
+<li>颜色模式的位数越高呈现的颜色就越多，不过一般我们肉眼也无法识别那么多颜色所以位数一般保持8bit即可。</li>
+</ol>
+</div>
+<h3 id="如何打开文件">如何打开文件</h3>
+<p><strong>1</strong>、<label style="color:red">PS界面左边【打开】按钮</label></p>
+<p><strong>2</strong>、<label style="color:red">【菜单栏】文件 - 打开</label></p>
+<p><strong>3</strong>、<label style="color:red">command + O</label></p>
+<p><strong>4</strong>、<label style="color:red">选择需要打开的文件拖拽到PS</label></p>
+<h3 id="如何打开序列文件">如何打开序列文件</h3>
+<p><label style="color:red">选择某一序列文件 - 勾选【图像序列】</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070705.png" alt="2022070705"></p>
+<div class="note green no-icon flat"><p><strong>注意</strong>：PS工作区会出现时间轴，如果没有通过<label style="color:red">【菜单栏】窗口 - 时间轴</label>配置。</p>
+</div>
+<h3 id="置入链接的智能对象">置入链接的智能对象</h3>
+<p><label style="color:red">【菜单栏】文件 - 置入链接的智能对象</label></p>
+<p>🌰：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070706.png" alt="2022070706"></p>
+<p>点击左边图层面板置入的链接对象：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070707.png" alt="2022070707"></p>
+<p>修改这个置入的链接对象【保存】会发现原来已经的文件发生了变化：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070708.png" alt="2022070708"></p>
+<h3 id="置入嵌入对象">置入嵌入对象</h3>
+<p><label style="color:red">【菜单栏】文件 - 置入嵌入对象</label></p>
+<div class="note green no-icon flat"><p><strong>置入链接的智能对象 和 置入嵌入对象的区别</strong>：智能链接对象<strong>会</strong>随着源文件的修改而发生变化 嵌入对象<strong>不会</strong>随着源文件的修改而发生变化。</p>
+</div>
+<h3 id="如何存储文件">如何存储文件</h3>
+<p><strong>1</strong>、<label style="color:red">【菜单栏】文件 - 存储为</label></p>
+<p><strong>2</strong>、<label style="color:red">快捷键：option + command + S</label></p>
+<h3 id="画板的创建与修改">画板的创建与修改</h3>
+<p><strong>1</strong>、<label style="color:red">【图层面板】右边按钮 - 新建画板</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070709.png" alt="2022070709"></p>
+<p>属性面板可以调节画板的属性：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070710.png" alt="2022070710"></p>
+<p><strong>2</strong>、<label style="color:red">【工具栏】- 画板工具（V）- 【工具选项栏】添加新画板 - 在工作区合适的位置单击</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070711.png" alt="2022070711"></p>
+<div class="note green no-icon flat"><p><strong>提示</strong>：鼠标放置在【画板名称上】移动即可移动画板。</p>
+</div>
+<h3 id="如何导出画板">如何导出画板</h3>
+<p><label style="color:red">【菜单栏】文件 - 导出 - 将画板导出到PDF</label></p>
+<p>也可以导出为其他的格式：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070712.png" alt="2022070712"></p>
+<div class="note green no-icon flat"><p><strong>提示</strong>：</p>
+<ol>
+<li>【导出为】可以为每个画板以不同的格式导出。</li>
+<li>【导出为】 - 双联是【PS2020】新增的功能</li>
+<li><label style="color:red">command + 画板点击</label> 可以展示或收起多个面板</li>
+<li>画板可以单独导出</li>
+</ol>
+</div>
+<h3 id="如何为文件添加版权信息和简介">如何为文件添加版权信息和简介</h3>
+<p><strong>1</strong>、<label style="color:red">【菜单栏】文件 - 文件简介 - 输入相关描述信息</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070716.png" alt="2022070716"></p>
+<p><strong>2</strong>、<label style="color:red">【菜单栏】PhotoShop - 首选项 - 导出</label></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220707/2022070718.png" alt="2022070718"></p>
 ]]></content>
       <categories>
         <category>PS</category>
@@ -975,7 +1061,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>从LCS到IGListKit框架中的Diff算法（下）</title>
     <url>/posts/62fa33fe/</url>
-    <content><![CDATA[<h2 id="写在前面-8">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-9">写在前面</h2>
 <p>在上一篇文章<a href="https://codersunny.com/%E4%BB%8ELCS%E5%88%B0IGListKit%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84Diff%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%8A%EF%BC%89/">从LCS到IGListKit框架中的Diff算法（上）</a>中我们详细讲了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> 是什么、怎么使用动态规划来求解 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> ，最后我们也抛出了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">LCS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.05764em;">CS</span></span></span></span> 还存在的两个问题，本篇文章我们就主要来分析IGListKit框架中的Diff是如何来解决这两个问题的。</p>
 <blockquote>
 <p><strong>温馨提示</strong>：本文主要剖析IGListKit框架中的Diff算法，不会讲IGListKit框架的具体使用。</p>
