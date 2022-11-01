@@ -1,12 +1,17 @@
 ---
-title: 图片库
+title: 美图集
 date: 2022-05-29 18:12:10
 type: "pictures"
 ---
 
 <div class="gallery-group-main">
-{% galleryGroup '壁纸' '收藏的一些壁纸' '/pictures/wallpaper' https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover13.jpg %}
+{% galleryGroup '二次元壁纸' '一些不那么二次元的二次元壁纸' '/pictures/wallpaper' https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E9%9B%86/wallpaper1.jpg %}
+{% galleryGroup '文案类壁纸' '文案也可以很有趣' '/pictures/wallpaper1' https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E9%9B%86/wallpaper10.jpg %}
+{% galleryGroup '其他壁纸' '人文、环境等壁纸' '/pictures/wallpaper2' https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%A3%81%E7%BA%B8%E9%9B%86/wallpaper14.png %}
 </div>
+
+
+
 
 
 
