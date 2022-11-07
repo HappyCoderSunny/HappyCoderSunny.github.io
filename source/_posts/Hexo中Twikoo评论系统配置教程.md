@@ -37,7 +37,7 @@ Hexo博客里面支持的评论系统有：`Disqus`、`Disqusjs`、`Livere`、`G
 
 ![2022060504](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060504.png)
 
-**4、**选择合适的套餐进行购买：
+**4**、选择合适的套餐进行购买：
 
 ![2022060505](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060505.png)
 
@@ -55,9 +55,9 @@ Hexo博客里面支持的评论系统有：`Disqus`、`Disqusjs`、`Livere`、`G
 
 
 
-**5、**按照上面的步骤操作之后，我们会拥有一个云开发环境：
+**5**、按照上面的步骤操作之后，我们会拥有一个云开发环境：
 
-![2022060506](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506-20220605154108387.png)
+![2022060506](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060506.png)
 
 > **注意**：记录一下这个环境ID，我们后面会用。
 
@@ -79,7 +79,7 @@ Hexo博客里面支持的评论系统有：`Disqus`、`Disqusjs`、`Livere`、`G
 
 ## 云函数
 
-**1、**环境 - 云函数 - 新建云函数
+**1**、环境 - 云函数 - 新建云函数
 
 > **温馨提示**：
 >
@@ -97,11 +97,11 @@ Hexo博客里面支持的评论系统有：`Disqus`、`Disqusjs`、`Livere`、`G
 
 ![2022060510](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060510.png)
 
-**2、**清空上图中「函数代码」框里的内容，复制`exports.main = require('twikoo-func').main`到里面，点击确定，如下：
+**2**、清空上图中「函数代码」框里的内容，复制`exports.main = require('twikoo-func').main`到里面，点击确定，如下：
 
 ![2022060511](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060511.png)
 
-**3、**点击「**twikoo**」函数名进入云函数详情页 - **函数代码** - **文件** - **新建文件**，输入`package.json`确定，将`{ "dependencies": { "twikoo-func": "1.5.11" } }`内容复制到新建的文件`package.json`里面。
+**3**、点击「**twikoo**」函数名进入云函数详情页 - **函数代码** - **文件** - **新建文件**，输入`package.json`确定，将`{ "dependencies": { "twikoo-func": "1.5.11" } }`内容复制到新建的文件`package.json`里面。
 
 ![2022060512](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220605/2022060512.png)
 

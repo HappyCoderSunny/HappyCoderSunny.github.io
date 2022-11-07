@@ -318,7 +318,7 @@ facebook_comments:
 # Twikoo
 # https://github.com/imaegoo/twikoo
 twikoo:
-  envId: cloudbase-prepaid-5et06hb271c3b7
+  envId: sunny-blogs-twikoo-0dzxpda182873
   region:
   visitor: true
   option:

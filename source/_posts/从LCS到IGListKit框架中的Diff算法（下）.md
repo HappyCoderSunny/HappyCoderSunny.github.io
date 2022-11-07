@@ -37,7 +37,7 @@ $Y = <A,T,O,X,F>$
 
 求 $X$ 和 $Y$ 的 $LCS$
 
-![2022060906](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220610/2022060906-20220610122753957.png)
+![2022060906](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20221102/2022060906.png)
 
 我们首先需要处理的是避免使用二维数组，我们结合上图会发现重要的只是我们标记的这条线路，其他位置我们并没有用到，那么需要走一遍的距离就是：$m + n - LCS的长度$
 
