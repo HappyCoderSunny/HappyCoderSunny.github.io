@@ -31,11 +31,11 @@ iOS9引入了一个新的功能 - On-Demand Resource（ODR），它是App Thinni
 
 ## On-Demand Resource使用前后安装包变化
 
-![1](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/1-20221108155143590.png)
+![1](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/1.png)
 
 
 
-![2](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/2-20221108155154183.png)
+![2](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/2.png)
 
 
 
@@ -49,13 +49,13 @@ iOS9引入了一个新的功能 - On-Demand Resource（ODR），它是App Thinni
 
 ## 按需加载的资源类型
 
-![3](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/3-20221108155505428.png)
+![3](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/3.png)
 
 ## ODR的使用
 
 ### ODR的三种类型
 
-![6](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/6-20221108155632935.png)
+![6](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/6.png)
 
 `initial install Tags`：此种类型的资源会随着APP从App Store的下载而下载，会影响ipa的大小，也就是说资源会包含在ipa包内。
 
@@ -65,13 +65,13 @@ iOS9引入了一个新的功能 - On-Demand Resource（ODR），它是App Thinni
 
 ### 如何设置ODR
 
-### Build Settings - Enable On Demand Resources - 设置为YES（默认）
+#### Build Settings - Enable On Demand Resources - 设置为YES（默认）
 
 ![7](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/7.png)
 
-### 为资源添加标签
+#### 为资源添加标签
 
-![8](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/8-20221108161813811.png)
+![8](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/8.png)
 
 
 
@@ -85,11 +85,11 @@ iOS9引入了一个新的功能 - On-Demand Resource（ODR），它是App Thinni
 
 {% endnote %}
 
-![9](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/9-20221108162123366.png)
+![9](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/9.png)
 
 如上图所示：打完标签后 在`Resource Tags`中会看到所有我们刚打的标签，比如：level1、level2。
 
-![10](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/10-20221108162341127.png)
+![10](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1108/10.png)
 
 {% note green no-icon %}
 
