@@ -1,5 +1,5 @@
 ---
-title: Butterfly 如何替换jsdelivr提升网站访问速度
+title: 【Hexo】Butterfly 如何替换jsdelivr提升网站访问速度
 tags:
   - Hexo
   - Butterfly

@@ -1,5 +1,5 @@
 ---
-title: Hexo框架Butterfly主题配置（持续更新）
+title: 【Hexo】Butterfly主题配置（持续更新）
 tags:
   - Hexo
   - Butterfly

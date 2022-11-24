@@ -1,5 +1,5 @@
 ---
-title: Hexo中Twikoo评论系统配置教程
+title: 【Hexo】Twikoo评论系统配置教程
 author: Sunny
 tags:
   - Hexo
