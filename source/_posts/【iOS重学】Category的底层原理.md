@@ -155,7 +155,7 @@ static void loadAllCategories() {
 
 ### load_categories_nolock
 
-该方法指的是：加载一个类所有的分类模块
+该方法指的是：加载一个类所有的分类模块。
 
 ```objc
 static void load_categories_nolock(header_info *hi) {
@@ -331,7 +331,7 @@ attachCategories(Class cls, const locstamped_category_t *cats_list, uint32_t cat
 
 ### attachLists
 
-该方法指的是：把分类方法真正合并在主类的方法列表里面
+该方法指的是：把分类方法真正合并在主类的方法列表里面。
 
 ```objc
 void attachLists(List* const * addedLists, uint32_t addedCount) {
@@ -401,7 +401,6 @@ void attachLists(List* const * addedLists, uint32_t addedCount) {
       }
   }
 };
-
 ```
 
 `attachLists`方法是分类原理实现最核心的方法，我这里用一张图来模拟分类的底层原理如下：
@@ -446,13 +445,13 @@ void attachLists(List* const * addedLists, uint32_t addedCount) {
 
 1.把Person的方法列表挪动到数组最后
 
-2.把Person的分类方法列表添加到前面
-
-{% endnote %}
+2.把Person的分类方法列表添加到前
 
 ![11](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1124/11.png)
 
-{% note red no-icon %}
+{% endnote %}
+
+{% note orange no-icon %}
 
 **提示**：
 
