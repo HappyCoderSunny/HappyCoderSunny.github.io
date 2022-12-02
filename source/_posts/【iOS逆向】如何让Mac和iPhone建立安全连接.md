@@ -41,6 +41,8 @@ OpenSSH是用来保证登录安全性的，而这个安全由OpenSSL来具体实
 
 ## Mac如何远程登录到iPhone
 
+### 方式一：通过网络连接
+
 iOS下有两个常用的账户：root、mobile。
 
 root账户拥有最高权限，mobile是普通权限账户。
@@ -77,9 +79,58 @@ root账户拥有最高权限，mobile是普通权限账户。
 
 {% endnote %}
 
+### 方式二：通过USB连接
+
+默认情况下，SSH走的协议是TCP协议，Mac是通过网络连接的方式登录到iPhone，所以如果网络环境不好可能会造成传输速度比较慢的情况。
+
+![4](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/4.png)
+
+为了加快传输的速度可以使用USB的方式进行登录，Mac上有个服务程序`usbmuxd`，`usbmuxd`是开机启动的，它可以将Mac的数据通过USB传输到iPhone上。
+
+使用USB的方式连接的具体步骤如下：
+
+{% note pink no-icon %}
+
+1. 下载`usbmuxd`工具包
+
+2. 使用如下命令将iPhone的22端口（SSH端口）映射到本地的xxxxx端口（这个端口是任意的，只要不是保留端口就可以）
+
+   ```objc
+   cd usbmuxd-1.0.8/python-client // 下载usbmuxd工具目录下
+   python tcprelay.py -t 22:10010 // 10010只要不是保留端口就行 -t是为了能够支持多个SSH连接
+   ```
+
+   端口映射完毕后，以后要想跟iPhone的22端口通信只需要跟Mac本地的10010端口通信即可，`usbmuxd`会将Mac本地10010端口的TCP协议数据通过USB的方式传到iPhone的22端口。
+
+3. 使用如下命令新开一个终端窗口，SSH登录到Mac本地的10010端口
+
+   ```objc
+   ssh root@localhost -p 10010
+   或
+   ssh root@MacIP地址 -p 10010
+   ```
+
+{% endnote %}
+
+博主这里的操作如下图：
+
+![5](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/5.png)
+
+此时，映射关系已经建立完毕。
+
+![6](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/6.png)
+
+登录到Mac本地的10010端口，此时连接已经完成，创建`touch usbLoginTest.txt`的一个文本测试一下，会发现iPhone上多了我们刚刚创建的文本：
+
+![7](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/7.png)
+
+USB登录的整个流程如下图：
+
+![8](https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/8.png)
+
 ## 写在最后
 
-关于如何让Mac和iPhone建立安全连接的文章就写到这里了，如有错误请多多指教。
+关于【如何让Mac和iPhone建立安全连接的两种方式】的文章就写到这里了，如有错误请多多指教。
 
 
 
