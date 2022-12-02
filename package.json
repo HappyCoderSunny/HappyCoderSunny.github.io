@@ -21,6 +21,7 @@
     "hexo-baidu-url-submit": "^0.0.6",
     "hexo-browsersync": "^0.3.0",
     "hexo-butterfly-wowjs": "^1.0.5",
+    "hexo-cli": "^4.3.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.9",
