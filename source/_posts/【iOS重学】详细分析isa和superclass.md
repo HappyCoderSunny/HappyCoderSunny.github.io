@@ -238,11 +238,9 @@ struct ww_objc_class {
 
  {% note red no-icon %}
 
-**结论**：Person类对象的`isa`值 = Person类对象的地址值     
+**结论**：Person类对象的`isa`值 = Person类对象的地址值（这是一个APP项目） 
 
-**注意**：有的文章说32bit`wwPerson->isa` = `personClass`，而在64bit`wwPerson->isa`需要进行一次位运算才等于`personClass`的地址值：`wwPerson->isa & ISA_MASK = personClass`。
-
-博主这里发现64bit下，`wwPerson->isa` = `personClass`，不需要进行位运算。
+**注意**：如果创建一个命令行项目来对比两个地址值，会发现是不相等的需要进行一次位运算才会相等。
 
 命令`uname -a`可以查看当前环境是64bit还是32bit。    
 
