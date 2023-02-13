@@ -16,7 +16,7 @@ date: 2022-06-04 17:50:29
 ## Class结构
 
 苹果源码最新下载地址请点击：[苹果源码](https://opensource.apple.com/tarballs/objc4/)
-在```objc-runtime-new.h```中可以看到```objc_class```结构如下： 
+在`objc-runtime-new.h`中可以看到`objc_class`结构如下： 
 
 ```objc
 struct objc_object {
@@ -27,30 +27,28 @@ struct objc_class : objc_object {
       Class superclass; 
       cache_t cache;  // 方法缓存
       class_data_bits_t bits; // 获取具体类信息
-      class_rw_t *data() const {
-         return bits.data();
-     }
     ...... 
 };
 ```
 
-从上面的结构我们可以看到有一个类```cache_t```，这个类就是专门拿来做方法缓存相关的类，结构如下：
+从上面的结构我们可以看到有一个类`cache_t`，这个类就是专门拿来做方法缓存相关的类，结构如下：
+
 ```objc
 struct cache_t {
     struct bucket_t *buckets();
-    mask_t occupied();
-    mask_t mask();
+    uint16_t _occupied();
+    mask_t _maybeMask;
 };
 
 struct bucket_t {
-    cache_key_t _key;
+    SEL _sel;
     IMP _imp;
 };
 ```
 
-```class_data_bits_t```用于获取具体的类信息，结构如下：
+`class_data_bits_t`用于获取具体的类信息，结构如下：
 
-```objc
+```c++
 #define FAST_DATA_MASK          0x00007ffffffffff8UL
 struct class_data_bits_t {
     uintptr_t bits;
@@ -63,15 +61,21 @@ public:
 // readWrite：可读可写
 struct class_rw_t {
     uint32_t flags;
-    uint32_t version;
-    const class_ro_t *ro;
-    method_list_t * methods;    // 方法列表
-    property_list_t *properties;    // 属性列表
-    const protocol_list_t * protocols;  // 协议列表
-    Class firstSubclass;
+    uint32_t witness;
+  	Class firstSubclass;
     Class nextSiblingClass;
-    char *demangledName;
+    class_rw_ext_t *ext;
+    const class_ro_t *ro;
 };
+
+struct class_rw_ext_t {
+  class_ro_t *ro;
+  method_array_t methods;// 方法列表
+  property_array_t properties; // 属性列表
+  protocol_array_t protocols; // 协议列表
+  char *demangledName;
+   uint32_t version;
+}
 
 // readOnly:只读
 struct class_ro_t {
@@ -95,11 +99,39 @@ struct class_ro_t {
 
 ## 消息发送阶段
 
-在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程：
+在OC里面，调用对象的某个方法就是给这个对象发送一条消息，这里我们新建一个Person类，以[person personRun]为例来看看消息发送阶段的流程。
 
-流程如下：
+在[【iOS重学】方法缓存cache_t的分析](https://codersunny.com/posts/39324100/)这篇文章中我们主要分析了方法缓存，建议大家先看一下缓存可以帮助我们理解接下来的流程。
 
-![20220604_01](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/20220604_01.png)
+我们知道OC中的方法调用其实就是转成`objc_msgSend()`函数的调用（load方法除外），如下：
+
+![1](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/1.png)
+
+```c++
+// 消息发送阶段源码跟读顺序
+1. objc-msg-arm64 汇编文件
+	ENTRY _objc_msgSend
+	b.le LNilOrTagged
+	CacheLookup NORMAL, _objc_msgSend, __objc_msgSend_uncached
+	.macro CacheLookup
+	CacheHit // 命中缓存
+	MissLabelDynamic // 其实就是__objc_msgSend_uncached
+	STATIC_ENTRY __objc_msgSend_uncached
+	MethodTableLookup
+	.macro MethodTableLookup
+	bl _lookupImpOrForward
+
+2. objc-runtime-new.mm 文件
+	lookupImpOrForward
+	getMethodNoSuper_nolock(curClass, sel)
+	curClass = curClass->getSuperclass()
+	cache_getImp(curClass, sel) // 从父类缓存里面查找
+	log_and_fill_cache // 缓存方法到消息接收者这个类
+```
+
+消息发送的流程图如下：
+
+![2](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2.png)
 
 > **我们来验证一下是否真的缓存了调用的方法：**
 >
@@ -137,7 +169,21 @@ struct class_ro_t {
 
 ## 动态方法解析阶段
 
-![2022060402](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060402.png)
+当第一阶段【消息发送阶段】没有找到方法实现就会进入第二阶段【动态方法解析阶段】。
+
+```c++
+// 动态方法解析阶段源码跟读顺序
+1. objc-runtime-new.mm 文件
+  resolveMethod_locked
+  resolveInstanceMethod 或 resolveClassMethod
+  lookupImpOrNilTryCache
+  _lookupImpTryCache
+  lookupImpOrForward
+```
+
+动态方法解析的流程图如下：
+
+![3](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/3.png)
 
 ### 动态方法解析流程
 
@@ -146,7 +192,10 @@ struct class_ro_t {
 ### 动态方法解析代码
 
 ```objc
-//第一种实现
+- (void)otherRun {
+  NSLog(@"%s",__func__);
+}
+
 + (BOOL)resolveInstanceMethod:(SEL)sel {
     if (sel == @selector(personRun)) {
         Method otherMethod = class_getInstanceMethod(self, @selector(otherRun));
@@ -156,23 +205,30 @@ struct class_ro_t {
     }
     return [super resolveInstanceMethod:sel];
 }
-
-//第二种实现
-+ (BOOL)resolveInstanceMethod:(SEL)sel {
-    if (sel == @selector(personRun)) {
-        IMP imp = class_getMethodImplementation(self, @selector(otherRun));
-        class_addMethod(self, sel, imp, "v16@0:8");
-        return  YES;
-    }
-    return [super resolveInstanceMethod:sel];
-}
 ```
 
 ## 消息转发阶段
 
-如果前面的两个阶段都没有实现，就会继续进行第三步：消息转发
+如果前面的两个阶段都没有实现，就会继续进入【消息转发】的流程。
 
-![2022060403](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/2022060403.png)
+```c++
+// 消息转发阶段的源码跟读顺序
+1. objc-msg-arm64 汇编文件
+  forward_imp = _objc_msgForward_impcache
+  STATIC_ENTRY __objc_msgForward_impcache
+  b __objc_msgForward
+  ENTRY __objc_msgForward
+  ENTRY __objc_msgForward_stret
+  __objc_forward_stret_handler
+2. objc-runtime-new.mm 文件
+  void *_objc_forward_stret_handler = (void *)objc_defaultForwardStretHandler;
+3. CoreFoundation 框架
+  __forwarding__ // 不开源
+```
+
+消息转发的流程图如下：
+
+![4](https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220604/4.png)
 
 ### 消息转发流程
 
@@ -182,6 +238,8 @@ struct class_ro_t {
 第二步：```forwardingTargetForSelector:``` 方法返回为```nil```，继续检查```methodSignatureForSelector：```是否返回了一个方法签名，然后去执行```forwardInvocation:```方法。
 
 ### 消息转发流程相关代码实现
+
+#### 1. 实例方法流程
 
 ```objc
 //第一步
@@ -203,6 +261,37 @@ struct class_ro_t {
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
      [anInvocation invokeWithTarget:[Student new]];
   // 在这个方法里可以做任何我们想做的事情
+}
+
+- (void)doesNotRecognizeSelector:(SEL)aSelector {
+    NSLog(@"%s",__func__);
+}
+```
+
+#### 2. 类方法流程
+
+```objc
+// 第一步
++ (id)forwardingTargetForSelector:(SEL)aSelector {
+    if (aSelector == @selector(personTest)) {
+        return [Student class];
+    }
+    return [super forwardingTargetForSelector:aSelector];
+}
+
+// 第二步
++ (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if (aSelector == @selector(personTest)) {
+        return [Student methodSignatureForSelector:aSelector];
+    }
+    return [super methodSignatureForSelector:aSelector];
+}
++ (void)forwardInvocation:(NSInvocation *)anInvocation {
+    [anInvocation invokeWithTarget:[Student class]];
+}
+
++ (void)doesNotRecognizeSelector:(SEL)aSelector {
+    NSLog(@"%s",__func__);
 }
 ```
 
@@ -244,3 +333,4 @@ struct class_ro_t {
 ## 最后
 
 如果按照上面的三大流程都走完之后依然没有找到相应的方法实现，那这个调用最后就会调用```doesNotRecognizeSelecto:```抛出异常。
+
