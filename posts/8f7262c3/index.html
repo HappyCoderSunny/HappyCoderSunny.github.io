@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【iOS重学】一篇文章讲清楚+load和+initialize | Sunny's Blog</title><meta name="keywords" content="iOS,底层原理"><meta name="author" content="Sunny"><meta name="copyright" content="Sunny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面 本文主要从底层源码上来分析一下+load和+initialize方法的调用顺序以及它们之间的区别。 +load +load方法会在Runtime加载类、分类的时候调用，每个类、分类的+load方法在程序运行过程中只会调用一次。 +load的基本使用 &#x2F;&#x2F; Person 类@interface Person : NSObject@end@implementation Person+ (vo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS重学】一篇文章讲清楚+load和+initialize">
+<meta property="og:url" content="https://codersunny.com/posts/8f7262c3/index.html">
+<meta property="og:site_name" content="Sunny&#39;s Blog">
+<meta property="og:description" content="写在前面 本文主要从底层源码上来分析一下+load和+initialize方法的调用顺序以及它们之间的区别。 +load +load方法会在Runtime加载类、分类的时候调用，每个类、分类的+load方法在程序运行过程中只会调用一次。 +load的基本使用 &#x2F;&#x2F; Person 类@interface Person : NSObject@end@implementation Person+ (vo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover54.jpg">
+<meta property="article:published_time" content="2022-11-28T01:35:15.000Z">
+<meta property="article:modified_time" content="2023-03-05T09:52:30.388Z">
+<meta property="article:author" content="Sunny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover54.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://codersunny.com/posts/8f7262c3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-n3yl43eW4P"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【iOS重学】一篇文章讲清楚+load和+initialize',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-05 17:52:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sunny's Blog" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover54.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sunny's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【iOS重学】一篇文章讲清楚+load和+initialize</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-28T01:35:15.000Z" title="发表于 2022-11-28 09:35:15">2022-11-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-05T09:52:30.388Z" title="更新于 2023-03-05 17:52:30">2023-03-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面-17">写在前面</h2>
+<p>本文主要从底层源码上来分析一下<code>+load</code>和<code>+initialize</code>方法的调用顺序以及它们之间的区别。</p>
+<h2 id="load">+load</h2>
+<p><code>+load</code>方法会在<code>Runtime</code>加载类、分类的时候调用，每个类、分类的<code>+load</code>方法在程序运行过程中只会调用一次。</p>
+<h3 id="load的基本使用">+load的基本使用</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Person + Test1 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span> </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Person + Test2 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student 类 继承自Person</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> : <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student + Test1 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student + Test2 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)load &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>上面场景，<code>+load</code>方法的打印顺序为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.392232</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Person load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.392867</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Student load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.392964</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Animal load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.393013</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Student(Test1) load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.393056</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Person(Test1) load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.393107</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Student(Test2) load]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">09</span>:<span class="number">50</span>:<span class="number">34.393151</span>+<span class="number">0800</span> CategoryDemo[<span class="number">88835</span>:<span class="number">2251283</span>] +[Person(Test2) load]</span><br></pre></td></tr></table></figure>
+<p>那么，它们之间究竟是什么样的一个加载顺序呢？</p>
+<h3 id="load的底层源码">+load的底层源码</h3>
+<p><code>+load</code>方法的源码查看顺序：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// objc-os文件</span></span><br><span class="line"><span class="number">1.</span> _objc_init</span><br><span class="line"><span class="number">2.</span> load_images</span><br><span class="line"></span><br><span class="line"><span class="comment">// objc-runtime-new文件</span></span><br><span class="line"><span class="number">3.</span> prepare_load_methods</span><br><span class="line">  <span class="number">3.1</span> schedule_class_load</span><br><span class="line">  <span class="number">3.2</span> add_category_to_loadable_list</span><br><span class="line"><span class="number">4.</span> call_load_methods</span><br><span class="line">  <span class="number">4.1</span> call_class_loads - (*load_method)(cls, <span class="keyword">@selector</span>(load))</span><br><span class="line">  <span class="number">4.2</span> call_category_loads</span><br></pre></td></tr></table></figure>
+<p>在<a href="https://codersunny.com/posts/dfd029e5/">【iOS重学】Category的底层原理</a>中博主提到<code>Runtime</code>入口就是：<code>objc-os</code>文件中的<code>_objc_init</code>方法，我们就从这里入手分析一下底层源码。</p>
+<p><code>prepare_load_methods</code>方法源码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/1.png" alt="1"></p>
+<div class="note green no-icon flat"><p><strong>解释</strong>：</p>
+<p>1、先按照编译顺序将所有的类<code>add_class_to_loadable_list</code>装载到<code>loadable_classes</code>的数组中。</p>
+<p>2、再按照编译顺序将所有的分类<code>add_class_to_loadable_list</code>装载到<code>loadable_classes</code>的数组中。</p>
+</div>
+<p><code>schedule_class_load</code>方法源码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/2.png" alt="2"></p>
+<div class="note green no-icon flat"><p><strong>解释</strong>：</p>
+<p>在装载类到<code>loadable_classes</code>数组中时，如果存在父类，先将父类装载到<code>loadable_classes</code>中，再将类加载到数组中。</p>
+</div>
+<p><code>call_load_methods</code>方法源码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/3.png" alt="3"></p>
+<div class="note green no-icon flat"><p><strong>解释</strong>：</p>
+<p>在调用<code>+load</code>方法时，先调用类的<code>+load</code>方法再调用分类的<code>+load</code>方法。</p>
+</div>
+<h3 id="load的调用顺序总结">+load的调用顺序总结</h3>
+<div class="note green no-icon flat"><p>1、先调用类的<code>+load</code></p>
+<p>​	1.1 按照编译顺序进行调用（先编译 -&gt; 先调用）</p>
+<p>​	1.2 调用子类<code>+load</code>之前会先调用父类的<code>+load</code></p>
+<p>2、再调用分类的<code>+load</code></p>
+<p>​	2.1 按照编译顺序进行调用（先编译 -&gt; 先调用）</p>
+<p><strong>注意</strong>：<code>+load</code>只会调用一次，比如<code>Student</code>在<code>Person</code>之前编译，会先调用<code>Person</code>的<code>+load</code>方法，表示<code>Person</code>已经被装载进内存了，所以<code>+load</code>不会被调用多次。</p>
+</div>
+<h3 id="load的调用方式">+load的调用方式</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/4.png" alt="4"></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> loadable_class &#123;</span><br><span class="line">    Class cls;  <span class="comment">// may be nil</span></span><br><span class="line">    IMP method; <span class="comment">// 这个method 就是+load的IMP 这个loadable_class就是用来加载类的结构体</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如上图<code>call_class_loads</code>方法所示，<code>+load</code>方法的调用方式是：直接根据<code>+load</code>方法的函数地址直接去调用。</p>
+<h2 id="initialize">+initialize</h2>
+<p><code>+initialize</code>方法会在类第一次接收到消息的时候调用。</p>
+<h3 id="initialize的基本使用">+initialize的基本使用</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Person + Test1 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span> </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Person + Test2 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student 类 继承自Person</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> : <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student + Test1 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span> (<span class="title">Test1</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Student + Test2 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Student</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Student</span> (<span class="title">Test2</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)initialize &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>上面场景，<code>+initialize</code>方法的打印顺序为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">18</span>:<span class="number">00</span>:<span class="number">10.526685</span>+<span class="number">0800</span> CategoryDemo[<span class="number">57742</span>:<span class="number">2613672</span>] +[Person(Test2) initialize]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">18</span>:<span class="number">00</span>:<span class="number">10.527249</span>+<span class="number">0800</span> CategoryDemo[<span class="number">57742</span>:<span class="number">2613672</span>] +[Student(Test2) initialize]</span><br></pre></td></tr></table></figure>
+<h3 id="initialize的底层源码">+initialize的底层源码</h3>
+<p><code>+initialize</code>方法源码的查看顺序：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// objc-runtime-new.mm文件</span></span><br><span class="line"><span class="number">1.</span> class_getInstanceMethod</span><br><span class="line"><span class="number">2.</span> lookUpImpOrForward</span><br><span class="line"><span class="number">3.</span> realizeAndInitializeIfNeeded_locked</span><br><span class="line"><span class="number">4.</span> initializeAndLeaveLocked</span><br><span class="line"><span class="number">5.</span> initializeAndMaybeRelock</span><br><span class="line"><span class="number">6.</span> initializeNonMetaClass</span><br><span class="line"><span class="number">7.</span> callInitialize</span><br></pre></td></tr></table></figure>
+<p><code>initializeNonMetaClass</code>方法源码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/5.png" alt="5"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1128/6.png" alt="6"></p>
+<div class="note green no-icon flat"><p><strong>解释</strong>：</p>
+<p>从上面的源码我们大概可以看到：在调用<code>callInitialize</code>方法之前会去检查是否存在父类和父类是否被初始化，会先去调用父类的<code>+initialize</code>方法。</p>
+</div>
+<h3 id="initialize的调用顺序总结">+initialize的调用顺序总结</h3>
+<div class="note green no-icon flat"><p>先调用父类的<code>+initialize</code>，再调用子类的<code>+initialize</code>。</p>
+<p><strong>注意</strong>：</p>
+<p>1、先初始化父类再初始化子类，每个类只会被初始化一次，但是可能会被调用多次。</p>
+<p>比如下面场景：</p>
+<p>1.<code>Student</code>没有实现<code>+initialize</code>方法，调用<code> [Person alloc]</code> <code> [Student alloc]</code>会调用两次<code>Person</code> 的<code>+initialize</code>方法。</p>
+<p>打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">18</span>:<span class="number">01</span>:<span class="number">47.579047</span>+<span class="number">0800</span> CategoryDemo[<span class="number">57804</span>:<span class="number">2615728</span>] +[Person(Test2) initialize]</span><br><span class="line"><span class="number">2022</span><span class="number">-11</span><span class="number">-28</span> <span class="number">18</span>:<span class="number">01</span>:<span class="number">47.579702</span>+<span class="number">0800</span> CategoryDemo[<span class="number">57804</span>:<span class="number">2615728</span>] +[Person(Test2) initialize]</span><br></pre></td></tr></table></figure>
+<p>2.<code>Student</code>实现了<code>+initialize</code>方法，<code>Person</code>调用过了<code>+initialize</code>，那么就不会再调用了。</p>
+</div>
+<h3 id="initialize调用方式">+initialize调用方式</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> callInitialize(Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    ((<span class="type">void</span>(*)(Class, SEL))objc_msgSend)(cls, <span class="keyword">@selector</span>(initialize));</span><br><span class="line">    <span class="keyword">asm</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图<code>callInitialize</code>方法所示，<code>+initialize</code>方法的调用方式是：<code>obj_msgSend</code>。</p>
+<h2 id="load和-initialize对比">+load和+initialize对比</h2>
+<p>1、调用时机：</p>
+<p><code>+load</code>是在<code>Runtime</code>加载类、分类的时候调用（只会调用一次），在<code>main</code>函数之前。</p>
+<p><code>+initialize</code>是在类第一次接收到消息的时候调用，只会初始化一次（父类的<code>+initialize</code>可能会被调用多次），在<code>main</code>函数之后。</p>
+<p>2、调用方式：</p>
+<p><code>+load</code>是根据函数地址直接调用。</p>
+<p><code>+initialize</code>是通过<code>objc_msgSend</code>调用。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://codersunny.com">Sunny</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codersunny.com/posts/8f7262c3/">https://codersunny.com/posts/8f7262c3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codersunny.com" target="_blank">Sunny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a><a class="post-meta__tags" href="/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">底层原理</a></div><div class="post_share"><div class="social-share" data-image="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover54.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechat_pay.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/ali_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/ali_pay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/1bf7fb0b/"><img class="prev-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover67.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【iOS逆向】一键越狱教程</div></div></a></div><div class="next-post pull-right"><a href="/posts/dfd029e5/"><img class="next-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover63.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【iOS重学】Category的底层原理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/67d22871/" title="【iOS重学】Block底层原理（一）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover68.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-06</div><div class="title">【iOS重学】Block底层原理（一）</div></div></a></div><div><a href="/posts/57c4c4a9/" title="【iOS重学】Block底层原理（二）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover70.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-08</div><div class="title">【iOS重学】Block底层原理（二）</div></div></a></div><div><a href="/posts/dfd029e5/" title="【iOS重学】Category的底层原理"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover63.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-24</div><div class="title">【iOS重学】Category的底层原理</div></div></a></div><div><a href="/posts/8583d944/" title="【iOS重学】KVC详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover42.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-21</div><div class="title">【iOS重学】KVC详解</div></div></a></div><div><a href="/posts/4223b330/" title="【iOS重学】KVO详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover22.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-15</div><div class="title">【iOS重学】KVO详解</div></div></a></div><div><a href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-31</div><div class="title">【iOS重学】Runtime中常用的一些API汇总</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sunny</div><div class="author-info__description">千里之行，始于足下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=532619121&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://codersunny.com/images/wechat.png" target="_blank" title="WeChat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/HappyCoderSunny" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:532619121@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">阅读过程中如果遇到问题，请及时评论或者留言，看到了会第一时间回复，如果未收到回复也可加博主vx（申请时请备注）。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2-17"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#load"><span class="toc-number">2.</span> <span class="toc-text">+load</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#load%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">+load的基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">+load的底层源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E6%80%BB%E7%BB%93"><span class="toc-number">2.3.</span> <span class="toc-text">+load的调用顺序总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#load%E7%9A%84%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.4.</span> <span class="toc-text">+load的调用方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initialize"><span class="toc-number">3.</span> <span class="toc-text">+initialize</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initialize%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">+initialize的基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initialize%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">+initialize的底层源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initialize%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E6%80%BB%E7%BB%93"><span class="toc-number">3.3.</span> <span class="toc-text">+initialize的调用顺序总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initialize%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.4.</span> <span class="toc-text">+initialize调用方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#load%E5%92%8C-initialize%E5%AF%B9%E6%AF%94"><span class="toc-number">4.</span> <span class="toc-text">+load和+initialize对比</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】Runtime中常用的一些API汇总"/></a><div class="content"><a class="title" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总">【iOS重学】Runtime中常用的一些API汇总</a><time datetime="2023-01-31T07:46:11.000Z" title="发表于 2023-01-31 15:46:11">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】一篇文章讲清楚super"/></a><div class="content"><a class="title" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super">【iOS重学】一篇文章讲清楚super</a><time datetime="2023-01-30T08:42:21.000Z" title="发表于 2023-01-30 16:42:21">2023-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover71.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【PS学习】图层相关基本操作"/></a><div class="content"><a class="title" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作">【PS学习】图层相关基本操作</a><time datetime="2023-01-10T06:27:21.000Z" title="发表于 2023-01-10 14:27:21">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/745be31f/" title="【工具使用】Reveal工具的使用介绍"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover72.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【工具使用】Reveal工具的使用介绍"/></a><div class="content"><a class="title" href="/posts/745be31f/" title="【工具使用】Reveal工具的使用介绍">【工具使用】Reveal工具的使用介绍</a><time datetime="2022-12-26T12:02:46.000Z" title="发表于 2022-12-26 20:02:46">2022-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/39324100/" title="【iOS重学】方法缓存cache_t的分析"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover59.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】方法缓存cache_t的分析"/></a><div class="content"><a class="title" href="/posts/39324100/" title="【iOS重学】方法缓存cache_t的分析">【iOS重学】方法缓存cache_t的分析</a><time datetime="2022-12-21T07:55:12.000Z" title="发表于 2022-12-21 15:55:12">2022-12-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover54.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Sunny</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://codersunny.com">blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://fastly.jsdelivr.net/gh/zhheo/twikoo@dev/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script defer src="https://fastly.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer data-pjax src="/js/wow_init.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/MetingJS/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【iOS重学】关联对象的底层原理 | Sunny's Blog</title><meta name="keywords" content="iOS,底层原理,Runtime"><meta name="author" content="Sunny"><meta name="copyright" content="Sunny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面 本文主要探究一下iOS中如何给分类添加属性以及关联对象的底层原理是什么，建议大家看本篇文章的时候参考objc4源码一起看会更好。 如何给分类添加属性 &#x2F;&#x2F; Person + Test 类@interface Person (Test)@property (nonatomic, copy) NSString *name;@end@implementation Person (Test)-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS重学】关联对象的底层原理">
+<meta property="og:url" content="https://codersunny.com/posts/baafbb5e/index.html">
+<meta property="og:site_name" content="Sunny&#39;s Blog">
+<meta property="og:description" content="写在前面 本文主要探究一下iOS中如何给分类添加属性以及关联对象的底层原理是什么，建议大家看本篇文章的时候参考objc4源码一起看会更好。 如何给分类添加属性 &#x2F;&#x2F; Person + Test 类@interface Person (Test)@property (nonatomic, copy) NSString *name;@end@implementation Person (Test)-">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover65.jpg">
+<meta property="article:published_time" content="2022-11-30T06:19:30.000Z">
+<meta property="article:modified_time" content="2023-03-05T09:52:30.389Z">
+<meta property="article:author" content="Sunny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层原理">
+<meta property="article:tag" content="Runtime">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover65.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://codersunny.com/posts/baafbb5e/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-n3yl43eW4P"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【iOS重学】关联对象的底层原理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-05 17:52:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sunny's Blog" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover65.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sunny's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【iOS重学】关联对象的底层原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-30T06:19:30.000Z" title="发表于 2022-11-30 14:19:30">2022-11-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-05T09:52:30.389Z" title="更新于 2023-03-05 17:52:30">2023-03-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面-20">写在前面</h2>
+<p>本文主要探究一下iOS中如何给分类添加属性以及关联对象的底层原理是什么，建议大家看本篇文章的时候参考objc4源码一起看会更好。</p>
+<h2 id="如何给分类添加属性">如何给分类添加属性</h2>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person + Test 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setName:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(name), name, OBJC_ASSOCIATION_COPY_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(name));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<div class="note red no-icon flat"><p><strong>解释</strong>：</p>
+<p><code>objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</code>参数解释：</p>
+<p>1、<code>object</code>：需要关联的对象</p>
+<p>2、<code>key</code>：关联key</p>
+<p>3、<code>value</code>：关联值</p>
+<p>4、<code>policy</code>：关联策略</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</span><br><span class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>, <span class="comment">// 对应 assign       </span></span><br><span class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, <span class="comment">//  对应 strong，nonatomic</span></span><br><span class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>, <span class="comment">// 对应 copy，nonatomic </span></span><br><span class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>, <span class="comment">// 对应 strong，atomic                                     </span></span><br><span class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span> <span class="comment">// 对应 copy，atomic</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</div>
+<h2 id="关联对象的底层原理">关联对象的底层原理</h2>
+<div class="note red no-icon flat"><p>博主这里的源码是 objc4 - 838 版本，不同的版本有的方法实现可能会有一些差异但是原理都是基本不变的，建议大家下载最新版本的源码阅读。</p>
+</div>
+<h3 id="设值原理">设值原理</h3>
+<p>设值调用的是<code>objc_setAssociatedObject</code>，里面调用的是<code>_objc_set_associative_reference</code>，设值的核心方法就在<code>_objc_set_associative_reference</code>里面，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1130/1.png" alt="1"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1130/2.png" alt="2"></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">_object_set_associative_reference(<span class="type">id</span> object, <span class="keyword">const</span> <span class="type">void</span> *key, <span class="type">id</span> value, uintptr_t policy)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// This code used to work when nil was passed for object and key. Some code</span></span><br><span class="line">    <span class="comment">// probably relies on that to not crash. Check and handle it explicitly.</span></span><br><span class="line">    <span class="comment">// rdar://problem/44094390</span></span><br><span class="line">    <span class="keyword">if</span> (!object &amp;&amp; !value) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (object-&gt;getIsa()-&gt;forbidsAssociatedObjects())</span><br><span class="line">        _objc_fatal(<span class="string">&quot;objc_setAssociatedObject called on instance (%p) of class %s which does not allow associated objects&quot;</span>, object, object_getClassName(object));</span><br><span class="line">    <span class="comment">// 把关联对象object包装成一个DisguisedPtr类型的数据结构</span></span><br><span class="line">    DisguisedPtr&lt;objc_object&gt; disguised&#123;(objc_object *)object&#125;;</span><br><span class="line">    <span class="comment">// 把关联策略policy和具体关联的值value包装成一个ObjcAssociation的数据结构</span></span><br><span class="line">    ObjcAssociation association&#123;policy, value&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// retain the new value (if any) outside the lock.</span></span><br><span class="line">    <span class="comment">// 根据不同的策略类型做相应的处理</span></span><br><span class="line">    association.acquireValue();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> isFirstAssociation = <span class="literal">false</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// AssociationsManager 是关联对象管理类，里面有一个静态变量_mapStorage，要注意的是manager并不是唯一的。</span></span><br><span class="line">        AssociationsManager manager;</span><br><span class="line">        <span class="comment">// 通过 manager.get()来获取所有的关联表associations 类型是 AssociationsHashMap</span></span><br><span class="line">        AssociationsHashMap &amp;associations(manager.get());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (value) &#123;</span><br><span class="line">            <span class="comment">// 根据关联的对象disguised去关联表associations中查找对应的ObjectAssociationMap类型的value，如果没有就创建一个插入到associations里面</span></span><br><span class="line">            auto refs_result = associations.try_emplace(disguised, ObjectAssociationMap&#123;&#125;);</span><br><span class="line">            <span class="keyword">if</span> (refs_result.second) &#123;</span><br><span class="line">                <span class="comment">/* it&#x27;s the first association we make */</span></span><br><span class="line">                isFirstAssociation = <span class="literal">true</span>; <span class="comment">// 设置为true</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* establish or replace the association */</span></span><br><span class="line">            auto &amp;refs = refs_result.first-&gt;second;</span><br><span class="line">            auto result = refs.try_emplace(key, std::move(association)); <span class="comment">// 根据传入的key找到对应的bucket，替换掉原来的或者插入新的association，并且设置关联策略。</span></span><br><span class="line">            <span class="keyword">if</span> (!result.second) &#123;</span><br><span class="line">                association.swap(result.first-&gt;second);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 如果value值为nil 通过传入的关联对象disguised找到相应的AssociationsHashMap</span></span><br><span class="line">            auto refs_it = associations.find(disguised);</span><br><span class="line">            <span class="keyword">if</span> (refs_it != associations.end()) &#123;</span><br><span class="line">                auto &amp;refs = refs_it-&gt;second;</span><br><span class="line">                auto it = refs.find(key); <span class="comment">// 通过传入的key去找到ObjectAssociation</span></span><br><span class="line">                <span class="keyword">if</span> (it != refs.end()) &#123;</span><br><span class="line">                    association.swap(it-&gt;second); <span class="comment">// 进行擦除操作</span></span><br><span class="line">                    refs.erase(it);</span><br><span class="line">                    <span class="keyword">if</span> (refs.size() == <span class="number">0</span>) &#123;</span><br><span class="line">                        associations.erase(refs_it);</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call setHasAssociatedObjects outside the lock, since this</span></span><br><span class="line">    <span class="comment">// will call the object&#x27;s _noteAssociatedObjects method if it</span></span><br><span class="line">    <span class="comment">// has one, and this may trigger +initialize which might do</span></span><br><span class="line">    <span class="comment">// arbitrary stuff, including setting more associated objects.</span></span><br><span class="line">    <span class="keyword">if</span> (isFirstAssociation)</span><br><span class="line">        <span class="comment">// 如果有关联对象</span></span><br><span class="line">        object-&gt;setHasAssociatedObjects();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// release the old value (outside of the lock).</span></span><br><span class="line">    <span class="comment">// 对association进行一次release操作</span></span><br><span class="line">    association.releaseHeldValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面我们可以看到设置关联的四个主要对象：</p>
+<p><code>AssociationsManager</code></p>
+<p><code>AssociationsHashMap</code></p>
+<p><code>ObjectAssociationMap</code></p>
+<p><code>ObjcAssociation</code></p>
+<p>其中，<code>AssociationsManager</code>的结构为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> AssociationsManager &#123;</span><br><span class="line">  using Storage = ExplicitInitDenseMap&lt;DisguisedPtr&lt;objc_object&gt;, ObjectAssociationMap&gt;;</span><br><span class="line">  <span class="keyword">static</span> Storage _mapStorage;</span><br><span class="line">  </span><br><span class="line">   AssociationsHashMap &amp;get() &#123;</span><br><span class="line">      <span class="keyword">return</span> _mapStorage.get();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="type">void</span> init() &#123;</span><br><span class="line">      _mapStorage.init();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>AssociationsHashMap</code>的结构为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">DenseMap&lt;DisguisedPtr&lt;objc_object&gt;, ObjectAssociationMap&gt; </span><br></pre></td></tr></table></figure>
+<p><code>ObjectAssociationMap</code>的结构为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> DenseMap&lt;<span class="keyword">const</span> <span class="type">void</span> *, ObjcAssociation&gt; ObjectAssociationMap;</span><br></pre></td></tr></table></figure>
+<p><code>ObjcAssociation</code>的结构为：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> ObjcAssociation &#123;</span><br><span class="line">  uintptr_t _policy; <span class="comment">// 关联策略</span></span><br><span class="line">  <span class="type">id</span> _value; <span class="comment">// 关联值value</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这四个对象之间的关系如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1130/3.png" alt="3"></p>
+<p>对照<code>objc_setAssociatedObject(id object, cons void *key, id value, objc_AssociationPolicy policy)</code>方法：</p>
+<ol>
+<li>通过<code>AssociationsManager</code>的<code>manager.get()</code>获得<code>AssociationsHashMap</code>。</li>
+<li><code>AssociationsHashMap</code>中的<code>key</code>是关联对象<code>object</code>，<code>value</code>是<code>ObjectAssociationMap</code>。</li>
+<li><code>ObjectAssociationMap</code>中的<code>key</code>是方法中的<code>key</code>，<code>value</code>是<code>ObjectAssociation</code>。</li>
+<li><code>ObjectAssociation</code>中存放的就是方法中的<code>value</code>和关联策略<code>policy</code>。</li>
+</ol>
+<p>通过上面的分析，设置关联对象的底层原理现在就很清晰了。</p>
+<h3 id="取值原理">取值原理</h3>
+<p>取得调用的是<code>objc_getAssociatedObject</code>，里面调用的是<code>_object_get_associative_reference</code>，取值的核心方法就在<code>_object_get_associative_reference</code>里面，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1130/4.png" alt="4"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1130/5.png" alt="5"></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">id</span></span><br><span class="line">_object_get_associative_reference(<span class="type">id</span> object, <span class="keyword">const</span> <span class="type">void</span> *key)</span><br><span class="line">&#123;</span><br><span class="line">    ObjcAssociation association&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        AssociationsManager manager;</span><br><span class="line">        AssociationsHashMap &amp;associations(manager.get());</span><br><span class="line">        AssociationsHashMap::iterator i = associations.find((objc_object *)object); <span class="comment">// 通过object可以获取ObjectAssociationMap</span></span><br><span class="line">        <span class="keyword">if</span> (i != associations.end()) &#123;</span><br><span class="line">            <span class="comment">// 遍历AssociationsHashMap</span></span><br><span class="line">            ObjectAssociationMap &amp;refs = i-&gt;second;</span><br><span class="line">            ObjectAssociationMap::iterator j = refs.find(key); <span class="comment">// 通过key可以获得ObjcAssociation</span></span><br><span class="line">            <span class="keyword">if</span> (j != refs.end()) &#123;</span><br><span class="line">                <span class="comment">// 遍历ObjectAssociationMap</span></span><br><span class="line">                association = j-&gt;second;</span><br><span class="line">                association.retainReturnedValue();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> association.autoreleaseReturnedValue(); <span class="comment">// 返回取到的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结-2">总结</h3>
+<p>通过上面分析，我们需要知道：</p>
+<ol>
+<li>关联对象并不是存储在被关联对象本身的内存里面，而是存储在一个全局的<code>AssociationsHashMap</code>里面。</li>
+<li>设置关联对象为<code>nil</code>就相当于是移除关联对象。</li>
+<li>移除所有的关联对象：<code>objc_removeAssoociatedObjects</code>。</li>
+<li>关联对象的策略里面没有 <code>weak</code>属性。</li>
+<li>关联对象被移除的时候，相应的关联属性也会被移除。</li>
+</ol>
+<h2 id="写在最后-14">写在最后</h2>
+<p>关于关联对象的底层原理我们就简单分析到这里，如有错误请多多指教。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://codersunny.com">Sunny</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codersunny.com/posts/baafbb5e/">https://codersunny.com/posts/baafbb5e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codersunny.com" target="_blank">Sunny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a><a class="post-meta__tags" href="/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">底层原理</a><a class="post-meta__tags" href="/tags/Runtime/">Runtime</a></div><div class="post_share"><div class="social-share" data-image="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover65.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechat_pay.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/ali_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/ali_pay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7df93f3b/"><img class="prev-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover66.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【iOS逆向】如何让Mac和iPhone建立安全连接</div></div></a></div><div class="next-post pull-right"><a href="/posts/1bf7fb0b/"><img class="next-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover67.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【iOS逆向】一键越狱教程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/dfd029e5/" title="【iOS重学】Category的底层原理"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover63.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-24</div><div class="title">【iOS重学】Category的底层原理</div></div></a></div><div><a href="/posts/8948fead/" title="【 iOS重学】class_rw_ext_t结构详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover43.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-24</div><div class="title">【 iOS重学】class_rw_ext_t结构详解</div></div></a></div><div><a href="/posts/67d22871/" title="【iOS重学】Block底层原理（一）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover68.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-06</div><div class="title">【iOS重学】Block底层原理（一）</div></div></a></div><div><a href="/posts/57c4c4a9/" title="【iOS重学】Block底层原理（二）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover70.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-08</div><div class="title">【iOS重学】Block底层原理（二）</div></div></a></div><div><a href="/posts/8583d944/" title="【iOS重学】KVC详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover42.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-21</div><div class="title">【iOS重学】KVC详解</div></div></a></div><div><a href="/posts/4223b330/" title="【iOS重学】KVO详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover22.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-15</div><div class="title">【iOS重学】KVO详解</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sunny</div><div class="author-info__description">千里之行，始于足下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=532619121&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://codersunny.com/images/wechat.png" target="_blank" title="WeChat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/HappyCoderSunny" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:532619121@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">阅读过程中如果遇到问题，请及时评论或者留言，看到了会第一时间回复，如果未收到回复也可加博主vx（申请时请备注）。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2-20"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">如何给分类添加属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">关联对象的底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%80%BC%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">设值原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E5%80%BC%E5%8E%9F%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">取值原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">3.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E-14"><span class="toc-number">4.</span> <span class="toc-text">写在最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】Runtime中常用的一些API汇总"/></a><div class="content"><a class="title" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总">【iOS重学】Runtime中常用的一些API汇总</a><time datetime="2023-01-31T07:46:11.000Z" title="发表于 2023-01-31 15:46:11">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】一篇文章讲清楚super"/></a><div class="content"><a class="title" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super">【iOS重学】一篇文章讲清楚super</a><time datetime="2023-01-30T08:42:21.000Z" title="发表于 2023-01-30 16:42:21">2023-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover71.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【PS学习】图层相关基本操作"/></a><div class="content"><a class="title" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作">【PS学习】图层相关基本操作</a><time datetime="2023-01-10T06:27:21.000Z" title="发表于 2023-01-10 14:27:21">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/745be31f/" title="【工具使用】Reveal工具的使用介绍"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover72.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【工具使用】Reveal工具的使用介绍"/></a><div class="content"><a class="title" href="/posts/745be31f/" title="【工具使用】Reveal工具的使用介绍">【工具使用】Reveal工具的使用介绍</a><time datetime="2022-12-26T12:02:46.000Z" title="发表于 2022-12-26 20:02:46">2022-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/39324100/" title="【iOS重学】方法缓存cache_t的分析"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover59.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】方法缓存cache_t的分析"/></a><div class="content"><a class="title" href="/posts/39324100/" title="【iOS重学】方法缓存cache_t的分析">【iOS重学】方法缓存cache_t的分析</a><time datetime="2022-12-21T07:55:12.000Z" title="发表于 2022-12-21 15:55:12">2022-12-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover65.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Sunny</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://codersunny.com">blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://fastly.jsdelivr.net/gh/zhheo/twikoo@dev/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script defer src="https://fastly.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer data-pjax src="/js/wow_init.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/MetingJS/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

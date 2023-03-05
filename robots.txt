@@ -1,0 +1,20 @@
+# hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /posts/
+Allow: /categories/
+Allow: /link/
+Allow: /music/
+Allow: /pictures/
+Allow: /tags/
+
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: https://codersunny.com/sitemap.xml
+Sitemap: https://codersunny.com/baidusitemap.xml
