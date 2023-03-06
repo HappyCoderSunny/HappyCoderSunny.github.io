@@ -2051,9 +2051,135 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
       </tags>
   </entry>
   <entry>
+    <title>【iOS重学】关于RunLoop的简单介绍</title>
+    <url>/posts/a5190dfd/</url>
+    <content><![CDATA[<h2 id="写在前面-20">写在前面</h2>
+<p>本文主要是记录关于RunLoop的一些简单介绍。</p>
+<h2 id="RunLoop">RunLoop</h2>
+<h3 id="基本认识">基本认识</h3>
+<p>RunLoop：翻译过来叫运行时循环，指的是在程序运行过程中循环的做一些事情。</p>
+<p>主要应用在：</p>
+<ul>
+<li>定时器（Timer）、PerformSelector</li>
+<li>GCD</li>
+<li>事件响应、手势识别、界面刷新</li>
+<li>网络请求</li>
+<li>AutoReleasePool</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/1.png" alt="1"></p>
+<p>上面是我们一个iOS程序的入口<code>main</code>函数，在<code>UIApplicationMain</code>函数中会去创建主线程的RunLoop对象，它用来保证程序不退出从而保证程序的持续执行。<br>
+我们可以把RunLoop运行时循环理解成一个<code>do - while</code>循环，伪代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">  <span class="built_in">NSString</span> * appDelegateClassName;</span><br><span class="line">  <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">    <span class="type">int</span> retVal = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="comment">// 1.在休眠中等待消息</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 2.如果有消息 处理消息</span></span><br><span class="line">      </span><br><span class="line">    &#125;<span class="keyword">while</span>(retVal = <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RunLoop的基本作用：</p>
+<ul>
+<li>保证程序的持续运行</li>
+<li>处理App中的各种事件（比如触摸事件、定时器等）</li>
+<li>节省CPU资源，提高程序的性能：在有消息的时候处理消息 没有消息的时候休眠。</li>
+</ul>
+<h3 id="RunLoop对象">RunLoop对象</h3>
+<p>iOS中有两套API来访问和使用RunLoop：</p>
+<ul>
+<li>Foundation框架：<code>NSRunLoop</code></li>
+<li>Core Foundation框架：<code>CFRunLoopRef</code>（开源代码：<a href="https://opensource.apple.com/tarballs/CF/">https://opensource.apple.com/tarballs/CF/</a>）</li>
+</ul>
+<h3 id="RunLoop与线程的关系">RunLoop与线程的关系</h3>
+<ul>
+<li>每条线程都有唯一的与之相对应的RunLoop对象</li>
+<li>RunLoop保存在一个全局的字典里面，线程为<code>key</code>，RunLoop为<code>value</code></li>
+<li>线程刚创建的时候并没有RunLoop对象，而是在第一次获取RunLoop对象时去创建</li>
+<li>RunLoop会在线程结束时销毁</li>
+<li>主线程的RunLoop已经自动获取（创建），子线程的RunLoop默认是没有开启的</li>
+</ul>
+<h3 id="获取RunLoop对象">获取RunLoop对象</h3>
+<p>Foundation框架：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">[<span class="built_in">NSRunLoop</span> currentRunLoop]; <span class="comment">// 获取当前线程的RunLoop对象</span></span><br><span class="line">[<span class="built_in">NSRunLoop</span> mainRunLoop]; <span class="comment">// 获取主线程的RunLoop对象</span></span><br></pre></td></tr></table></figure>
+<p>Core Foundation框架：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CFRunLoopGetCurrent</span>(); <span class="comment">// 获取当前线程的RunLoop对象</span></span><br><span class="line"><span class="built_in">CFRunLoopGetMain</span>();<span class="comment">// 获取主线程的RunLoop对象</span></span><br></pre></td></tr></table></figure>
+<h3 id="RunLoop相关的类">RunLoop相关的类</h3>
+<p>Core Foundation框架中关于RunLoop的五个类：</p>
+<ul>
+<li><code>CFRunLoopRef</code></li>
+<li><code>CFRunLoopModeRef</code></li>
+<li><code>CFRunLoopSourceRef</code></li>
+<li><code>CFRunLoopTimerRef</code></li>
+<li><code>CFRunLoopObserverRef</code></li>
+</ul>
+<div class="note green no-icon flat"><p><code>RunLoop</code>对象结构如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__CFRunLoop</span> &#123;</span><br><span class="line">	<span class="type">pthread_t</span> _pthread;</span><br><span class="line">	CFMutableSetRef _commonModes;</span><br><span class="line">	CFMutableSetRef _commonModeItems;</span><br><span class="line">	CFRunLoopModeRef _currentMode;</span><br><span class="line">	CFMutableSetRef _modes;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>RunLoopMode</code>结构如下：</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">struct __CFRunLoopMode &#123;</span><br><span class="line">	CFStringRef _name<span class="comment">;</span></span><br><span class="line">	CFMutableSetRef _sources0<span class="comment">;</span></span><br><span class="line">	CFMutableSetRef _sources1<span class="comment">;</span></span><br><span class="line">	CFMutableArrayRef _observers<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</div>
+<p>各个类之间的关系如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/2.png" alt="2"></p>
+<h3 id="RunLoop的运行模式">RunLoop的运行模式</h3>
+<p><code>CFRunLoopModeRef</code>表示是RunLoop的运行模式，一个RunLoop可以有若干个Mode，每个Mode里面又包含Source0、Source1、Timer、Observer。<br>
+RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
+如果需要切换Mode需要退出当前RunLoop重新选择一个Mode进入。<br>
+不同模式下的Source0/Source1/Timer/Observer能分隔开来，互不影响。<br>
+如果一个Mode中没有任何Source0/Source1/Timer/Observer，这个RunLoop会立马退出。</p>
+<div class="note green no-icon flat"><p>常见的Mode有两种：</p>
+<p><code>NSDefaultRunLoopMode(kCFRunLoopDefaultMode)</code>：App的默认Mode，通常主线程在这个Mode下运行。<br>
+<code>UITrackingRunLoopMode</code>：界面跟踪Mode，ScrollView的滑动，保证界面滑动时不受其他的影响。</p>
+</div>
+<h3 id="RunLoop的几种状态">RunLoop的几种状态</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Run Loop Observer Activities */</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">CF_OPTIONS</span><span class="params">(CFOptionFlags, CFRunLoopActivity)</span> </span>&#123;</span><br><span class="line">    kCFRunLoopEntry = (<span class="number">1UL</span> &lt;&lt; <span class="number">0</span>), <span class="comment">// 即将进入RunLoop</span></span><br><span class="line">    kCFRunLoopBeforeTimers = (<span class="number">1UL</span> &lt;&lt; <span class="number">1</span>), <span class="comment">// 即将处理Timer</span></span><br><span class="line">    kCFRunLoopBeforeSources = (<span class="number">1UL</span> &lt;&lt; <span class="number">2</span>), <span class="comment">// 即将处理Source</span></span><br><span class="line">    kCFRunLoopBeforeWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">5</span>), <span class="comment">// 即将进入休眠</span></span><br><span class="line">    kCFRunLoopAfterWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">6</span>), <span class="comment">// 刚从休眠中被唤醒</span></span><br><span class="line">    kCFRunLoopExit = (<span class="number">1UL</span> &lt;&lt; <span class="number">7</span>), <span class="comment">// 即将退出RunLoop</span></span><br><span class="line">    kCFRunLoopAllActivities = <span class="number">0x0FFFFFFF</span>U</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如下可以监听RunLoop的所有状态：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CFRunLoopObserverRef observer = <span class="built_in">CFRunLoopObserverCreateWithHandler</span>(kCFAllocatorDefault, kCFRunLoopAllActivities, YES, <span class="number">0</span>, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (activity) &#123;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopEntry:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopEntry...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeTimers:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeTimers...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeSources:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeSources...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeWaiting:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeWaiting...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopAfterWaiting:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopAfterWaiting...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopExit:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopExit...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">CFRunLoopAddObserver</span>(<span class="built_in">CFRunLoopGetCurrent</span>(), observer, kCFRunLoopCommonModes);</span><br><span class="line"><span class="built_in">CFRelease</span>(observer);</span><br></pre></td></tr></table></figure>
+<h3 id="RunLoop的运行逻辑">RunLoop的运行逻辑</h3>
+<p>1、 Source0</p>
+<ul>
+<li>触摸事件处理</li>
+<li>performSelector:onThread:</li>
+</ul>
+<p>2、Source1</p>
+<ul>
+<li>基于Port的线程之间的通信</li>
+<li>系统事件的捕捉</li>
+</ul>
+<p>3、Timers</p>
+<ul>
+<li>NSTimer</li>
+<li>performSelector：withObject：afterDelay：</li>
+</ul>
+<p>4、Observers</p>
+<ul>
+<li>用于监听RunLoop的状态</li>
+<li>UI刷新（BeforeWaiting）</li>
+<li>AutoReleasePool（BeforeWaiting）</li>
+</ul>
+<p>RunLoop的运行逻辑如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/3.png" alt="3"></p>
+<h3 id="RunLoop在实际开发中的应用">RunLoop在实际开发中的应用</h3>
+<ul>
+<li>控制线程的生命周期（线程保活）</li>
+<li>解决NSTimer在滑动时停止工作的问题</li>
+<li>监控应用卡顿</li>
+<li>性能优化</li>
+</ul>
+<h3 id="RunLoop的源码查看">RunLoop的源码查看</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/4.png" alt="4"></p>
+<p>从上面看到：RunLoop的源码入口在<code>CFRunLoopRunSpecific</code>。</p>
+<div class="note green no-icon flat"><p><strong>注意</strong>：</p>
+<p>1、使用Foundation框架打印出来的主线程RunLoop和Core Foundation框架打印出来的主线程RunLoop地址值不一样，原因在于Foundation框架的RunLoop是对Core Foundation框架RunLoop的一层封装。<br>
+2、系统事件是通过Source1来捕捉，之后分发到Source0去处理的。<br>
+3、RunLoop在休眠之前会去释放自动释放池和刷新UI等。<br>
+4、线程阻塞和RunLoop休眠不一样：线程阻塞还是在执行代码 当前线程根本没有真的休眠 RunLoop休眠真的是休眠 没有执行代码 CPU不会为此分配资源 就会省电。</p>
+</div>
+<h2 id="写在最后-14">写在最后</h2>
+<p>关于RunLoop的一些基本介绍、各种模式以及它整个完整的运行逻辑就介绍到这里了，如有错误请多多指教。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>底层原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【iOS重学】关联对象的底层原理</title>
     <url>/posts/baafbb5e/</url>
-    <content><![CDATA[<h2 id="写在前面-20">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-21">写在前面</h2>
 <p>本文主要探究一下iOS中如何给分类添加属性以及关联对象的底层原理是什么，建议大家看本篇文章的时候参考objc4源码一起看会更好。</p>
 <h2 id="如何给分类添加属性">如何给分类添加属性</h2>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person + Test 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setName:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(name), name, OBJC_ASSOCIATION_COPY_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(name));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
@@ -2110,7 +2236,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
 <li>关联对象的策略里面没有 <code>weak</code>属性。</li>
 <li>关联对象被移除的时候，相应的关联属性也会被移除。</li>
 </ol>
-<h2 id="写在最后-14">写在最后</h2>
+<h2 id="写在最后-15">写在最后</h2>
 <p>关于关联对象的底层原理我们就简单分析到这里，如有错误请多多指教。</p>
 ]]></content>
       <categories>
@@ -2252,7 +2378,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【 iOS重学】启动优化（三）- Clang插桩</title>
     <url>/posts/37cd28e5/</url>
-    <content><![CDATA[<h2 id="写在前面-21">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-22">写在前面</h2>
 <p>在 上一篇文章<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 最后我们提出了一个问题：如何精确获取应用启动时刻的符号调用顺序，本篇文章我们就来详细介绍如何通过Clang插桩来对所有的符号进行100%的Hook。</p>
 <h2 id="Clang插桩">Clang插桩</h2>
 <p>LLVM内置了一个简单的代码覆盖率检测(SanitizerCoverage)。它在函数级、基本块级和边缘级插入对用户定义函数的调用，并提供了这些回调的默认实现。在认为启动结束的位置添加代码，就能够拿到启动到指定位置调用到的所有函数符号。</p>
@@ -2330,7 +2456,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【iOS重学】启动优化（二）- 二进制重排</title>
     <url>/posts/23c5d0e7/</url>
-    <content><![CDATA[<h2 id="写在前面-22">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-23">写在前面</h2>
 <p>在第一部分<a href="https://codersunny.com/posts/a5b508b2/">iOS重学之启动优化（一）</a>中，我们主要从<code>Pre-main</code>和<code>main</code>之后两个时间来衡量一个iOS应用启动的时长，以及详细分析了<code>Pre-main</code>的四个阶段，其中也提到了一些概念：比如<strong>物理内存</strong>、<strong>虚拟内存</strong>、<strong>缺页中断</strong>等，感兴趣的可以移步上一篇文章了解一下，本文主要跟大家详细讨论一下什么是<strong>二进制重排</strong>、<strong>二进制重排为什么能够优化iOS应用启动时间</strong>等问题。</p>
 <h2 id="物理内存-虚拟内存">物理内存 &amp; 虚拟内存</h2>
 <p><strong>物理内存</strong>：指的是通过物理内存条获得的内存空间。</p>
@@ -2407,7 +2533,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
 <p>经过二进制重排之后我们发现<code>Link Map File</code>文件里面的符号排列顺序已经按照我们指定的顺序排列，其中我们在<code>LaunchDemo.order</code>文件里面指定的<code>-[LaunchDemo test]</code>符号，项目里面没有这个方法，所以只会被忽略不会报错。</p>
 </div>
 <p>到这里为止，二进制重排的整个核心我们就分析得差不多了，但是这个二进制重排有个最大的问题，那就是：我们如何才能准确获取项目启动时刻调用的方法顺序，换句话说我怎么知道我这个项目启动需要调用到哪些方法。</p>
-<h2 id="写在最后-15">写在最后</h2>
+<h2 id="写在最后-16">写在最后</h2>
 <p>二进制重排最大的问题我们已经抛出来了，有兴趣的也可以想想应该怎么办，<a href="https://codersunny.com/posts/37cd28e5/">下一篇文章</a>我们将重点分析如何精确获取项目启动时刻调用的方法顺序。</p>
 ]]></content>
       <categories>
@@ -2421,7 +2547,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【 iOS重学】探究OC对象的本质</title>
     <url>/posts/431bd9b3/</url>
-    <content><![CDATA[<h2 id="写在前面-23">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-24">写在前面</h2>
 <p>苹果官方源码下载：<a href="http://opensource.apple.com/tarballs">opensource.apple.com/tarballs</a> -&gt; 搜索objc/4 -&gt; 下载最新源码</p>
 <h2 id="Objective-C的本质">Objective-C的本质</h2>
 <p>在iOS开发中如果我们使用OC编写的代码，其底层都是C/C++代码。</p>
@@ -2515,7 +2641,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【iOS重学】方法缓存cache_t的分析</title>
     <url>/posts/39324100/</url>
-    <content><![CDATA[<h2 id="写在前面-24">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-25">写在前面</h2>
 <p>本文我们主要来分析一下方法缓存<code>cache_t</code>的数据结构是什么样的，苹果是怎么实现方法缓存的。</p>
 <h2 id="Class的结构">Class的结构</h2>
 <p>在<a href="!https://codersunny.com/posts/b55a18a8/">【iOS重学】窥探Class的结构</a>文中，我们主要分析了<code>Class</code>的结构，结构主要如下：</p>
@@ -2607,7 +2733,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.305299</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">0</span> - SEL：personTest2 - IMP：<span class="number">0xb540</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.305390</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">1</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.317936</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">2</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318011</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">3</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318081</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">4</span> - SEL：personTest1 - IMP：<span class="number">0xb5b0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318147</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">5</span> - SEL：personTest3 - IMP：<span class="number">0xb510</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318214</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">6</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318280</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 已缓存的方法个数：<span class="number">3</span> - 散列表实际长度：<span class="number">7</span></span><br></pre></td></tr></table></figure>
 <h3 id="cache-t总结">cache_t总结</h3>
 <p>方法缓存散列表其实就是利用空间来换时间，提高了方法查找的效率。</p>
-<h2 id="写在最后-16">写在最后</h2>
+<h2 id="写在最后-17">写在最后</h2>
 <p>关于方法缓存的底层实现我们就写到这里了，希望对大家有所帮助，如有错误请多多指教。</p>
 </li>
 </ul>
@@ -2862,7 +2988,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【iOS重学】消息发送的完整流程</title>
     <url>/posts/4a47f2ea/</url>
-    <content><![CDATA[<h2 id="写在前面-25">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-26">写在前面</h2>
 <p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
 <h2 id="Class结构">Class结构</h2>
 <p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
@@ -3072,7 +3198,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【iOS重学】窥探Class的结构</title>
     <url>/posts/b55a18a8/</url>
-    <content><![CDATA[<h2 id="写在前面-26">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-27">写在前面</h2>
 <p>本文主要探究<code>Class</code>的内部结构，博主这里使用的objc4的源码版本是<code>objc4-838</code>，建议大家在看的时候可以下载最新源码。</p>
 <h2 id="Class的结构-2">Class的结构</h2>
 <p>在前面关于<a href="https://codersunny.com/posts/9efafc5a/">isa和superclass</a>文章中，我们提到了类对象和元类对象的类型都是<code>Class</code>，内存里面保存的是：</p>
@@ -3104,8 +3230,45 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
 <p>用一张图来表示Class结构：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1123/3.png" alt="3"></p>
 <p>从上面的结构分析我们可以看到：class对象或meta-class对象里面确实保存了<strong>方法列表、属性列表、协议列表、成员变量列表</strong>等信息。</p>
-<h2 id="写在最后-17">写在最后</h2>
+<h2 id="写在最后-18">写在最后</h2>
 <p>关于<code>Class</code>结构信息我们就分析到这里了，如果有什么不对的地方望指教。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>底层原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【iOS重学】线程保活</title>
+    <url>/posts/f68de671/</url>
+    <content><![CDATA[<h2 id="写在前面-28">写在前面</h2>
+<p>本文主要讲一下线程保活是什么、线程保活的意义、如何实现线程保活。</p>
+<h2 id="线程保活">线程保活</h2>
+<h3 id="线程生命周期">线程生命周期</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/14/1.png" alt="1"></p>
+<ul>
+<li>【新建】：创建一个线程对象。</li>
+<li>【就绪】：线程调用<code>start</code>方法，将线程加入可调度线程池中，等着CPU的调度。</li>
+<li>【运行】：CPU调度当前线程执行。</li>
+<li>【阻塞】：当满足某个预设的条件时（比如休眠或者同步锁）会阻塞线程执行，重新将线程设置为【就绪】状态。</li>
+<li>【死亡】：线程任务执行完毕或强制退出，线程生命周期结束。</li>
+</ul>
+<h3 id="什么是线程保活">什么是线程保活</h3>
+<p>线程保活：一般情况下，当线程执行玩一次任务之后需要进行资源回收也就意味着生命周期结束，线程保活就是保证线程的生命周期不结束。</p>
+<h3 id="线程保活的应用场景">线程保活的应用场景</h3>
+<p>当一个任务随时都有可能去执行它，那么这个任务应该放在子线程去执行，并且让子线程一直存活，避免频繁创建线程而造成的性能损耗。<br>
+大家如果看过AFNetworking的源码就会看到框架里面是有用到线程保活的。</p>
+<h3 id="如何实现线程保活">如何实现线程保活</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// WWPermenantThread 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">WWPermenantThread</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 关闭线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="type">void</span>)stop;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 在保活的线程里面执行的任务</span></span><br><span class="line"><span class="comment">/// @param target 目标对象</span></span><br><span class="line"><span class="comment">/// @param action selector</span></span><br><span class="line"><span class="comment">/// @param object object</span></span><br><span class="line">- (<span class="type">void</span>)excuteTaskWithTarget:(<span class="type">id</span>)target action:(SEL)action object:(<span class="type">id</span>)object;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 在保活的线程里执行任务</span></span><br><span class="line"><span class="comment">/// @param task 执行的任务</span></span><br><span class="line">- (<span class="type">void</span>)excuteTask:(<span class="type">void</span>(^)(<span class="type">void</span>))task;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">WWPermenantThread</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSThread</span> *innerThread;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="type">BOOL</span> isStopped;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">WWPermenantThread</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)dealloc &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>,__func__);</span><br><span class="line">    [<span class="keyword">self</span> stop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)init &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="variable language_">super</span> init]) &#123;</span><br><span class="line">    <span class="keyword">self</span>.isStopped = <span class="literal">NO</span>;</span><br><span class="line"></span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">    <span class="keyword">self</span>.innerThread = [[<span class="built_in">NSThread</span> alloc] initWithBlock:^&#123;</span><br><span class="line">      <span class="comment">// 添加Port到RunLoop</span></span><br><span class="line">      [[<span class="built_in">NSRunLoop</span> currentRunLoop] addPort:[[<span class="built_in">NSPort</span> alloc] init] forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">      <span class="keyword">while</span> (weakSelf &amp;&amp; !weakSelf.isStopped) &#123;</span><br><span class="line">        <span class="comment">// 开启RunLoop</span></span><br><span class="line">          [[<span class="built_in">NSRunLoop</span> currentRunLoop] runMode:<span class="built_in">NSDefaultRunLoopMode</span> beforeDate:[<span class="built_in">NSDate</span> distantFuture]];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [<span class="keyword">self</span>.innerThread start];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)run &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">self</span>.innerThread) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span>.innerThread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)stop &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">self</span>.innerThread) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(__stop) onThread:<span class="keyword">self</span>.innerThread withObject:<span class="literal">nil</span> waitUntilDone:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)__stop &#123;</span><br><span class="line">  <span class="keyword">self</span>.isStopped = <span class="literal">YES</span>;</span><br><span class="line">  <span class="comment">// 退出当前RunLoop</span></span><br><span class="line">  <span class="built_in">CFRunLoopStop</span>(<span class="built_in">CFRunLoopGetCurrent</span>());</span><br><span class="line">  <span class="keyword">self</span>.innerThread = <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)excuteTaskWithTarget:(<span class="type">id</span>)target action:(SEL)action object:(<span class="type">id</span>)object &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">self</span>.innerThread) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span> performSelector:action onThread:<span class="keyword">self</span>.innerThread withObject:object waitUntilDone:<span class="literal">NO</span> ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)excuteTask:(<span class="type">void</span> (^)(<span class="type">void</span>))task &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">self</span>.innerThread || !task) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(__excuteTask:) onThread:<span class="keyword">self</span>.innerThread withObject:task waitUntilDone:<span class="literal">NO</span> ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)__excuteTask:(<span class="type">void</span>(^)(<span class="type">void</span>))task &#123;</span><br><span class="line">  task();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h3 id="如何使用线程保活">如何使用线程保活</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">  [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">  <span class="comment">// 创建一个线程对象</span></span><br><span class="line">  <span class="keyword">self</span>.thread = [[WWPermenantThread alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">  [<span class="keyword">self</span>.thread excuteTask:^&#123;</span><br><span class="line">      <span class="built_in">NSLog</span>(<span class="string">@&quot;执行任务 - %@&quot;</span>, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">56.211402</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">56.830085</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">57.279150</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">58.212741</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">19</span>:<span class="number">32.672529</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512038</span>] -[OneViewController dealloc]</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">19</span>:<span class="number">32.672800</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512038</span>] -[WWPermenantThread dealloc]</span><br></pre></td></tr></table></figure>
+<h2 id="写在最后-19">写在最后</h2>
+<p>关于如何实现线程保活的笔记就记录到这里了，如有错误请多多指教。</p>
 ]]></content>
       <categories>
         <category>iOS</category>
@@ -3118,7 +3281,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【 iOS重学】详细分析isa和superclass</title>
     <url>/posts/9efafc5a/</url>
-    <content><![CDATA[<h2 id="写在前面-27">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-29">写在前面</h2>
 <p>本文将从源码上来详细剖析OC对象的分类、isa、superclass，带大家重新认识iOS。</p>
 <p>苹果源码下载：</p>
 <p>1.<a href="https://opensource.apple.com/releases/">https://opensource.apple.com/releases/</a>  搜索objc4找到最新资源进行下载</p>
@@ -3230,7 +3393,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
   <entry>
     <title>【工具使用】Reveal工具的使用介绍</title>
     <url>/posts/745be31f/</url>
-    <content><![CDATA[<h2 id="写在前面-28">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-30">写在前面</h2>
 <p>有时候我们可能想要分析其他APP的一些整体View结构，就像在Xcode分析我们自己的APP一样能够清楚看到个层级结构，Reveal这个APP主要就是这个功能：用来分析APP的层级结构。</p>
 <h2 id="Reveal">Reveal</h2>
 <p>Reveal APP 官网：<a href="https://revealapp.com/">https://revealapp.com/</a></p>
@@ -3282,7 +3445,7 @@ max\{DP[i,j-1],Dp[i-1,j]\}, &amp;若 x,j = 0, x_i \ne y_j
 <p>打开手机上的某个APP - 打开Reveal - 会在Reveal看到我们刚打开的APP 如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1226/9.png" alt="9"></p>
 <p>上面一个是通过网络连接、一个是通过USB连接，我们选择更快的USB连接即可使用Reveal。</p>
-<h2 id="写在最后-18">写在最后</h2>
+<h2 id="写在最后-20">写在最后</h2>
 <p>关于Reveal使用前的配置就简单介绍到这里啦，如有错误请多多指教。</p>
 ]]></content>
       <categories>

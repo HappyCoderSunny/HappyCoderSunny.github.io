@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【iOS重学】关于RunLoop的简单介绍 | Sunny's Blog</title><meta name="keywords" content="iOS,底层原理"><meta name="author" content="Sunny"><meta name="copyright" content="Sunny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面 本文主要是记录关于RunLoop的一些简单介绍。 RunLoop 基本认识 RunLoop：翻译过来叫运行时循环，指的是在程序运行过程中循环的做一些事情。 主要应用在：  定时器（Timer）、PerformSelector GCD 事件响应、手势识别、界面刷新 网络请求 AutoReleasePool   上面是我们一个iOS程序的入口main函数，在UIApplicationMain">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS重学】关于RunLoop的简单介绍">
+<meta property="og:url" content="https://codersunny.com/posts/a5190dfd/index.html">
+<meta property="og:site_name" content="Sunny&#39;s Blog">
+<meta property="og:description" content="写在前面 本文主要是记录关于RunLoop的一些简单介绍。 RunLoop 基本认识 RunLoop：翻译过来叫运行时循环，指的是在程序运行过程中循环的做一些事情。 主要应用在：  定时器（Timer）、PerformSelector GCD 事件响应、手势识别、界面刷新 网络请求 AutoReleasePool   上面是我们一个iOS程序的入口main函数，在UIApplicationMain">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg">
+<meta property="article:published_time" content="2023-02-13T02:28:09.000Z">
+<meta property="article:modified_time" content="2023-03-06T11:47:14.016Z">
+<meta property="article:author" content="Sunny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://codersunny.com/posts/a5190dfd/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-n3yl43eW4P"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【iOS重学】关于RunLoop的简单介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-06 19:47:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sunny's Blog" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sunny's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【iOS重学】关于RunLoop的简单介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-13T02:28:09.000Z" title="发表于 2023-02-13 10:28:09">2023-02-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-06T11:47:14.016Z" title="更新于 2023-03-06 19:47:14">2023-03-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面-20">写在前面</h2>
+<p>本文主要是记录关于RunLoop的一些简单介绍。</p>
+<h2 id="RunLoop">RunLoop</h2>
+<h3 id="基本认识">基本认识</h3>
+<p>RunLoop：翻译过来叫运行时循环，指的是在程序运行过程中循环的做一些事情。</p>
+<p>主要应用在：</p>
+<ul>
+<li>定时器（Timer）、PerformSelector</li>
+<li>GCD</li>
+<li>事件响应、手势识别、界面刷新</li>
+<li>网络请求</li>
+<li>AutoReleasePool</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/1.png" alt="1"></p>
+<p>上面是我们一个iOS程序的入口<code>main</code>函数，在<code>UIApplicationMain</code>函数中会去创建主线程的RunLoop对象，它用来保证程序不退出从而保证程序的持续执行。<br>
+我们可以把RunLoop运行时循环理解成一个<code>do - while</code>循环，伪代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">  <span class="built_in">NSString</span> * appDelegateClassName;</span><br><span class="line">  <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">    <span class="type">int</span> retVal = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="comment">// 1.在休眠中等待消息</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 2.如果有消息 处理消息</span></span><br><span class="line">      </span><br><span class="line">    &#125;<span class="keyword">while</span>(retVal = <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RunLoop的基本作用：</p>
+<ul>
+<li>保证程序的持续运行</li>
+<li>处理App中的各种事件（比如触摸事件、定时器等）</li>
+<li>节省CPU资源，提高程序的性能：在有消息的时候处理消息 没有消息的时候休眠。</li>
+</ul>
+<h3 id="RunLoop对象">RunLoop对象</h3>
+<p>iOS中有两套API来访问和使用RunLoop：</p>
+<ul>
+<li>Foundation框架：<code>NSRunLoop</code></li>
+<li>Core Foundation框架：<code>CFRunLoopRef</code>（开源代码：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/CF/">https://opensource.apple.com/tarballs/CF/</a>）</li>
+</ul>
+<h3 id="RunLoop与线程的关系">RunLoop与线程的关系</h3>
+<ul>
+<li>每条线程都有唯一的与之相对应的RunLoop对象</li>
+<li>RunLoop保存在一个全局的字典里面，线程为<code>key</code>，RunLoop为<code>value</code></li>
+<li>线程刚创建的时候并没有RunLoop对象，而是在第一次获取RunLoop对象时去创建</li>
+<li>RunLoop会在线程结束时销毁</li>
+<li>主线程的RunLoop已经自动获取（创建），子线程的RunLoop默认是没有开启的</li>
+</ul>
+<h3 id="获取RunLoop对象">获取RunLoop对象</h3>
+<p>Foundation框架：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">[<span class="built_in">NSRunLoop</span> currentRunLoop]; <span class="comment">// 获取当前线程的RunLoop对象</span></span><br><span class="line">[<span class="built_in">NSRunLoop</span> mainRunLoop]; <span class="comment">// 获取主线程的RunLoop对象</span></span><br></pre></td></tr></table></figure>
+<p>Core Foundation框架：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CFRunLoopGetCurrent</span>(); <span class="comment">// 获取当前线程的RunLoop对象</span></span><br><span class="line"><span class="built_in">CFRunLoopGetMain</span>();<span class="comment">// 获取主线程的RunLoop对象</span></span><br></pre></td></tr></table></figure>
+<h3 id="RunLoop相关的类">RunLoop相关的类</h3>
+<p>Core Foundation框架中关于RunLoop的五个类：</p>
+<ul>
+<li><code>CFRunLoopRef</code></li>
+<li><code>CFRunLoopModeRef</code></li>
+<li><code>CFRunLoopSourceRef</code></li>
+<li><code>CFRunLoopTimerRef</code></li>
+<li><code>CFRunLoopObserverRef</code></li>
+</ul>
+<div class="note green no-icon flat"><p><code>RunLoop</code>对象结构如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__CFRunLoop</span> &#123;</span><br><span class="line">	<span class="type">pthread_t</span> _pthread;</span><br><span class="line">	CFMutableSetRef _commonModes;</span><br><span class="line">	CFMutableSetRef _commonModeItems;</span><br><span class="line">	CFRunLoopModeRef _currentMode;</span><br><span class="line">	CFMutableSetRef _modes;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>RunLoopMode</code>结构如下：</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">struct __CFRunLoopMode &#123;</span><br><span class="line">	CFStringRef _name<span class="comment">;</span></span><br><span class="line">	CFMutableSetRef _sources0<span class="comment">;</span></span><br><span class="line">	CFMutableSetRef _sources1<span class="comment">;</span></span><br><span class="line">	CFMutableArrayRef _observers<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</div>
+<p>各个类之间的关系如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/2.png" alt="2"></p>
+<h3 id="RunLoop的运行模式">RunLoop的运行模式</h3>
+<p><code>CFRunLoopModeRef</code>表示是RunLoop的运行模式，一个RunLoop可以有若干个Mode，每个Mode里面又包含Source0、Source1、Timer、Observer。<br>
+RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
+如果需要切换Mode需要退出当前RunLoop重新选择一个Mode进入。<br>
+不同模式下的Source0/Source1/Timer/Observer能分隔开来，互不影响。<br>
+如果一个Mode中没有任何Source0/Source1/Timer/Observer，这个RunLoop会立马退出。</p>
+<div class="note green no-icon flat"><p>常见的Mode有两种：</p>
+<p><code>NSDefaultRunLoopMode(kCFRunLoopDefaultMode)</code>：App的默认Mode，通常主线程在这个Mode下运行。<br>
+<code>UITrackingRunLoopMode</code>：界面跟踪Mode，ScrollView的滑动，保证界面滑动时不受其他的影响。</p>
+</div>
+<h3 id="RunLoop的几种状态">RunLoop的几种状态</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Run Loop Observer Activities */</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">CF_OPTIONS</span><span class="params">(CFOptionFlags, CFRunLoopActivity)</span> </span>&#123;</span><br><span class="line">    kCFRunLoopEntry = (<span class="number">1UL</span> &lt;&lt; <span class="number">0</span>), <span class="comment">// 即将进入RunLoop</span></span><br><span class="line">    kCFRunLoopBeforeTimers = (<span class="number">1UL</span> &lt;&lt; <span class="number">1</span>), <span class="comment">// 即将处理Timer</span></span><br><span class="line">    kCFRunLoopBeforeSources = (<span class="number">1UL</span> &lt;&lt; <span class="number">2</span>), <span class="comment">// 即将处理Source</span></span><br><span class="line">    kCFRunLoopBeforeWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">5</span>), <span class="comment">// 即将进入休眠</span></span><br><span class="line">    kCFRunLoopAfterWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">6</span>), <span class="comment">// 刚从休眠中被唤醒</span></span><br><span class="line">    kCFRunLoopExit = (<span class="number">1UL</span> &lt;&lt; <span class="number">7</span>), <span class="comment">// 即将退出RunLoop</span></span><br><span class="line">    kCFRunLoopAllActivities = <span class="number">0x0FFFFFFF</span>U</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如下可以监听RunLoop的所有状态：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CFRunLoopObserverRef observer = <span class="built_in">CFRunLoopObserverCreateWithHandler</span>(kCFAllocatorDefault, kCFRunLoopAllActivities, YES, <span class="number">0</span>, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (activity) &#123;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopEntry:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopEntry...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeTimers:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeTimers...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeSources:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeSources...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopBeforeWaiting:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopBeforeWaiting...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopAfterWaiting:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopAfterWaiting...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> kCFRunLoopExit:</span><br><span class="line">            <span class="built_in">NSLog</span>(@<span class="string">&quot;kCFRunLoopExit...&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">CFRunLoopAddObserver</span>(<span class="built_in">CFRunLoopGetCurrent</span>(), observer, kCFRunLoopCommonModes);</span><br><span class="line"><span class="built_in">CFRelease</span>(observer);</span><br></pre></td></tr></table></figure>
+<h3 id="RunLoop的运行逻辑">RunLoop的运行逻辑</h3>
+<p>1、 Source0</p>
+<ul>
+<li>触摸事件处理</li>
+<li>performSelector:onThread:</li>
+</ul>
+<p>2、Source1</p>
+<ul>
+<li>基于Port的线程之间的通信</li>
+<li>系统事件的捕捉</li>
+</ul>
+<p>3、Timers</p>
+<ul>
+<li>NSTimer</li>
+<li>performSelector：withObject：afterDelay：</li>
+</ul>
+<p>4、Observers</p>
+<ul>
+<li>用于监听RunLoop的状态</li>
+<li>UI刷新（BeforeWaiting）</li>
+<li>AutoReleasePool（BeforeWaiting）</li>
+</ul>
+<p>RunLoop的运行逻辑如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/3.png" alt="3"></p>
+<h3 id="RunLoop在实际开发中的应用">RunLoop在实际开发中的应用</h3>
+<ul>
+<li>控制线程的生命周期（线程保活）</li>
+<li>解决NSTimer在滑动时停止工作的问题</li>
+<li>监控应用卡顿</li>
+<li>性能优化</li>
+</ul>
+<h3 id="RunLoop的源码查看">RunLoop的源码查看</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/02/13/4.png" alt="4"></p>
+<p>从上面看到：RunLoop的源码入口在<code>CFRunLoopRunSpecific</code>。</p>
+<div class="note green no-icon flat"><p><strong>注意</strong>：</p>
+<p>1、使用Foundation框架打印出来的主线程RunLoop和Core Foundation框架打印出来的主线程RunLoop地址值不一样，原因在于Foundation框架的RunLoop是对Core Foundation框架RunLoop的一层封装。<br>
+2、系统事件是通过Source1来捕捉，之后分发到Source0去处理的。<br>
+3、RunLoop在休眠之前会去释放自动释放池和刷新UI等。<br>
+4、线程阻塞和RunLoop休眠不一样：线程阻塞还是在执行代码 当前线程根本没有真的休眠 RunLoop休眠真的是休眠 没有执行代码 CPU不会为此分配资源 就会省电。</p>
+</div>
+<h2 id="写在最后-14">写在最后</h2>
+<p>关于RunLoop的一些基本介绍、各种模式以及它整个完整的运行逻辑就介绍到这里了，如有错误请多多指教。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://codersunny.com">Sunny</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codersunny.com/posts/a5190dfd/">https://codersunny.com/posts/a5190dfd/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codersunny.com" target="_blank">Sunny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a><a class="post-meta__tags" href="/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">底层原理</a></div><div class="post_share"><div class="social-share" data-image="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechat_pay.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/ali_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/ali_pay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/f68de671/"><img class="prev-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover78.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【iOS重学】线程保活</div></div></a></div><div class="next-post pull-right"><a href="/posts/b38791c9/"><img class="next-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【iOS重学】Runtime中常用的一些API汇总</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/67d22871/" title="【iOS重学】Block底层原理（一）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover68.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-06</div><div class="title">【iOS重学】Block底层原理（一）</div></div></a></div><div><a href="/posts/57c4c4a9/" title="【iOS重学】Block底层原理（二）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover70.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-08</div><div class="title">【iOS重学】Block底层原理（二）</div></div></a></div><div><a href="/posts/dfd029e5/" title="【iOS重学】Category的底层原理"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover63.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-24</div><div class="title">【iOS重学】Category的底层原理</div></div></a></div><div><a href="/posts/8583d944/" title="【iOS重学】KVC详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover42.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-21</div><div class="title">【iOS重学】KVC详解</div></div></a></div><div><a href="/posts/4223b330/" title="【iOS重学】KVO详解"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover22.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-15</div><div class="title">【iOS重学】KVO详解</div></div></a></div><div><a href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-31</div><div class="title">【iOS重学】Runtime中常用的一些API汇总</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sunny</div><div class="author-info__description">千里之行，始于足下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=532619121&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://codersunny.com/images/wechat.png" target="_blank" title="WeChat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/HappyCoderSunny" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:532619121@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">阅读过程中如果遇到问题，请及时评论或者留言，看到了会第一时间回复，如果未收到回复也可加博主vx（申请时请备注）。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2-20"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RunLoop"><span class="toc-number">2.</span> <span class="toc-text">RunLoop</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">基本认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.</span> <span class="toc-text">RunLoop对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">2.3.</span> <span class="toc-text">RunLoop与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96RunLoop%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.4.</span> <span class="toc-text">获取RunLoop对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E7%9B%B8%E5%85%B3%E7%9A%84%E7%B1%BB"><span class="toc-number">2.5.</span> <span class="toc-text">RunLoop相关的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E7%9A%84%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.6.</span> <span class="toc-text">RunLoop的运行模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">2.7.</span> <span class="toc-text">RunLoop的几种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E7%9A%84%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="toc-number">2.8.</span> <span class="toc-text">RunLoop的运行逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E5%9C%A8%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">2.9.</span> <span class="toc-text">RunLoop在实际开发中的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RunLoop%E7%9A%84%E6%BA%90%E7%A0%81%E6%9F%A5%E7%9C%8B"><span class="toc-number">2.10.</span> <span class="toc-text">RunLoop的源码查看</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E-14"><span class="toc-number">3.</span> <span class="toc-text">写在最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/f68de671/" title="【iOS重学】线程保活"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover78.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】线程保活"/></a><div class="content"><a class="title" href="/posts/f68de671/" title="【iOS重学】线程保活">【iOS重学】线程保活</a><time datetime="2023-02-14T11:52:56.000Z" title="发表于 2023-02-14 19:52:56">2023-02-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a5190dfd/" title="【iOS重学】关于RunLoop的简单介绍"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】关于RunLoop的简单介绍"/></a><div class="content"><a class="title" href="/posts/a5190dfd/" title="【iOS重学】关于RunLoop的简单介绍">【iOS重学】关于RunLoop的简单介绍</a><time datetime="2023-02-13T02:28:09.000Z" title="发表于 2023-02-13 10:28:09">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】Runtime中常用的一些API汇总"/></a><div class="content"><a class="title" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总">【iOS重学】Runtime中常用的一些API汇总</a><time datetime="2023-01-31T07:46:11.000Z" title="发表于 2023-01-31 15:46:11">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】一篇文章讲清楚super"/></a><div class="content"><a class="title" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super">【iOS重学】一篇文章讲清楚super</a><time datetime="2023-01-30T08:42:21.000Z" title="发表于 2023-01-30 16:42:21">2023-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover71.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【PS学习】图层相关基本操作"/></a><div class="content"><a class="title" href="/posts/c0e79a01/" title="【PS学习】图层相关基本操作">【PS学习】图层相关基本操作</a><time datetime="2023-01-10T06:27:21.000Z" title="发表于 2023-01-10 14:27:21">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Sunny</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://codersunny.com">blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://fastly.jsdelivr.net/gh/zhheo/twikoo@dev/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script defer src="https://fastly.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer data-pjax src="/js/wow_init.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/MetingJS/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
