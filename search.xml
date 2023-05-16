@@ -31,6 +31,119 @@
       </tags>
   </entry>
   <entry>
+    <title>【Hexo】Butterfly主题配置（持续更新）</title>
+    <url>/posts/391caf66/</url>
+    <content><![CDATA[<h2 id="升级建议">升级建议</h2>
+<p>为了减少升级以后带来的不便，建议请按照下面的方式进行操作：</p>
+<p>在博客根目录下创建一个文件：<code>_config.butterfly.yml</code>，并把<code>butterfly</code>主题目录下的<code>_config.yml</code>内容复制到该文件中（注意：复制的是<a href="">butterfly主题目录</a>下的<code>_config.yml</code>不是博客根目录中的<code>_config.yml</code>）。</p>
+<p>以后只需要在<code>_config.butterfly.yml</code>文件里进行修改即可。</p>
+<blockquote>
+<p><strong>注意</strong>：butterly主题目录下的<code>_config.yml</code><strong>不要删除，不要删除，不要删除，重要的事情说三遍。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>注意</strong>：如果你项目中使用了<code>_config.butterfly.yml</code>文件，在主题目录下的<code>_config.yml</code>修改不会有效果。</p>
+</blockquote>
+<p>如图，以后我们只需要关注这两个配置文件即可：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_01.png" alt="20220514_01_01"></p>
+<h2 id="scaffolds文件夹">scaffolds文件夹</h2>
+<p>博客目录下有一个文件夹<code>scaffolds</code>，这个是模版文件夹，当我们新建页面或者文章时，<code>hexo</code> 会根据<code>scaffolds</code>来建立文件。</p>
+<p>顾名思义，模版就是指新建的文章或页面默认的内容，比如我修改了<code>scaffolds</code>下的<code>post.md</code>：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_02.png" alt="20220514_01_02"></p>
+<p>这样每次我新建的文章顶部都有这些默认内容，能添加的字段很多，具体参考<a href="https://butterfly.js.org/posts/dc584b87/#Post-Front-matter">butterfly主题官方文档</a>。</p>
+<h2 id="config-yml文件">_config.yml文件</h2>
+<h3 id="修改网站标题、副标题等信息">修改网站标题、副标题等信息</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 网站设置</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Sunny</span> <span class="comment"># 网站名称</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span> <span class="comment"># 副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">千里之行，始于足下</span> <span class="comment">#  描述行文字：你可以理解为个性签名</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="comment"># 关键词</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Sunny</span> <span class="comment"># 作者 </span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span> <span class="comment"># 语言 default(en)/ zh-CN（简体）/ zh-TW（繁体）</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span> <span class="comment"># 时区</span></span><br></pre></td></tr></table></figure>
+<h3 id="url相关配置">url相关配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 网站url 默认是https://example.com 如果使用的是github pages 请设置成 https://xxx.github.io</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://codersunny.com</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:title/</span> <span class="comment"># 永久链接</span></span><br><span class="line"><span class="attr">permalink_defaults:</span> <span class="comment"># 默认永久链接</span></span><br><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line">  <span class="attr">trailing_index:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span></span><br><span class="line">  <span class="attr">trailing_html:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;.html&#x27; from permalinks</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：如果<code>url</code>不修改使用默认<code>https://example.com</code>，文章末尾的链接是打不开的。</p>
+</blockquote>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_03.png" alt="20220514_01_03"></p>
+<h2 id="config-butterfly-yml文件">_config.butterfly.yml文件</h2>
+<h3 id="写在前面-2">写在前面</h3>
+<p>本文基本上是按照<code>_config.butterfly.yml</code>文件从上到下的顺序来总结的，大家看的时候对照着设置即可。</p>
+<h3 id="导航栏菜单">导航栏菜单</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">   <span class="string">首页:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-home</span></span><br><span class="line">   <span class="string">音乐库:</span> <span class="string">/music/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-music</span></span><br><span class="line">  <span class="comment"># Archives: /archives/ || fas fa-archive</span></span><br><span class="line">  <span class="comment"># Tags: /tags/ || fas fa-tags</span></span><br><span class="line">  <span class="comment"># Categories: /categories/ || fas fa-folder-open</span></span><br><span class="line">  <span class="comment"># List||fas fa-list:</span></span><br><span class="line">  <span class="comment"># Movie: /movies/ || fas fa-video</span></span><br><span class="line">  <span class="comment"># Link: /link/ || fas fa-link</span></span><br><span class="line">  <span class="comment"># About: /about/ || fas fa-heart</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：必须是<code>/xxx/</code> + <code>||</code> + <code>图标名</code>，如果不想展示图标可以不写图标名。</p>
+</blockquote>
+<p>我这里暂时只配置了两个，效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_06.png" alt="20220514_01_06"></p>
+<h3 id="代码高亮相关设置">代码高亮相关设置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">highlight_theme:</span> <span class="string">mac</span> <span class="comment"># 高亮主题： darker / pale night / light / ocean / mac / mac light / false</span></span><br><span class="line"><span class="attr">highlight_copy:</span> <span class="literal">true</span> <span class="comment"># 是否展示复制按钮 copy button</span></span><br><span class="line"><span class="attr">highlight_lang:</span> <span class="literal">true</span> <span class="comment"># 是否展示代码块语言 show the code language</span></span><br><span class="line"><span class="attr">highlight_shrink:</span> <span class="literal">false</span> <span class="comment"># 是否展开代码框 true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button</span></span><br><span class="line"><span class="attr">highlight_height_limit:</span> <span class="literal">false</span> <span class="comment"># unit: px</span></span><br><span class="line"><span class="attr">code_word_wrap:</span> <span class="literal">true</span> <span class="comment"># 是否关闭代码滚动条</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_07.png" alt="20220514_01_07"></p>
+<h3 id="复制相关配置">复制相关配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># copy settings</span></span><br><span class="line"><span class="comment"># copyright: Add the copyright information after copied content (复制的内容加上版权信息)</span></span><br><span class="line"><span class="attr">copy:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启网站复制权限</span></span><br><span class="line">  <span class="attr">copyright:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启复制版权信息添加</span></span><br><span class="line">    <span class="attr">limit_count:</span> <span class="number">50</span> <span class="comment"># 超过这个字数会在复制内容后面加上版权信息</span></span><br></pre></td></tr></table></figure>
+<h3 id="社交图标">社交图标</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># social settings (社交图标设置)</span></span><br><span class="line"><span class="comment"># formal:</span></span><br><span class="line"><span class="comment">#   icon: link || the description</span></span><br><span class="line"><span class="comment"># 书写格式：图标名:url || 描述性文字</span></span><br><span class="line"><span class="attr">social:</span></span><br><span class="line">   <span class="attr">fab fa-github:</span> <span class="string">https://github.com/xxx</span> <span class="string">||</span> <span class="string">Github</span></span><br><span class="line">   <span class="attr">fas fa-envelope:</span>  <span class="string">mailto:xxx@gmail.com</span> <span class="string">||</span> <span class="string">Email</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_08.png" alt="20220514_01_08"></p>
+<h3 id="头像和顶部图配置">头像和顶部图配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Favicon（网站图标）</span></span><br><span class="line"><span class="attr">favicon:</span> <span class="string">/images/avatar.png</span></span><br><span class="line"><span class="comment"># Avatar (头像)</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">img:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="attr">effect:</span> <span class="literal">false</span> <span class="comment"># 是否开启头像的动效</span></span><br><span class="line"><span class="attr">disable_top_img:</span> <span class="literal">false</span> <span class="comment"># 如果不需要展示顶部图 设置为true</span></span><br><span class="line"><span class="attr">index_img:</span> <span class="string">/images/background.png</span> <span class="comment"># 主页的top_img</span></span><br><span class="line"><span class="attr">default_top_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># 默认的顶部图 如果top_img没有配置时，会显示default_top_img</span></span><br><span class="line"><span class="attr">archive_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># 归档页面的top_img</span></span><br><span class="line"><span class="attr">tag_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># tag子页面的top_img</span></span><br><span class="line"><span class="attr">tag_per_img:</span> <span class="comment"># tag子页面的 top_img，可配置每个tag 的 top_img</span></span><br><span class="line"><span class="attr">category_img:</span> <span class="string">/images/default_post_cover.png</span>  <span class="comment"># category子页面的top_img</span></span><br><span class="line"><span class="attr">category_per_img:</span>  <span class="comment"># category子页面的 category_img，可配置每个category 的 top_img</span></span><br></pre></td></tr></table></figure>
+<p>部分效果图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_09.png" alt="20220514_01_09"></p>
+<h3 id="文章封面配置">文章封面配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cover:</span></span><br><span class="line">  <span class="attr">index_enable:</span> <span class="literal">true</span> <span class="comment"># 是否显示文章封面</span></span><br><span class="line">  <span class="attr">aside_enable:</span> <span class="literal">true</span> <span class="comment"># 文章侧边栏是否开启</span></span><br><span class="line">  <span class="attr">archives_enable:</span> <span class="literal">true</span> <span class="comment"># 归档是否开启</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">both</span> <span class="comment"># 封面显示的位置 left/right/both both表示左右两边交替显示</span></span><br><span class="line">  <span class="attr">default_cover:</span> <span class="comment"># 当没有设置文章封面时 默认的封面展示</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">https://sunny-blog.oss-cn-beijing.aliyuncs.com/default_post_cover.png</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_10.png" alt="20220514_01_10"></p>
+<h3 id="404页面和无法显示的图片配置">404页面和无法显示的图片配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换无法显示的图片的图片</span></span><br><span class="line"><span class="attr">error_img:</span></span><br><span class="line">  <span class="attr">flink:</span> <span class="string">/images/friend_404.gif</span></span><br><span class="line">  <span class="attr">post_page:</span> <span class="string">/images/404.jpg</span></span><br><span class="line"><span class="comment"># 404页面</span></span><br><span class="line"><span class="attr">error_404:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">subtitle:</span> <span class="string">&#x27;抱歉，页面没有找到～&#x27;</span></span><br><span class="line">  <span class="attr">background:</span> <span class="string">https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png</span></span><br></pre></td></tr></table></figure>
+<h3 id="文章显示信息配置">文章显示信息配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_meta:</span></span><br><span class="line">  <span class="attr">page:</span> <span class="comment"># Home Page</span></span><br><span class="line">    <span class="attr">date_type:</span> <span class="string">created</span> <span class="comment"># created or updated or both 主页文章日期是创建日或者更新日或都显示</span></span><br><span class="line">    <span class="attr">date_format:</span> <span class="string">date</span> <span class="comment"># date/relative 显示日期还是相对日期</span></span><br><span class="line">    <span class="attr">categories:</span> <span class="literal">true</span> <span class="comment"># true or false 主页是否显示分类</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="literal">true</span> <span class="comment"># true or false 主页是否显示标签</span></span><br><span class="line">    <span class="attr">label:</span> <span class="literal">true</span> <span class="comment"># true or false 显示描述性文字</span></span><br><span class="line">  <span class="attr">post:</span></span><br><span class="line">    <span class="attr">date_type:</span> <span class="string">created</span> <span class="comment"># created or updated or both 文章日期是创建日或者更新日或都显示</span></span><br><span class="line">    <span class="attr">date_format:</span> <span class="string">date</span> <span class="comment"># date/relative 显示日期还是相对日期</span></span><br><span class="line">    <span class="attr">categories:</span> <span class="literal">true</span> <span class="comment"># true or false 文章是否显示分类</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="literal">true</span> <span class="comment"># true or false 文章頁是否显示标签</span></span><br><span class="line">    <span class="attr">label:</span> <span class="literal">true</span> <span class="comment"># true or false 显示描述性文字</span></span><br></pre></td></tr></table></figure>
+<h3 id="字数统计">字数统计</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># wordcount (字数统计)</span></span><br><span class="line"><span class="comment"># see https://butterfly.js.org/posts/ceeb73f/#字数统计</span></span><br><span class="line"><span class="attr">wordcount:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post_wordcount:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">min2read:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_wordcount:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：如果打开字数统计插件，请务必要先安装插件。</p>
+<p>进入根目录下，使用命令<code>npm install hexo-wordcount --save</code>或<code>yarn add hexo-wordcount</code>安装字数统计的插件。</p>
+</blockquote>
+<h3 id="文章末尾版权信息设置">文章末尾版权信息设置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_copyright:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启文章后面的复制信息</span></span><br><span class="line">  <span class="attr">decode:</span> <span class="literal">true</span> <span class="comment"># 是否解码</span></span><br><span class="line">  <span class="attr">author_href:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">CC</span> <span class="string">BY-NC-SA</span> <span class="number">4.0</span></span><br><span class="line">  <span class="attr">license_url:</span> <span class="string">https://creativecommons.org/licenses/by-nc-sa/4.0/</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_11.png" alt="20220514_01_11"></p>
+<h3 id="打赏功能配置">打赏功能配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打赏功能</span></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启</span></span><br><span class="line">  <span class="attr">QR_code:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">img:</span> <span class="string">/images/wechat_pay.png</span></span><br><span class="line">       <span class="attr">link:</span></span><br><span class="line">       <span class="attr">text:</span> <span class="string">微信</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">img:</span> <span class="string">/images/ali_pay.png</span></span><br><span class="line">       <span class="attr">link:</span></span><br><span class="line">       <span class="attr">text:</span> <span class="string">支付宝</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_12.png" alt="20220514_01_12"></p>
+<h3 id="分享功能配置">分享功能配置</h3>
+<p>有三个分享服务商：<code>AddThis</code>、<code>Sharejs</code>、<code>Addtoany</code>，只能选择其中一个，我这里使用默认的<code>Sharejs</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Share.js</span></span><br><span class="line"><span class="comment"># https://github.com/overtrue/share.js</span></span><br><span class="line"><span class="attr">sharejs:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">sites:</span> <span class="string">facebook,twitter,wechat,weibo,qq</span></span><br></pre></td></tr></table></figure>
+<h3 id="网站页脚配置">网站页脚配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="attr">owner:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">since:</span> <span class="number">2020</span></span><br><span class="line">  <span class="attr">custom_text:</span> <span class="string">Hi,</span> <span class="string">welcome</span> <span class="string">to</span> <span class="string">my</span> <span class="string">&lt;a</span> <span class="string">href=&quot;https://codersunny.com&quot;&gt;blog&lt;/a&gt;!</span></span><br><span class="line">  <span class="attr">copyright:</span> <span class="literal">true</span> <span class="comment"># Copyright of theme and framework</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_13.png" alt="20220514_01_13"></p>
+<h3 id="网站背景图片配置">网站背景图片配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Website Background (设置网站背景)</span></span><br><span class="line"><span class="comment"># can set it to color or image (可設置图片 或者 颜色)</span></span><br><span class="line"><span class="comment"># The formal of image: url(http://xxxxxx.com/xxx.jpg)</span></span><br><span class="line"><span class="attr">background:</span> <span class="string">/images/background.png</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_14.png" alt="20220514_01_14"></p>
+<h3 id="网站副标题设置">网站副标题设置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># the subtitle on homepage (主页subtitle)</span></span><br><span class="line"><span class="attr">subtitle:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Typewriter Effect (打字效果)</span></span><br><span class="line">  <span class="attr">effect:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># loop (循环打字)</span></span><br><span class="line">  <span class="attr">loop:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># source 调用第三方服务</span></span><br><span class="line">  <span class="comment"># source: false 开闭调用</span></span><br><span class="line">  <span class="comment"># source: 1  调用一言网的一句話（简体） https://hitokoto.cn/</span></span><br><span class="line">  <span class="comment"># source: 2  调用一句网（简体） http://yijuzhan.com/</span></span><br><span class="line">  <span class="comment"># source: 3  调用今日诗词（简体） https://www.jinrishici.com/</span></span><br><span class="line">  <span class="comment"># subtitle 會先显示 source , 再显示 sub 的內容</span></span><br><span class="line">  <span class="attr">source:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># 如果关闭打字效果，subtitle 只会显示 sub 的第一行文字</span></span><br><span class="line">  <span class="attr">sub:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">自信且温和，温和且坚定</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Loading Animation (加载动画)</span></span><br><span class="line"><span class="attr">preloader:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="侧边栏配置">侧边栏配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 侧边栏是否开启</span></span><br><span class="line">  <span class="attr">hide:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">button:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">mobile:</span> <span class="literal">true</span> <span class="comment"># 是否在手机上显示</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">left</span> <span class="comment"># 侧边栏位置 left or right</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">card_author:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">description:</span></span><br><span class="line">    <span class="attr">button:</span></span><br><span class="line">      <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">icon:</span> <span class="string">fab</span> <span class="string">fa-github</span></span><br><span class="line">      <span class="attr">text:</span> <span class="string">Github</span></span><br><span class="line">      <span class="attr">link:</span> <span class="string">https://github.com/xxx</span></span><br><span class="line">  <span class="attr">card_announcement:</span> <span class="comment"># 公告栏内容</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">content:</span> <span class="string">欢迎来到Sunny的技术杂货铺，如果喜欢记得收藏奥～</span></span><br><span class="line">  <span class="attr">card_recent_post:</span> <span class="comment"># 最新文章</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">5</span> <span class="comment"># 如果设置为0 将会展示所有文章</span></span><br><span class="line">    <span class="attr">sort:</span> <span class="string">date</span> <span class="comment"># date or updated</span></span><br><span class="line">    <span class="attr">sort_order:</span> <span class="comment"># Don&#x27;t modify the setting unless you know how it works</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_15.png" alt="20220514_01_15"></p>
+<h3 id="简繁转换、夜间模式等配置">简繁转换、夜间模式等配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Conversion between Traditional and Simplified Chinese (简繁转换)</span></span><br><span class="line"><span class="attr">translate:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">default:</span> <span class="string">简</span> <span class="comment"># 默认的按钮文字</span></span><br><span class="line">  <span class="comment"># the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）</span></span><br><span class="line">  <span class="attr">defaultEncoding:</span> <span class="number">2</span></span><br><span class="line">  <span class="comment"># Time delay</span></span><br><span class="line">  <span class="attr">translateDelay:</span> <span class="number">0</span></span><br><span class="line">  <span class="attr">msgToTraditionalChinese:</span> <span class="string">&#x27;繁&#x27;</span> <span class="comment"># 当前是简体时 按钮文字</span></span><br><span class="line">  <span class="attr">msgToSimplifiedChinese:</span> <span class="string">&#x27;简&#x27;</span> <span class="comment"># 当前是繁体时 按钮文字</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Read Mode (阅读模式)</span></span><br><span class="line"><span class="attr">readmode:</span> <span class="literal">true</span> <span class="comment"># 是否打开阅读模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深色模式</span></span><br><span class="line"><span class="attr">darkmode:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Toggle Button to switch dark/light mode</span></span><br><span class="line">  <span class="attr">button:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">autoChangeMode:</span> <span class="literal">false</span> <span class="comment"># 是否自动切换</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_16.png" alt="20220514_01_16"></p>
+<h3 id="查看大图配置">查看大图配置</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Lightbox (图片大图查看模式)</span></span><br><span class="line"><span class="comment"># You can only choose one, or neither (只能选择一个 或者 两个都不选)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># medium-zoom</span></span><br><span class="line"><span class="comment"># https://github.com/francoischalifour/medium-zoom</span></span><br><span class="line"><span class="attr">medium_zoom:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fancybox</span></span><br><span class="line"><span class="comment"># http://fancyapps.com/fancybox/3/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_17.png" alt="20220514_01_17"></p>
+<h2 id="最后-2">最后</h2>
+<p>基本上到这里，关于<code>butterfly</code>主题的一些基础配置就可以了，关于更多的模块配置可以参考<a href="https://butterfly.js.org/">butterfly主题官方文档</a>。</p>
+<p>官方文档永远是最好的学习资料。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【Hexo】Mac OS上使用Hexo + Github搭建博客教程</title>
     <url>/posts/47556fe7/</url>
     <content><![CDATA[<h2 id="Hexo介绍">Hexo介绍</h2>
@@ -141,7 +254,7 @@
 <h3 id="访问云端博客主页">访问云端博客主页</h3>
 <p>访问地址：<a href="https://happycodersunny.github.io/">https://happycodersunny.github.io</a></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220509/20220509_20.png" alt="20220509_20"></p>
-<h2 id="最后-2">最后</h2>
+<h2 id="最后-3">最后</h2>
 <p>基本上到这里，属于我们自己的博客就搭建完成啦，撒花🎉🎉🎉～，整个搭建流程如果不出错半个小时之内其实是可以搞定的，但是这路哪里那么好走呢，每个人去搭建的过程中或多或少都会遇到一些问题，我自己在搭建的过程中也碰到了一些问题，我会抽空把遇到的问题详细整理出来，希望能够帮助大家如果要搭建博客的时候少踩点坑。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
@@ -191,7 +304,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
 <p>然后再去安装主题相关的插件即可，当然如果你电脑上还没有 <code>Node.js</code>等环境的话可能还需要去安装相关的环境。</p>
 <p>现在我们就基本上可以在另一台电脑上继续我们的博客之旅啦～</p>
-<h2 id="最后-3">最后</h2>
+<h2 id="最后-4">最后</h2>
 <p>到这里，如何备份Hexo博客以及如何恢复Hexo博客就基本结束啦。</p>
 <p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
 ]]></content>
@@ -200,119 +313,6 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Hexo】Butterfly主题配置（持续更新）</title>
-    <url>/posts/391caf66/</url>
-    <content><![CDATA[<h2 id="升级建议">升级建议</h2>
-<p>为了减少升级以后带来的不便，建议请按照下面的方式进行操作：</p>
-<p>在博客根目录下创建一个文件：<code>_config.butterfly.yml</code>，并把<code>butterfly</code>主题目录下的<code>_config.yml</code>内容复制到该文件中（注意：复制的是<a href="">butterfly主题目录</a>下的<code>_config.yml</code>不是博客根目录中的<code>_config.yml</code>）。</p>
-<p>以后只需要在<code>_config.butterfly.yml</code>文件里进行修改即可。</p>
-<blockquote>
-<p><strong>注意</strong>：butterly主题目录下的<code>_config.yml</code><strong>不要删除，不要删除，不要删除，重要的事情说三遍。</strong></p>
-</blockquote>
-<blockquote>
-<p><strong>注意</strong>：如果你项目中使用了<code>_config.butterfly.yml</code>文件，在主题目录下的<code>_config.yml</code>修改不会有效果。</p>
-</blockquote>
-<p>如图，以后我们只需要关注这两个配置文件即可：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_01.png" alt="20220514_01_01"></p>
-<h2 id="scaffolds文件夹">scaffolds文件夹</h2>
-<p>博客目录下有一个文件夹<code>scaffolds</code>，这个是模版文件夹，当我们新建页面或者文章时，<code>hexo</code> 会根据<code>scaffolds</code>来建立文件。</p>
-<p>顾名思义，模版就是指新建的文章或页面默认的内容，比如我修改了<code>scaffolds</code>下的<code>post.md</code>：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_02.png" alt="20220514_01_02"></p>
-<p>这样每次我新建的文章顶部都有这些默认内容，能添加的字段很多，具体参考<a href="https://butterfly.js.org/posts/dc584b87/#Post-Front-matter">butterfly主题官方文档</a>。</p>
-<h2 id="config-yml文件">_config.yml文件</h2>
-<h3 id="修改网站标题、副标题等信息">修改网站标题、副标题等信息</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 网站设置</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Sunny</span> <span class="comment"># 网站名称</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span> <span class="comment"># 副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">千里之行，始于足下</span> <span class="comment">#  描述行文字：你可以理解为个性签名</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="comment"># 关键词</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Sunny</span> <span class="comment"># 作者 </span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span> <span class="comment"># 语言 default(en)/ zh-CN（简体）/ zh-TW（繁体）</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span> <span class="comment"># 时区</span></span><br></pre></td></tr></table></figure>
-<h3 id="url相关配置">url相关配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 网站url 默认是https://example.com 如果使用的是github pages 请设置成 https://xxx.github.io</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://codersunny.com</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:title/</span> <span class="comment"># 永久链接</span></span><br><span class="line"><span class="attr">permalink_defaults:</span> <span class="comment"># 默认永久链接</span></span><br><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line">  <span class="attr">trailing_index:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span></span><br><span class="line">  <span class="attr">trailing_html:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;.html&#x27; from permalinks</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意</strong>：如果<code>url</code>不修改使用默认<code>https://example.com</code>，文章末尾的链接是打不开的。</p>
-</blockquote>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_03.png" alt="20220514_01_03"></p>
-<h2 id="config-butterfly-yml文件">_config.butterfly.yml文件</h2>
-<h3 id="写在前面-2">写在前面</h3>
-<p>本文基本上是按照<code>_config.butterfly.yml</code>文件从上到下的顺序来总结的，大家看的时候对照着设置即可。</p>
-<h3 id="导航栏菜单">导航栏菜单</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">   <span class="string">首页:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-home</span></span><br><span class="line">   <span class="string">音乐库:</span> <span class="string">/music/</span> <span class="string">||</span> <span class="string">fas</span> <span class="string">fa-music</span></span><br><span class="line">  <span class="comment"># Archives: /archives/ || fas fa-archive</span></span><br><span class="line">  <span class="comment"># Tags: /tags/ || fas fa-tags</span></span><br><span class="line">  <span class="comment"># Categories: /categories/ || fas fa-folder-open</span></span><br><span class="line">  <span class="comment"># List||fas fa-list:</span></span><br><span class="line">  <span class="comment"># Movie: /movies/ || fas fa-video</span></span><br><span class="line">  <span class="comment"># Link: /link/ || fas fa-link</span></span><br><span class="line">  <span class="comment"># About: /about/ || fas fa-heart</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意</strong>：必须是<code>/xxx/</code> + <code>||</code> + <code>图标名</code>，如果不想展示图标可以不写图标名。</p>
-</blockquote>
-<p>我这里暂时只配置了两个，效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_06.png" alt="20220514_01_06"></p>
-<h3 id="代码高亮相关设置">代码高亮相关设置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">highlight_theme:</span> <span class="string">mac</span> <span class="comment"># 高亮主题： darker / pale night / light / ocean / mac / mac light / false</span></span><br><span class="line"><span class="attr">highlight_copy:</span> <span class="literal">true</span> <span class="comment"># 是否展示复制按钮 copy button</span></span><br><span class="line"><span class="attr">highlight_lang:</span> <span class="literal">true</span> <span class="comment"># 是否展示代码块语言 show the code language</span></span><br><span class="line"><span class="attr">highlight_shrink:</span> <span class="literal">false</span> <span class="comment"># 是否展开代码框 true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button</span></span><br><span class="line"><span class="attr">highlight_height_limit:</span> <span class="literal">false</span> <span class="comment"># unit: px</span></span><br><span class="line"><span class="attr">code_word_wrap:</span> <span class="literal">true</span> <span class="comment"># 是否关闭代码滚动条</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_07.png" alt="20220514_01_07"></p>
-<h3 id="复制相关配置">复制相关配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># copy settings</span></span><br><span class="line"><span class="comment"># copyright: Add the copyright information after copied content (复制的内容加上版权信息)</span></span><br><span class="line"><span class="attr">copy:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启网站复制权限</span></span><br><span class="line">  <span class="attr">copyright:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启复制版权信息添加</span></span><br><span class="line">    <span class="attr">limit_count:</span> <span class="number">50</span> <span class="comment"># 超过这个字数会在复制内容后面加上版权信息</span></span><br></pre></td></tr></table></figure>
-<h3 id="社交图标">社交图标</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># social settings (社交图标设置)</span></span><br><span class="line"><span class="comment"># formal:</span></span><br><span class="line"><span class="comment">#   icon: link || the description</span></span><br><span class="line"><span class="comment"># 书写格式：图标名:url || 描述性文字</span></span><br><span class="line"><span class="attr">social:</span></span><br><span class="line">   <span class="attr">fab fa-github:</span> <span class="string">https://github.com/xxx</span> <span class="string">||</span> <span class="string">Github</span></span><br><span class="line">   <span class="attr">fas fa-envelope:</span>  <span class="string">mailto:xxx@gmail.com</span> <span class="string">||</span> <span class="string">Email</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_08.png" alt="20220514_01_08"></p>
-<h3 id="头像和顶部图配置">头像和顶部图配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Favicon（网站图标）</span></span><br><span class="line"><span class="attr">favicon:</span> <span class="string">/images/avatar.png</span></span><br><span class="line"><span class="comment"># Avatar (头像)</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">img:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="attr">effect:</span> <span class="literal">false</span> <span class="comment"># 是否开启头像的动效</span></span><br><span class="line"><span class="attr">disable_top_img:</span> <span class="literal">false</span> <span class="comment"># 如果不需要展示顶部图 设置为true</span></span><br><span class="line"><span class="attr">index_img:</span> <span class="string">/images/background.png</span> <span class="comment"># 主页的top_img</span></span><br><span class="line"><span class="attr">default_top_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># 默认的顶部图 如果top_img没有配置时，会显示default_top_img</span></span><br><span class="line"><span class="attr">archive_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># 归档页面的top_img</span></span><br><span class="line"><span class="attr">tag_img:</span> <span class="string">/images/default_post_cover.png</span> <span class="comment"># tag子页面的top_img</span></span><br><span class="line"><span class="attr">tag_per_img:</span> <span class="comment"># tag子页面的 top_img，可配置每个tag 的 top_img</span></span><br><span class="line"><span class="attr">category_img:</span> <span class="string">/images/default_post_cover.png</span>  <span class="comment"># category子页面的top_img</span></span><br><span class="line"><span class="attr">category_per_img:</span>  <span class="comment"># category子页面的 category_img，可配置每个category 的 top_img</span></span><br></pre></td></tr></table></figure>
-<p>部分效果图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_09.png" alt="20220514_01_09"></p>
-<h3 id="文章封面配置">文章封面配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cover:</span></span><br><span class="line">  <span class="attr">index_enable:</span> <span class="literal">true</span> <span class="comment"># 是否显示文章封面</span></span><br><span class="line">  <span class="attr">aside_enable:</span> <span class="literal">true</span> <span class="comment"># 文章侧边栏是否开启</span></span><br><span class="line">  <span class="attr">archives_enable:</span> <span class="literal">true</span> <span class="comment"># 归档是否开启</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">both</span> <span class="comment"># 封面显示的位置 left/right/both both表示左右两边交替显示</span></span><br><span class="line">  <span class="attr">default_cover:</span> <span class="comment"># 当没有设置文章封面时 默认的封面展示</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">https://sunny-blog.oss-cn-beijing.aliyuncs.com/default_post_cover.png</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_10.png" alt="20220514_01_10"></p>
-<h3 id="404页面和无法显示的图片配置">404页面和无法显示的图片配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换无法显示的图片的图片</span></span><br><span class="line"><span class="attr">error_img:</span></span><br><span class="line">  <span class="attr">flink:</span> <span class="string">/images/friend_404.gif</span></span><br><span class="line">  <span class="attr">post_page:</span> <span class="string">/images/404.jpg</span></span><br><span class="line"><span class="comment"># 404页面</span></span><br><span class="line"><span class="attr">error_404:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">subtitle:</span> <span class="string">&#x27;抱歉，页面没有找到～&#x27;</span></span><br><span class="line">  <span class="attr">background:</span> <span class="string">https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png</span></span><br></pre></td></tr></table></figure>
-<h3 id="文章显示信息配置">文章显示信息配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_meta:</span></span><br><span class="line">  <span class="attr">page:</span> <span class="comment"># Home Page</span></span><br><span class="line">    <span class="attr">date_type:</span> <span class="string">created</span> <span class="comment"># created or updated or both 主页文章日期是创建日或者更新日或都显示</span></span><br><span class="line">    <span class="attr">date_format:</span> <span class="string">date</span> <span class="comment"># date/relative 显示日期还是相对日期</span></span><br><span class="line">    <span class="attr">categories:</span> <span class="literal">true</span> <span class="comment"># true or false 主页是否显示分类</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="literal">true</span> <span class="comment"># true or false 主页是否显示标签</span></span><br><span class="line">    <span class="attr">label:</span> <span class="literal">true</span> <span class="comment"># true or false 显示描述性文字</span></span><br><span class="line">  <span class="attr">post:</span></span><br><span class="line">    <span class="attr">date_type:</span> <span class="string">created</span> <span class="comment"># created or updated or both 文章日期是创建日或者更新日或都显示</span></span><br><span class="line">    <span class="attr">date_format:</span> <span class="string">date</span> <span class="comment"># date/relative 显示日期还是相对日期</span></span><br><span class="line">    <span class="attr">categories:</span> <span class="literal">true</span> <span class="comment"># true or false 文章是否显示分类</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="literal">true</span> <span class="comment"># true or false 文章頁是否显示标签</span></span><br><span class="line">    <span class="attr">label:</span> <span class="literal">true</span> <span class="comment"># true or false 显示描述性文字</span></span><br></pre></td></tr></table></figure>
-<h3 id="字数统计">字数统计</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># wordcount (字数统计)</span></span><br><span class="line"><span class="comment"># see https://butterfly.js.org/posts/ceeb73f/#字数统计</span></span><br><span class="line"><span class="attr">wordcount:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post_wordcount:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">min2read:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_wordcount:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意</strong>：如果打开字数统计插件，请务必要先安装插件。</p>
-<p>进入根目录下，使用命令<code>npm install hexo-wordcount --save</code>或<code>yarn add hexo-wordcount</code>安装字数统计的插件。</p>
-</blockquote>
-<h3 id="文章末尾版权信息设置">文章末尾版权信息设置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_copyright:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启文章后面的复制信息</span></span><br><span class="line">  <span class="attr">decode:</span> <span class="literal">true</span> <span class="comment"># 是否解码</span></span><br><span class="line">  <span class="attr">author_href:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">CC</span> <span class="string">BY-NC-SA</span> <span class="number">4.0</span></span><br><span class="line">  <span class="attr">license_url:</span> <span class="string">https://creativecommons.org/licenses/by-nc-sa/4.0/</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_11.png" alt="20220514_01_11"></p>
-<h3 id="打赏功能配置">打赏功能配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打赏功能</span></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 是否开启</span></span><br><span class="line">  <span class="attr">QR_code:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">img:</span> <span class="string">/images/wechat_pay.png</span></span><br><span class="line">       <span class="attr">link:</span></span><br><span class="line">       <span class="attr">text:</span> <span class="string">微信</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">img:</span> <span class="string">/images/ali_pay.png</span></span><br><span class="line">       <span class="attr">link:</span></span><br><span class="line">       <span class="attr">text:</span> <span class="string">支付宝</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_12.png" alt="20220514_01_12"></p>
-<h3 id="分享功能配置">分享功能配置</h3>
-<p>有三个分享服务商：<code>AddThis</code>、<code>Sharejs</code>、<code>Addtoany</code>，只能选择其中一个，我这里使用默认的<code>Sharejs</code>。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Share.js</span></span><br><span class="line"><span class="comment"># https://github.com/overtrue/share.js</span></span><br><span class="line"><span class="attr">sharejs:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">sites:</span> <span class="string">facebook,twitter,wechat,weibo,qq</span></span><br></pre></td></tr></table></figure>
-<h3 id="网站页脚配置">网站页脚配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="attr">owner:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">since:</span> <span class="number">2020</span></span><br><span class="line">  <span class="attr">custom_text:</span> <span class="string">Hi,</span> <span class="string">welcome</span> <span class="string">to</span> <span class="string">my</span> <span class="string">&lt;a</span> <span class="string">href=&quot;https://codersunny.com&quot;&gt;blog&lt;/a&gt;!</span></span><br><span class="line">  <span class="attr">copyright:</span> <span class="literal">true</span> <span class="comment"># Copyright of theme and framework</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_13.png" alt="20220514_01_13"></p>
-<h3 id="网站背景图片配置">网站背景图片配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Website Background (设置网站背景)</span></span><br><span class="line"><span class="comment"># can set it to color or image (可設置图片 或者 颜色)</span></span><br><span class="line"><span class="comment"># The formal of image: url(http://xxxxxx.com/xxx.jpg)</span></span><br><span class="line"><span class="attr">background:</span> <span class="string">/images/background.png</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_14.png" alt="20220514_01_14"></p>
-<h3 id="网站副标题设置">网站副标题设置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># the subtitle on homepage (主页subtitle)</span></span><br><span class="line"><span class="attr">subtitle:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Typewriter Effect (打字效果)</span></span><br><span class="line">  <span class="attr">effect:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># loop (循环打字)</span></span><br><span class="line">  <span class="attr">loop:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># source 调用第三方服务</span></span><br><span class="line">  <span class="comment"># source: false 开闭调用</span></span><br><span class="line">  <span class="comment"># source: 1  调用一言网的一句話（简体） https://hitokoto.cn/</span></span><br><span class="line">  <span class="comment"># source: 2  调用一句网（简体） http://yijuzhan.com/</span></span><br><span class="line">  <span class="comment"># source: 3  调用今日诗词（简体） https://www.jinrishici.com/</span></span><br><span class="line">  <span class="comment"># subtitle 會先显示 source , 再显示 sub 的內容</span></span><br><span class="line">  <span class="attr">source:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># 如果关闭打字效果，subtitle 只会显示 sub 的第一行文字</span></span><br><span class="line">  <span class="attr">sub:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">自信且温和，温和且坚定</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Loading Animation (加载动画)</span></span><br><span class="line"><span class="attr">preloader:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="侧边栏配置">侧边栏配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 侧边栏是否开启</span></span><br><span class="line">  <span class="attr">hide:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">button:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">mobile:</span> <span class="literal">true</span> <span class="comment"># 是否在手机上显示</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">left</span> <span class="comment"># 侧边栏位置 left or right</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">card_author:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">description:</span></span><br><span class="line">    <span class="attr">button:</span></span><br><span class="line">      <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">icon:</span> <span class="string">fab</span> <span class="string">fa-github</span></span><br><span class="line">      <span class="attr">text:</span> <span class="string">Github</span></span><br><span class="line">      <span class="attr">link:</span> <span class="string">https://github.com/xxx</span></span><br><span class="line">  <span class="attr">card_announcement:</span> <span class="comment"># 公告栏内容</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">content:</span> <span class="string">欢迎来到Sunny的技术杂货铺，如果喜欢记得收藏奥～</span></span><br><span class="line">  <span class="attr">card_recent_post:</span> <span class="comment"># 最新文章</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">5</span> <span class="comment"># 如果设置为0 将会展示所有文章</span></span><br><span class="line">    <span class="attr">sort:</span> <span class="string">date</span> <span class="comment"># date or updated</span></span><br><span class="line">    <span class="attr">sort_order:</span> <span class="comment"># Don&#x27;t modify the setting unless you know how it works</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_15.png" alt="20220514_01_15"></p>
-<h3 id="简繁转换、夜间模式等配置">简繁转换、夜间模式等配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Conversion between Traditional and Simplified Chinese (简繁转换)</span></span><br><span class="line"><span class="attr">translate:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">default:</span> <span class="string">简</span> <span class="comment"># 默认的按钮文字</span></span><br><span class="line">  <span class="comment"># the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）</span></span><br><span class="line">  <span class="attr">defaultEncoding:</span> <span class="number">2</span></span><br><span class="line">  <span class="comment"># Time delay</span></span><br><span class="line">  <span class="attr">translateDelay:</span> <span class="number">0</span></span><br><span class="line">  <span class="attr">msgToTraditionalChinese:</span> <span class="string">&#x27;繁&#x27;</span> <span class="comment"># 当前是简体时 按钮文字</span></span><br><span class="line">  <span class="attr">msgToSimplifiedChinese:</span> <span class="string">&#x27;简&#x27;</span> <span class="comment"># 当前是繁体时 按钮文字</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Read Mode (阅读模式)</span></span><br><span class="line"><span class="attr">readmode:</span> <span class="literal">true</span> <span class="comment"># 是否打开阅读模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 深色模式</span></span><br><span class="line"><span class="attr">darkmode:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Toggle Button to switch dark/light mode</span></span><br><span class="line">  <span class="attr">button:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">autoChangeMode:</span> <span class="literal">false</span> <span class="comment"># 是否自动切换</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_16.png" alt="20220514_01_16"></p>
-<h3 id="查看大图配置">查看大图配置</h3>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Lightbox (图片大图查看模式)</span></span><br><span class="line"><span class="comment"># You can only choose one, or neither (只能选择一个 或者 两个都不选)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># medium-zoom</span></span><br><span class="line"><span class="comment"># https://github.com/francoischalifour/medium-zoom</span></span><br><span class="line"><span class="attr">medium_zoom:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fancybox</span></span><br><span class="line"><span class="comment"># http://fancyapps.com/fancybox/3/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>显示效果如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202205/20220514_01_17.png" alt="20220514_01_17"></p>
-<h2 id="最后-4">最后</h2>
-<p>基本上到这里，关于<code>butterfly</code>主题的一些基础配置就可以了，关于更多的模块配置可以参考<a href="https://butterfly.js.org/">butterfly主题官方文档</a>。</p>
-<p>官方文档永远是最好的学习资料。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
-        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -392,6 +392,54 @@
       </tags>
   </entry>
   <entry>
+    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
+    <url>/posts/9fce234e/</url>
+    <content><![CDATA[<h2 id="如何拥有自己的域名">如何拥有自己的域名</h2>
+<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
+<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
+<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
+<h2 id="购买域名">购买域名</h2>
+<p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
+<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
+<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http%3A//freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
+<h2 id="域名解析">域名解析</h2>
+<p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
+<p>在这里面添加两条记录如上所示。</p>
+<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
+<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
+<h2 id="添加CNAME文件">添加CNAME文件</h2>
+<p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
+<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
+<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
+<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
+<h2 id="修改博客配置文件">修改博客配置文件</h2>
+<p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
+<p>将里面的url替换成我们自己的即可。</p>
+<p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>再次运行博客：</p>
+<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
+<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
+<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
+<h2 id="最后-6">最后</h2>
+<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【PS学习】初识PS界面</title>
     <url>/posts/70b04f6f/</url>
     <content><![CDATA[<h2 id="写在前面-4">写在前面</h2>
@@ -452,54 +500,6 @@
       </categories>
       <tags>
         <tag>PS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Hexo】如何拥有一个自定义域名的Hexo博客</title>
-    <url>/posts/9fce234e/</url>
-    <content><![CDATA[<h2 id="如何拥有自己的域名">如何拥有自己的域名</h2>
-<p>在<a href="https://happycodersunny.github.io/2022/05/09/%E3%80%90Hexo%E3%80%91Mac%20OS%E4%B8%8A%E4%BD%BF%E7%94%A8Hexo%20+%20Github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/">这篇文章</a>中我们利用Hexo和Github搭建了自己的博客，搭建出来的博客地址格式都是：<code>https://+Github博客仓库名.github.io </code></p>
-<p>比如我的博客地址就是：<code>https://happycodersunny.github.io</code></p>
-<p>是不是觉得不好看，大家的网址都长一样，好像是流水线上生产出来的一样，那么怎么替换成自己的域名显得更个性化呢？</p>
-<h2 id="购买域名">购买域名</h2>
-<p>首先一个普通的域名也不贵，你可以上XX云买一个自己喜欢的域名，我这里以阿里云为例：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_01.png" alt="20220512_01"></p>
-<p>在购买的时候需要你实名，就按照要求填写相关信息即可，填写之后需要一会的审核时间，一般还是很快的。</p>
-<p>如果你实在是不想花钱买域名也可以<a href="%5Bhttp://freenom.com%5D(https://link.zhihu.com/?target=http%3A//freenom.com/)">在这里</a>免费注册一个域名，具体注册和解析步骤可以参考<a href="https://www.zhihu.com/question/31377141/answer/2266363145">知乎文章</a>。</p>
-<h2 id="域名解析">域名解析</h2>
-<p>购买域名之后我们还需要对域名进行解析之后才能使用。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_02.png" alt="20220512_02"></p>
-<p>在这里面添加两条记录如上所示。</p>
-<p>记录类型为A的四个记录值是Github page官网说的四个记录值，好多文章写的192开头的两个已经不是最新的了，大家最好还是对照<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">Github Pages</a>进行设置，也可以使用<code>ping xxx.github.io</code>来验证一下。</p>
-<p>记录类型为CNAME的记录值必须是<code>xxx.github.io</code>。</p>
-<h2 id="添加CNAME文件">添加CNAME文件</h2>
-<p>一、在<code>Github</code>上博客项目里按照下面步骤配置自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_03.png" alt="20220512_03"></p>
-<p>这里需要注意的是：我们需要勾选<code>Enforce HTTPS</code>，这样以后访问我们的博客才安全不会提示网站链接不安全的问题，<code>Github Pages</code>官网上说勾选这个之后一般需要等待24h才可以正常使用，不过有时候也快，我这个等了两三分钟就可以了。</p>
-<p>二、配置完成之后，博客项目下会多一个<code>CNAME</code>文件，里面的内容就是我们上面配置的自定义域名：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_04.png" alt="20220512_04"></p>
-<p>三、检查博客根目录下的source文件夹下是否有一个CNAME文件，如果还是没有请自行在<code>/source</code>目录下新添加一个CNAME文件，内容跟上面一样还是填写自己购买的域名，保存。</p>
-<h2 id="修改博客配置文件">修改博客配置文件</h2>
-<p>打开我们本地博客目录下的<code>_config.yml</code>文件：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_05.png" alt="20220512_05"></p>
-<p>将里面的url替换成我们自己的即可。</p>
-<p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>再次运行博客：</p>
-<p>如果不添加<code>HTTPS</code>，网站左上角会提示该网站不安全：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_06.png" alt="20220512_06"></p>
-<p>正常添加<code>HTTPS</code>，网站左上角会有一个锁头标志，说明这个网站是安全的：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/20220512/20220512_07.png" alt="20220512_07"></p>
-<p>这样我们就把自己购买的域名用上了，也使自己的网站更具个性化一点。</p>
-<h2 id="最后-6">最后</h2>
-<p>嘻嘻嘻，都看到这里了，不要吝啬你的小星星嘛，为博主点个赞呐～</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -910,136 +910,9 @@
       </tags>
   </entry>
   <entry>
-    <title>【iOS逆向】如何让Mac和iPhone建立安全连接</title>
-    <url>/posts/7df93f3b/</url>
-    <content><![CDATA[<h2 id="写在前面-9">写在前面</h2>
-<p>本文主要是记录一下在iOS逆向过程中，Mac是如何和iPhone建立安全连接来实现在Mac上可以通过命令行操作iPhone的。</p>
-<h2 id="SSH-和-OpenSSH">SSH 和 OpenSSH</h2>
-<p>SSH：Secure Shell的缩写，意思为“安全外壳协议”，是一种可以为【远程登录】提供安全保障的协议，使用SSH可以把所有的数据加密，防止中间人攻击等欺骗。</p>
-<p>OpenSSH：是SSH的免费开源实现。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/1.png" alt="1"></p>
-<div class="note pink no-icon flat"><p><strong>拓展</strong>：</p>
-<p>SSL：Secure Socket Layer的缩写，是为网络通信提供安全及数据完整性的一种安全协议，在传输层对网络连接进行加密。</p>
-<p>OpenSSL：SSL的开源实现。</p>
-<p>绝大部分的https请求等价于http + OpenSSL。</p>
-<p>OpenSSH是用来保证登录安全性的，而这个安全由OpenSSL来具体实现。</p>
-</div>
-<h2 id="Mac如何远程登录到iPhone">Mac如何远程登录到iPhone</h2>
-<h3 id="方式一：通过网络连接">方式一：通过网络连接</h3>
-<p>iOS下有两个常用的账户：root、mobile。</p>
-<p>root账户拥有最高权限，mobile是普通权限账户。</p>
-<p>现在我们来看如何在Mac上远程登录iPhone：</p>
-<div class="note green no-icon flat"><p>1.首先在Cydia中下载插件<code>OpenSSH</code></p>
-<p>2.保证Mac和iPhone在同一个局域网下（连接同一个Wifi）</p>
-<p>3.使用命令<code>ssh 账户名@服务主机地址</code>登录到iPhone，这里账户名：root，服务主机地址：连接的Wifi设置里面查看</p>
-<p><strong>注意</strong>：首次登录的初始化密码为：alpine</p>
-</div>
-<p>效果图如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/2.png" alt="2"></p>
-<p>此时我们通过命令行在iPhone下创建一个<code>test.txt</code>的文本，此时通过<code>iFunBox</code>查看，会发现root账户下多了一个刚创建的文本：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/3.png" alt="3"></p>
-<p>到这里，说明我们已经成功建立Mac和iPhone的连接。</p>
-<div class="note red no-icon flat"><p><strong>提示</strong>：</p>
-<p>如果在登录的过程中出现如下错误：<code>ssh: connect to host xxx port 22: Operation timed out</code>，可以<code>ping 主机地址</code>看看网络是否连接上。</p>
-</div>
-<h3 id="方式二：通过USB连接">方式二：通过USB连接</h3>
-<p>默认情况下，SSH走的协议是TCP协议，Mac是通过网络连接的方式登录到iPhone，所以如果网络环境不好可能会造成传输速度比较慢的情况。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/4.png" alt="4"></p>
-<p>为了加快传输的速度可以使用USB的方式进行登录，Mac上有个服务程序<code>usbmuxd</code>，<code>usbmuxd</code>是开机启动的，它可以将Mac的数据通过USB传输到iPhone上。</p>
-<p>使用USB的方式连接的具体步骤如下：</p>
-<div class="note pink no-icon flat"><ol>
-<li>
-<p>下载<code>usbmuxd</code>工具包</p>
-</li>
-<li>
-<p>使用如下命令将iPhone的22端口（SSH端口）映射到本地的xxxxx端口（这个端口是任意的，只要不是保留端口就可以）</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">cd usbmuxd<span class="number">-1.0</span><span class="number">.8</span>/python-client <span class="comment">// 下载usbmuxd工具目录下</span></span><br><span class="line">python tcprelay.py -t <span class="number">22</span>:<span class="number">10010</span> <span class="comment">// 10010只要不是保留端口就行 -t是为了能够支持多个SSH连接</span></span><br></pre></td></tr></table></figure>
-<p>端口映射完毕后，以后要想跟iPhone的22端口通信只需要跟Mac本地的10010端口通信即可，<code>usbmuxd</code>会将Mac本地10010端口的TCP协议数据通过USB的方式传到iPhone的22端口。</p>
-</li>
-<li>
-<p>使用如下命令新开一个终端窗口，SSH登录到Mac本地的10010端口</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">ssh root@localhost -p <span class="number">10010</span></span><br><span class="line">或</span><br><span class="line">ssh root@MacIP地址 -p <span class="number">10010</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</div>
-<p>博主这里的操作如下图：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/5.png" alt="5"></p>
-<p>此时，映射关系已经建立完毕。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/6.png" alt="6"></p>
-<p>登录到Mac本地的10010端口，此时连接已经完成，创建<code>touch usbLoginTest.txt</code>的一个文本测试一下，会发现iPhone上多了我们刚刚创建的文本：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/7.png" alt="7"></p>
-<p>USB登录的整个流程如下图：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/8.png" alt="8"></p>
-<h2 id="写在最后-3">写在最后</h2>
-<p>关于【如何让Mac和iPhone建立安全连接的两种方式】的文章就写到这里了，如有错误请多多指教。</p>
-]]></content>
-      <categories>
-        <category>逆向</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>逆向</tag>
-        <tag>iPhone</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【iOS逆向】最全的SSH通信过程</title>
-    <url>/posts/beccfc53/</url>
-    <content><![CDATA[<h2 id="写在前面-10">写在前面</h2>
-<p>在<a href="https://codersunny.com/posts/7df93f3b/">【iOS逆向】如何让Mac和iPhone建立安全连接</a>文章中我们主要讲了Mac和iPhone如何建立安全连接，让我们在Mac上可以通过命令来控制iPhone，但是其实我们使用相关登录命令到登录到iPhone中间是有一个过程的，我们本篇文章就是来分析一下这个过程是什么样的，这个过程包括：</p>
-<ul>
-<li>建立安全连接</li>
-<li>客户端认证</li>
-</ul>
-<h2 id="建立安全连接">建立安全连接</h2>
-<p>在建立安全连接的过程中，服务器会提供自己的身份证明：公钥信息。</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/1.png" alt="1"></p>
-<p>如果客户端并没有保存过服务器的公钥信息，会出现如下提示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/2.png" alt="2"></p>
-<p>这其实是在问我们是否需要保存这个公钥信息，我们选择【yes】之后保存，在客户端的ssh文件中查看相应的内容：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/3.png" alt="3"></p>
-<p>如果是首次进行该操作，会提示我们输入密码进行登录。</p>
-<h2 id="客户端认证">客户端认证</h2>
-<p>SSH提供了两种认证的方式：</p>
-<p>1、密码登录的认证方式</p>
-<p>2、基于【密钥】的认证方式</p>
-<div class="note pink no-icon flat"><p>SSH会优先使用密钥的认证方式，如果认证失败才会采用密码登录的方式进行认证。</p>
-</div>
-<p>我们这里重点来说一下基于密钥的认证方式是怎么样的。</p>
-<h3 id="客户端生成公钥和私钥信息">客户端生成公钥和私钥信息</h3>
-<p>1、通过下面的方式查看客户端是否生成过公钥和密钥：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/4.png" alt="4"></p>
-<p>如果没有生成，通过命令<code>ssh-keygen</code>来生成公钥和私钥信息，如果已经生成，直接到第二步。</p>
-<p>2、使用命令<code>ssh-copy-id root@服务器ip地址</code>将公钥信息追加到授权文件尾部，如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/5.png" alt="5"></p>
-<p>我们来验证一下客户端和服务端存储的信息是否一致？</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/6.png" alt="6"></p>
-<p>完成上述操作后，下次登录到iPhone就不再需要密码了。</p>
-<div class="note orange no-icon flat"><p>如果按照上面方式配置了还是需要密码登录，需要使用下面操作修改一下权限（在iPhone的root账户下）：</p>
-<p><code>chmod 755 ~</code></p>
-<p><code>chmod 755 ~/.ssh</code></p>
-<p><code>chmod 644 ~/.ssh/authorized_keys</code></p>
-</div>
-<h2 id="删除客户端保存的服务器的公钥信息">删除客户端保存的服务器的公钥信息</h2>
-<p>有时候提供服务器的身份信息会发生变化，我们可能需要删掉客户端保存的公钥信息：</p>
-<p>第一种方式：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~./ssh</span><br><span class="line"><span class="built_in">ls</span> -l</span><br><span class="line">vim known_hosts(找到对应的信息进行删除)</span><br><span class="line">:wq</span><br></pre></td></tr></table></figure>
-<p>第二种方式：<code>ssh-keygen -R 服务器ip地址</code></p>
-<h2 id="写在最后-4">写在最后</h2>
-<p>关于SSH如何建立安全连接和客户端认证的文章就写到这里了，如有错误请多多指教。</p>
-]]></content>
-      <categories>
-        <category>逆向</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【iOS逆向】一键越狱教程</title>
     <url>/posts/1bf7fb0b/</url>
-    <content><![CDATA[<h2 id="写在前面-11">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-9">写在前面</h2>
 <p>本文主要是记录一下如何越狱，博主这里指的是不完美越狱，博主这里越狱的手机是：iPhone5s  iOS12.5.6。</p>
 <p>首先，你需要有：iPhone手机、Mac电脑，保证Mac和手机上都有<a href="https://www.i4.cn/">爱思助手</a>。</p>
 <h2 id="越狱的简单介绍">越狱的简单介绍</h2>
@@ -1103,7 +976,7 @@
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1129/15.png" alt="15"></p>
 <p>两个都安装成功之后，我们会看到爱思助手顶部信息发生变化，告诉我们该设备已越狱：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1129/16.png" alt="16"></p>
-<h2 id="写在最后-5">写在最后</h2>
+<h2 id="写在最后-3">写在最后</h2>
 <p>关于如何简单一键越狱的操作，博主就介绍到这里了，如有错误请多多指教。</p>
 ]]></content>
       <categories>
@@ -1113,6 +986,133 @@
         <tag>iOS</tag>
         <tag>逆向</tag>
         <tag>iPhone</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【iOS逆向】如何让Mac和iPhone建立安全连接</title>
+    <url>/posts/7df93f3b/</url>
+    <content><![CDATA[<h2 id="写在前面-10">写在前面</h2>
+<p>本文主要是记录一下在iOS逆向过程中，Mac是如何和iPhone建立安全连接来实现在Mac上可以通过命令行操作iPhone的。</p>
+<h2 id="SSH-和-OpenSSH">SSH 和 OpenSSH</h2>
+<p>SSH：Secure Shell的缩写，意思为“安全外壳协议”，是一种可以为【远程登录】提供安全保障的协议，使用SSH可以把所有的数据加密，防止中间人攻击等欺骗。</p>
+<p>OpenSSH：是SSH的免费开源实现。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/1.png" alt="1"></p>
+<div class="note pink no-icon flat"><p><strong>拓展</strong>：</p>
+<p>SSL：Secure Socket Layer的缩写，是为网络通信提供安全及数据完整性的一种安全协议，在传输层对网络连接进行加密。</p>
+<p>OpenSSL：SSL的开源实现。</p>
+<p>绝大部分的https请求等价于http + OpenSSL。</p>
+<p>OpenSSH是用来保证登录安全性的，而这个安全由OpenSSL来具体实现。</p>
+</div>
+<h2 id="Mac如何远程登录到iPhone">Mac如何远程登录到iPhone</h2>
+<h3 id="方式一：通过网络连接">方式一：通过网络连接</h3>
+<p>iOS下有两个常用的账户：root、mobile。</p>
+<p>root账户拥有最高权限，mobile是普通权限账户。</p>
+<p>现在我们来看如何在Mac上远程登录iPhone：</p>
+<div class="note green no-icon flat"><p>1.首先在Cydia中下载插件<code>OpenSSH</code></p>
+<p>2.保证Mac和iPhone在同一个局域网下（连接同一个Wifi）</p>
+<p>3.使用命令<code>ssh 账户名@服务主机地址</code>登录到iPhone，这里账户名：root，服务主机地址：连接的Wifi设置里面查看</p>
+<p><strong>注意</strong>：首次登录的初始化密码为：alpine</p>
+</div>
+<p>效果图如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/2.png" alt="2"></p>
+<p>此时我们通过命令行在iPhone下创建一个<code>test.txt</code>的文本，此时通过<code>iFunBox</code>查看，会发现root账户下多了一个刚创建的文本：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/3.png" alt="3"></p>
+<p>到这里，说明我们已经成功建立Mac和iPhone的连接。</p>
+<div class="note red no-icon flat"><p><strong>提示</strong>：</p>
+<p>如果在登录的过程中出现如下错误：<code>ssh: connect to host xxx port 22: Operation timed out</code>，可以<code>ping 主机地址</code>看看网络是否连接上。</p>
+</div>
+<h3 id="方式二：通过USB连接">方式二：通过USB连接</h3>
+<p>默认情况下，SSH走的协议是TCP协议，Mac是通过网络连接的方式登录到iPhone，所以如果网络环境不好可能会造成传输速度比较慢的情况。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/4.png" alt="4"></p>
+<p>为了加快传输的速度可以使用USB的方式进行登录，Mac上有个服务程序<code>usbmuxd</code>，<code>usbmuxd</code>是开机启动的，它可以将Mac的数据通过USB传输到iPhone上。</p>
+<p>使用USB的方式连接的具体步骤如下：</p>
+<div class="note pink no-icon flat"><ol>
+<li>
+<p>下载<code>usbmuxd</code>工具包</p>
+</li>
+<li>
+<p>使用如下命令将iPhone的22端口（SSH端口）映射到本地的xxxxx端口（这个端口是任意的，只要不是保留端口就可以）</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">cd usbmuxd<span class="number">-1.0</span><span class="number">.8</span>/python-client <span class="comment">// 下载usbmuxd工具目录下</span></span><br><span class="line">python tcprelay.py -t <span class="number">22</span>:<span class="number">10010</span> <span class="comment">// 10010只要不是保留端口就行 -t是为了能够支持多个SSH连接</span></span><br></pre></td></tr></table></figure>
+<p>端口映射完毕后，以后要想跟iPhone的22端口通信只需要跟Mac本地的10010端口通信即可，<code>usbmuxd</code>会将Mac本地10010端口的TCP协议数据通过USB的方式传到iPhone的22端口。</p>
+</li>
+<li>
+<p>使用如下命令新开一个终端窗口，SSH登录到Mac本地的10010端口</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">ssh root@localhost -p <span class="number">10010</span></span><br><span class="line">或</span><br><span class="line">ssh root@MacIP地址 -p <span class="number">10010</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</div>
+<p>博主这里的操作如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/5.png" alt="5"></p>
+<p>此时，映射关系已经建立完毕。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/6.png" alt="6"></p>
+<p>登录到Mac本地的10010端口，此时连接已经完成，创建<code>touch usbLoginTest.txt</code>的一个文本测试一下，会发现iPhone上多了我们刚刚创建的文本：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/7.png" alt="7"></p>
+<p>USB登录的整个流程如下图：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1201/8.png" alt="8"></p>
+<h2 id="写在最后-4">写在最后</h2>
+<p>关于【如何让Mac和iPhone建立安全连接的两种方式】的文章就写到这里了，如有错误请多多指教。</p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>逆向</tag>
+        <tag>iPhone</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【iOS逆向】最全的SSH通信过程</title>
+    <url>/posts/beccfc53/</url>
+    <content><![CDATA[<h2 id="写在前面-11">写在前面</h2>
+<p>在<a href="https://codersunny.com/posts/7df93f3b/">【iOS逆向】如何让Mac和iPhone建立安全连接</a>文章中我们主要讲了Mac和iPhone如何建立安全连接，让我们在Mac上可以通过命令来控制iPhone，但是其实我们使用相关登录命令到登录到iPhone中间是有一个过程的，我们本篇文章就是来分析一下这个过程是什么样的，这个过程包括：</p>
+<ul>
+<li>建立安全连接</li>
+<li>客户端认证</li>
+</ul>
+<h2 id="建立安全连接">建立安全连接</h2>
+<p>在建立安全连接的过程中，服务器会提供自己的身份证明：公钥信息。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/1.png" alt="1"></p>
+<p>如果客户端并没有保存过服务器的公钥信息，会出现如下提示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/2.png" alt="2"></p>
+<p>这其实是在问我们是否需要保存这个公钥信息，我们选择【yes】之后保存，在客户端的ssh文件中查看相应的内容：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/3.png" alt="3"></p>
+<p>如果是首次进行该操作，会提示我们输入密码进行登录。</p>
+<h2 id="客户端认证">客户端认证</h2>
+<p>SSH提供了两种认证的方式：</p>
+<p>1、密码登录的认证方式</p>
+<p>2、基于【密钥】的认证方式</p>
+<div class="note pink no-icon flat"><p>SSH会优先使用密钥的认证方式，如果认证失败才会采用密码登录的方式进行认证。</p>
+</div>
+<p>我们这里重点来说一下基于密钥的认证方式是怎么样的。</p>
+<h3 id="客户端生成公钥和私钥信息">客户端生成公钥和私钥信息</h3>
+<p>1、通过下面的方式查看客户端是否生成过公钥和密钥：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/4.png" alt="4"></p>
+<p>如果没有生成，通过命令<code>ssh-keygen</code>来生成公钥和私钥信息，如果已经生成，直接到第二步。</p>
+<p>2、使用命令<code>ssh-copy-id root@服务器ip地址</code>将公钥信息追加到授权文件尾部，如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/5.png" alt="5"></p>
+<p>我们来验证一下客户端和服务端存储的信息是否一致？</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1209/6.png" alt="6"></p>
+<p>完成上述操作后，下次登录到iPhone就不再需要密码了。</p>
+<div class="note orange no-icon flat"><p>如果按照上面方式配置了还是需要密码登录，需要使用下面操作修改一下权限（在iPhone的root账户下）：</p>
+<p><code>chmod 755 ~</code></p>
+<p><code>chmod 755 ~/.ssh</code></p>
+<p><code>chmod 644 ~/.ssh/authorized_keys</code></p>
+</div>
+<h2 id="删除客户端保存的服务器的公钥信息">删除客户端保存的服务器的公钥信息</h2>
+<p>有时候提供服务器的身份信息会发生变化，我们可能需要删掉客户端保存的公钥信息：</p>
+<p>第一种方式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~./ssh</span><br><span class="line"><span class="built_in">ls</span> -l</span><br><span class="line">vim known_hosts(找到对应的信息进行删除)</span><br><span class="line">:wq</span><br></pre></td></tr></table></figure>
+<p>第二种方式：<code>ssh-keygen -R 服务器ip地址</code></p>
+<h2 id="写在最后-5">写在最后</h2>
+<p>关于SSH如何建立安全连接和客户端认证的文章就写到这里了，如有错误请多多指教。</p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -1210,9 +1210,126 @@
       </tags>
   </entry>
   <entry>
+    <title>【iOS重学】Block底层原理（一）</title>
+    <url>/posts/67d22871/</url>
+    <content><![CDATA[<h2 id="写在前面-13">写在前面</h2>
+<p>关于<code>Block</code>的底层原理相关东西，需要了解的东西比较多，所以博主这里打算用两篇文章来详细分析一下OC里面的<code>Block</code>，这是第一篇，内容主要包含：</p>
+<ul>
+<li>Block的基本使用</li>
+<li>Block的底层数据结构</li>
+<li>Block对变量的捕获</li>
+<li>Block的类型</li>
+</ul>
+<p>好了，废话少说，现在跟着博主开始从头了解Block吧。</p>
+<h2 id="Block的基本使用-2">Block的基本使用</h2>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;This is a block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br></pre></td></tr></table></figure>
+<p>以上是最简单的一个Block，调用<code>Block()</code>会打印：<code>This is a block...</code>。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)fetchDataWithSuccess:(<span class="type">void</span>(^)(<span class="built_in">NSString</span> *message))successBlock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)fetchDataWithSuccess:(<span class="type">void</span>(^)(<span class="built_in">NSString</span> *message))successBlock &#123;</span><br><span class="line">    <span class="keyword">if</span> (successBlock) &#123;</span><br><span class="line">        successBlock(<span class="string">@&quot;这是一个成功的回调...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person fetchDataWithSuccess:^(<span class="built_in">NSString</span> *message) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;---- %@&quot;</span>, message);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">19</span>:<span class="number">30</span>:<span class="number">08.775142</span>+<span class="number">0800</span> BlockDemo[<span class="number">53402</span>:<span class="number">5642770</span>] ---- 这是一个成功的回调...</span><br></pre></td></tr></table></figure>
+<p>相信这种类似的Block大家在日常项目中会看到很多很多，我们这里就不再一一列举了。</p>
+<h2 id="Block的底层数据结构">Block的底层数据结构</h2>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;This is a block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br></pre></td></tr></table></figure>
+<p>我们来看一下上面最简单的Block的底层C++结构是什么样的，使用命令<code>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main.cpp</code>转为C++代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        <span class="comment">// 定义Block</span></span><br><span class="line">        <span class="built_in">void</span>(*WWBlock)(<span class="type">void</span>) = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA));</span><br><span class="line">                            </span><br><span class="line">        <span class="comment">// 调用Block               </span></span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)WWBlock)-&gt;FuncPtr)((__block_impl *)WWBlock);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把相应的强制转换给去掉能够帮助我们更清晰的理解Block的结构，去掉一些强制转换之后如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义Block</span></span><br><span class="line"><span class="built_in">void</span>(*WWBlock)(<span class="type">void</span>) = &amp;__main_block_impl_0(__main_block_func_0, &amp;__main_block_desc_0_DATA));</span><br><span class="line"><span class="comment">// 调用Block      </span></span><br><span class="line">WWBlock-&gt;<span class="built_in">FuncPtr</span>(WWBlock);</span><br></pre></td></tr></table></figure>
+<p>可以看到跟Block相关的有：<code>__main_block_impl_0</code>、<code>__main_block_func_0</code>、<code>__main_block_dec_0_DATA</code>这几个类，在生成的C++文件里面找到相关的结构如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/1.png" alt="1"></p>
+<p>从上面的图里面我们可以看到，Block的结构里面也有一个<code>isa</code>指针，所以Block的本质其实也是一个【<strong>OC对象</strong>】，是一个封装了函数调用及其调用环境的OC对象。</p>
+<p>对应关系如下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/2.png" alt="2"></p>
+<p>在调用的时候<code>WWBlock-&gt;FuncPtr(WWBlock)</code>，相当于是拿到<code>WWBlock</code>结构里面的函数指针<code>FuncPtr</code>去调用对应的方法，这个函数指针里面其实存放的就是Block代码块的地址。</p>
+<h2 id="Block对变量的捕获">Block对变量的捕获</h2>
+<p>为什么Block会对变量进行捕获？</p>
+<p>因为在Block里面可能需要访问Block外部变量的值，所以需要捕获（capture）变量保证我们能正确访问到变量。</p>
+<p>我们现在分别来分析【auto变量】、【static变量】、【全局变量】三种不同的变量，Block对其捕获是不是也不一样呢？</p>
+<h3 id="auto变量">auto变量</h3>
+<p>auto变量：离开当前作用域就会销毁的变量。</p>
+<h4 id="1、非对象类型的auto变量">1、非对象类型的auto变量</h4>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;对auoto变量的捕获 - %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line">age = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">20</span>:<span class="number">18</span>:<span class="number">28.957166</span>+<span class="number">0800</span> BlockDemo[<span class="number">54326</span>:<span class="number">5689813</span>] 对auoto变量的捕获 - <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>底层C++代码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/3.png" alt="3"></p>
+<p>跟前面我们没有捕获变量相比，会把<code>age</code>传递到Block里面：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/4.png" alt="4"></p>
+<p>从底层结构我们也看到了：Block会对auto变量进行捕获，访问的方式是【值传递】。</p>
+<h4 id="2、对象类型的auto变量">2、对象类型的auto变量</h4>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="type">void</span>(^WWBlock)(<span class="type">void</span>);</span><br><span class="line">        &#123;</span><br><span class="line">            Person *person = [[Person alloc] init];</span><br><span class="line">            person.age = <span class="number">10</span>;</span><br><span class="line">            WWBlock = ^&#123;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;person&#x27;s age is %d&quot;</span>,person.age);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;-----&quot;</span>);</span><br><span class="line">        WWBlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">31.593895</span>+<span class="number">0800</span> BlockDemo[<span class="number">2248</span>:<span class="number">6132111</span>] -----</span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">31.594542</span>+<span class="number">0800</span> BlockDemo[<span class="number">2248</span>:<span class="number">6132111</span>] person<span class="string">&#x27;s age is 10</span></span><br><span class="line"><span class="string">2022-12-07 15:45:31.594693+0800 BlockDemo[2248:6132111] -[Person dealloc]</span></span><br></pre></td></tr></table></figure>
+<p>底层结构代码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/11.png" alt="11"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/12.png" alt="12"></p>
+<p>对照上面的底层数据结构发现：多了两个函数<code>__main_block_copy_0</code>和<code>__main_block_dispose_0</code>。</p>
+<p>当Block被拷贝到堆上时，会调用Block内部的copy函数<code>__main_block_copy_0</code>，函数里面调用<code>_Block_object_assign</code>，在<code>_Block_object_assign</code>里面根据auto变量的修饰符做出相应的操作：强引用或弱引用。</p>
+<p>当Block从对上移除时，会调用Block内部的dispose函数<code>__main_block_dispose_0</code>，函数里面调用<code>_Block_object_dispose</code>，<code>_Block_object_dispose</code>去对引用的auto变量进行一次release操作。</p>
+<div class="note pink no-icon flat"><p>在使用clang转换OC为C++代码时，如果有<code>__weak</code>可能会出现下面报错：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/13.png" alt="13"></p>
+<p>让其支持ARC、指定运行时系统版本即可，比如：</p>
+<p>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-14.0.0 main.m</p>
+</div>
+<h3 id="static变量">static变量</h3>
+<p>static变量：离开当前作用域不会销毁的变量。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;对static变量的捕获 - %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line">age = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">20</span>:<span class="number">27</span>:<span class="number">55.716204</span>+<span class="number">0800</span> BlockDemo[<span class="number">54594</span>:<span class="number">5700817</span>] 对<span class="keyword">static</span>变量的捕获 - <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>底层C++代码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/5.png" alt="5"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/6.png" alt="6"></p>
+<p>从底层结构我们也看到了：Block会对static变量进行捕获，访问的方式是【指针传递】。</p>
+<h3 id="全局变量">全局变量</h3>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> age;</span><br><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">  <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">      <span class="comment">// 定义一个Block</span></span><br><span class="line">      age = <span class="number">10</span>;</span><br><span class="line">      <span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">          <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>,age);</span><br><span class="line">      &#125;;</span><br><span class="line">      age = <span class="number">20</span>;</span><br><span class="line">      <span class="comment">// 调用Block</span></span><br><span class="line">      WWBlock();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">13</span>:<span class="number">39</span>:<span class="number">45.012065</span>+<span class="number">0800</span> BlockDemo[<span class="number">197</span>:<span class="number">6032120</span>] age is <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>底层C++代码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/7.png" alt="7"></p>
+<p>从底层结构我们发现：Block不会对全局变量进行捕获，直接访问全局变量即可。</p>
+<div class="note green no-icon flat"><p><strong>思考</strong>：</p>
+<p>1、为什么Block不会捕获全局变量，但是局部变量需要捕获？</p>
+<p>全局变量在任何时候任何地方都是可以访问到的，因此不需要捕获可以直接访问。</p>
+<p>局部变量因为作用域的问题需要被捕获，保证Block内部能够正确访问到该变量。</p>
+<p>2、Block会对捕获self吗？</p>
+<p>会，说明self是个局部变量。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="type">void</span>)test &#123;</span><br><span class="line">    <span class="keyword">self</span>.age = <span class="number">10</span>;</span><br><span class="line">    <span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, <span class="keyword">self</span>.age);</span><br><span class="line">    &#125;;</span><br><span class="line">    WWBlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>底层C++代码如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/9.png" alt="9"></p>
+<p><code>self</code>和<code>_cmd</code>其实是两个隐式参数，所以我们能在里面正常访问<code>self</code>、<code>_cmd</code>。</p>
+</div>
+<h3 id="Block捕获变量总结">Block捕获变量总结</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/8.png" alt="8"></p>
+<h2 id="Block的类型">Block的类型</h2>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span>(^block1)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;This is block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^block2)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %@ %@&quot;</span>,[block1 <span class="keyword">class</span>],[block2 <span class="keyword">class</span>],[^&#123;<span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, age);&#125; <span class="keyword">class</span>]);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %@ %@&quot;</span>,[[block1 <span class="keyword">class</span>] superclass], [[block2 <span class="keyword">class</span>] superclass], [[^&#123;<span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, age);&#125; <span class="keyword">class</span>] superclass]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">40</span>:<span class="number">29.626370</span>+<span class="number">0800</span> BlockDemo[<span class="number">2188</span>:<span class="number">6126897</span>] __NSGlobalBlock__ __NSMallocBlock__ __NSStackBlock__</span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">40</span>:<span class="number">29.627050</span>+<span class="number">0800</span> BlockDemo[<span class="number">2188</span>:<span class="number">6126897</span>] <span class="built_in">NSBlock</span> <span class="built_in">NSBlock</span> <span class="built_in">NSBlock</span></span><br></pre></td></tr></table></figure>
+<p>Block有三种类型：<code>__NSGlobalBlock__</code>、<code>__NSMallocBlock__</code>、<code>__NSStackBlock__</code>，都继承自<code>NSBlock</code>。</p>
+<div class="note blue no-icon flat"><p><strong>注意</strong>：编译完的Block类型和运行时的Block类型会有一些区别。</p>
+</div>
+<h3 id="应用程序的内存分配">应用程序的内存分配</h3>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/10.png" alt="10"></p>
+<p>程序区域（代码段）：存放的就是我们写的一些代码。</p>
+<p>数据区域：一般是存放一些全局变量。</p>
+<p>堆：动态分配内存，自己管理内存。</p>
+<p>栈：系统自动分配内存，不需要自己管理内存。</p>
+<h3 id="Block类型总结">Block类型总结</h3>
+<div class="note blue no-icon flat"><p>1、只要没有访问auto变量的Block都是<code>__NSGlobalBlock__</code>类型的。</p>
+<p>2、访问了auto变量的Block是<code>__NSStackBlock__</code>类型的，因为我们是在ARC环境下，会自动进行copy操作，所以是<code>__NSMallocBlock__</code>类型的。</p>
+<p>3、<code>__NSGlobalBlock__</code>类型的Block调用了copy还是<code>__NSGlobalBlock__</code>类型。</p>
+</div>
+<h3 id="Block的copy操作">Block的copy操作</h3>
+<p>在ARC环境下，编译器会根据情况自动将栈上的Block复制到堆上，比如以下情况：</p>
+<ul>
+<li>block作为函数返回值</li>
+<li>将block赋值给<code>__strong</code>指针时</li>
+<li>block作为Cocoa API中方法名含有usingBlock的方法参数时</li>
+<li>block作为GCD API的方法参数时</li>
+</ul>
+<div class="note orange no-icon flat"><p><strong>注意</strong>：MRC下Block使用copy关键字修饰，ARC下Block使用strong或copy都可以，建议使用copy，与MRC下保持一致。</p>
+</div>
+<h2 id="写在最后-7">写在最后</h2>
+<p>关于Block底层原理的第一篇我们就分享到这里，如有错误请多多指教。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>底层原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【iOS重学】Category的底层原理</title>
     <url>/posts/dfd029e5/</url>
-    <content><![CDATA[<h2 id="写在前面-13">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-14">写在前面</h2>
 <p>本文博主将从<code>Category</code>的基本使用和底层原理来窥探一下Runtime下的<code>Category</code> 是如何实现的。博主这里参考的苹果源码版本是：<code>objc4_838</code>版本。</p>
 <h2 id="Category的基本使用">Category的基本使用</h2>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)run;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)run &#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>,__func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Person + Test 分类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)test &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>,__func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
@@ -1264,7 +1381,7 @@
 <p>1、如果主类和分类都会有<code>-(void)test</code>方法，会优先调用分类的方法，原因是分类的方法列表在前面，注意这里不是覆盖了原来的方法。</p>
 <p>2、<code>Person</code>两个分类都有<code>-(void)test</code>方法，调用哪个方法是根据<strong>编译顺序</strong>来决定的，后参与编译的优先级更高，比如上例中调用的是<code>Person+Eat</code>中的<code>test</code>方法。</p>
 </div>
-<h2 id="写在最后-7">写在最后</h2>
+<h2 id="写在最后-8">写在最后</h2>
 <p>啦啦啦，关于<code>Category</code>的底层原理窥探就到这里结束了，如有错误的地方还望各位大佬多多指教。</p>
 ]]></content>
       <categories>
@@ -1316,7 +1433,7 @@
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1121/2.png" alt="2"></p>
 <p><strong>总结</strong>：</p>
 <p>按照上面流程都没有查找到对应的方法或成员变量可以赋值就是调用我们常见的一个方法:<code>- (id)valueForUndefinedKey:(NSString *)key</code>抛出异常。</p>
-<h2 id="写在最后-8">写在最后</h2>
+<h2 id="写在最后-9">写在最后</h2>
 <p>关于iOS里面的KVC设值、取值的相关顺序就写到这里了，如有错误请指教。</p>
 ]]></content>
       <categories>
@@ -1457,7 +1574,7 @@
 <figure class="highlight basic"><table><tr><td class="code"><pre><span class="line">// <span class="number">1</span>.检查资源是否被下载</span><br><span class="line">conditionallyBeginAccessingResourceWithCompletionHandler</span><br><span class="line"></span><br><span class="line">// <span class="number">2</span>.从APP Server开始下载资源</span><br><span class="line">beginAccessingResourceWithCompletionHandler</span><br></pre></td></tr></table></figure>
 <h4 id="具体代码片段">具体代码片段</h4>
 <figure class="highlight basic"><table><tr><td class="code"><pre><span class="line">- (instancetype)init &#123;</span><br><span class="line">    <span class="keyword">if</span> (self = [super init]) &#123;</span><br><span class="line">        NSSet *tags = [NSSet setWithObjects:@<span class="string">&quot;level1&quot;</span>, nil];</span><br><span class="line">        self.resourceRequest = [[NSBundleResourceRequest alloc] initWithTags:tags bundle:[NSBundle mainBundle]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 检查图片资源“home_function_broadcast”是否被下载 如果已经下载就可以直接使用</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">[self.resourceRequest conditionallyBeginAccessingResourcesWithCompletionHandler:^(BOOL resourcesAvailable) &#123;</span><br><span class="line">  <span class="keyword">if</span> (resourcesAvailable) &#123;</span><br><span class="line">      weakSelf.resourcesAvailable = resourcesAvailable;</span><br><span class="line">      dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">          weakSelf.imageView.image = [UIImage imageNamed:@<span class="string">&quot;home_function_broadcast&quot;</span>];</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// 开始下载图片资源</span><br><span class="line">[self.resourceRequest beginAccessingResourcesWithCompletionHandler:^(NSError * _Nullable <span class="keyword">error</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">error</span>) &#123;</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            [self showAlertViewVcWithTitle:@<span class="string">&quot;图片资源下载失败...&quot;</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            [self showAlertViewVcWithTitle:@<span class="string">&quot;图片资源下载成功...&quot;</span>];</span><br><span class="line">            self.imageView.image = [UIImage imageNamed:@<span class="string">&quot;home_function_broadcast&quot;</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="写在最后-9">写在最后</h2>
+<h2 id="写在最后-10">写在最后</h2>
 <p>关于On-Demand Resource的简单介绍就到这里了，希望本文能对打开有所帮助。</p>
 ]]></content>
       <categories>
@@ -1470,7 +1587,7 @@
   <entry>
     <title>【iOS重学】Runtime中常用的一些API汇总</title>
     <url>/posts/b38791c9/</url>
-    <content><![CDATA[<h2 id="写在前面-14">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-15">写在前面</h2>
 <p>本文主要是总结一下在我们日常项目中会用到的一些关于<code>Runtime</code>的相关API，便于以后查阅。</p>
 <h2 id="isMemberOfClass-和-isKindOfClass-区别">isMemberOfClass 和 isKindOfClass 区别</h2>
 <p>在正式总结<code>Runtime</code>下相关API之前，先看看<code>isMemberOfClass</code> 和 <code>isKindOfClass</code>的区别：</p>
@@ -1515,7 +1632,7 @@
 <p>…</p>
 </li>
 </ul>
-<h2 id="写在最后-10">写在最后</h2>
+<h2 id="写在最后-11">写在最后</h2>
 <p>关于Runtime中常用的一些常用的API就总结到这里，如有错误请多多指教。</p>
 ]]></content>
       <categories>
@@ -1529,7 +1646,7 @@
   <entry>
     <title>【 iOS重学】class_rw_ext_t结构详解</title>
     <url>/posts/8948fead/</url>
-    <content><![CDATA[<h2 id="写在前面-15">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-16">写在前面</h2>
 <p>在<a href="https://codersunny.com/posts/b55a18a8/">iOS重学之窥探Class的结构</a>这篇文章中，我们分析Class的结构时提到了一个结构<code>class_rw_ext_t</code>，本文主要就这个结构来展开做个详细的分析，以及苹果为什么要这么做。</p>
 <h2 id="class-rw-ext-t结构">class_rw_ext_t结构</h2>
 <h3 id="简单介绍-2">简单介绍</h3>
@@ -1567,7 +1684,7 @@
 <p>在<code>class_rw_ext_t</code>结构之后，runtime查找方法的方式如下图：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1124/6.png" alt="6"></p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1124/7.png" alt="7"></p>
-<h2 id="写在最后-11">写在最后</h2>
+<h2 id="写在最后-12">写在最后</h2>
 <p>关于<code>class_rw_ext_t</code>结构的分析和好处我们就分析到这里了，如果有什么不对的地方望指教。</p>
 ]]></content>
       <categories>
@@ -1582,7 +1699,7 @@
   <entry>
     <title>【iOS重学】一篇文章讲清楚+load和+initialize</title>
     <url>/posts/8f7262c3/</url>
-    <content><![CDATA[<h2 id="写在前面-16">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-17">写在前面</h2>
 <p>本文主要从底层源码上来分析一下<code>+load</code>和<code>+initialize</code>方法的调用顺序以及它们之间的区别。</p>
 <h2 id="load">+load</h2>
 <p><code>+load</code>方法会在<code>Runtime</code>加载类、分类的时候调用，每个类、分类的<code>+load</code>方法在程序运行过程中只会调用一次。</p>
@@ -1670,7 +1787,7 @@
   <entry>
     <title>【iOS重学】一篇文章讲清楚super</title>
     <url>/posts/d1a1e187/</url>
-    <content><![CDATA[<h2 id="写在前面-17">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-18">写在前面</h2>
 <p>经常在网上看到<code>[super xxx]</code>这种输出什么内容等类似的面试题，本文就主要来详细剖析一下这种<code>[super xxx]</code>中<code>super</code>调用的底层原理。</p>
 <h2 id="场景">场景</h2>
 <p>博主这里用一个常看到的面试题来引出本文的主题：</p>
@@ -1691,125 +1808,8 @@
 <p>在源码中我们搜索一下<code>objc_super</code>结构体：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/01/30/1.png" alt="1"></p>
 <p>从上面的分析，我们可以看到：<code>[super class]</code>中消息接收者还是<code>self</code>也就是说还是<code>Student</code>，同理<code>[super superclas]</code>打印结果还是<code>Person</code>。</p>
-<h2 id="写在最后-12">写在最后</h2>
-<p>关于<code>super</code>调用本质的原理我们在这片文章就分析清楚了，如有错误请多多指教。</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>底层原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【iOS重学】Block底层原理（一）</title>
-    <url>/posts/67d22871/</url>
-    <content><![CDATA[<h2 id="写在前面-18">写在前面</h2>
-<p>关于<code>Block</code>的底层原理相关东西，需要了解的东西比较多，所以博主这里打算用两篇文章来详细分析一下OC里面的<code>Block</code>，这是第一篇，内容主要包含：</p>
-<ul>
-<li>Block的基本使用</li>
-<li>Block的底层数据结构</li>
-<li>Block对变量的捕获</li>
-<li>Block的类型</li>
-</ul>
-<p>好了，废话少说，现在跟着博主开始从头了解Block吧。</p>
-<h2 id="Block的基本使用-2">Block的基本使用</h2>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;This is a block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br></pre></td></tr></table></figure>
-<p>以上是最简单的一个Block，调用<code>Block()</code>会打印：<code>This is a block...</code>。</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Person 类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)fetchDataWithSuccess:(<span class="type">void</span>(^)(<span class="built_in">NSString</span> *message))successBlock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)fetchDataWithSuccess:(<span class="type">void</span>(^)(<span class="built_in">NSString</span> *message))successBlock &#123;</span><br><span class="line">    <span class="keyword">if</span> (successBlock) &#123;</span><br><span class="line">        successBlock(<span class="string">@&quot;这是一个成功的回调...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line">Person *person = [[Person alloc] init];</span><br><span class="line">[person fetchDataWithSuccess:^(<span class="built_in">NSString</span> *message) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;---- %@&quot;</span>, message);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">19</span>:<span class="number">30</span>:<span class="number">08.775142</span>+<span class="number">0800</span> BlockDemo[<span class="number">53402</span>:<span class="number">5642770</span>] ---- 这是一个成功的回调...</span><br></pre></td></tr></table></figure>
-<p>相信这种类似的Block大家在日常项目中会看到很多很多，我们这里就不再一一列举了。</p>
-<h2 id="Block的底层数据结构">Block的底层数据结构</h2>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;This is a block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br></pre></td></tr></table></figure>
-<p>我们来看一下上面最简单的Block的底层C++结构是什么样的，使用命令<code>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main.cpp</code>转为C++代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        <span class="comment">// 定义Block</span></span><br><span class="line">        <span class="built_in">void</span>(*WWBlock)(<span class="type">void</span>) = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA));</span><br><span class="line">                            </span><br><span class="line">        <span class="comment">// 调用Block               </span></span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)WWBlock)-&gt;FuncPtr)((__block_impl *)WWBlock);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>把相应的强制转换给去掉能够帮助我们更清晰的理解Block的结构，去掉一些强制转换之后如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义Block</span></span><br><span class="line"><span class="built_in">void</span>(*WWBlock)(<span class="type">void</span>) = &amp;__main_block_impl_0(__main_block_func_0, &amp;__main_block_desc_0_DATA));</span><br><span class="line"><span class="comment">// 调用Block      </span></span><br><span class="line">WWBlock-&gt;<span class="built_in">FuncPtr</span>(WWBlock);</span><br></pre></td></tr></table></figure>
-<p>可以看到跟Block相关的有：<code>__main_block_impl_0</code>、<code>__main_block_func_0</code>、<code>__main_block_dec_0_DATA</code>这几个类，在生成的C++文件里面找到相关的结构如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/1.png" alt="1"></p>
-<p>从上面的图里面我们可以看到，Block的结构里面也有一个<code>isa</code>指针，所以Block的本质其实也是一个【<strong>OC对象</strong>】，是一个封装了函数调用及其调用环境的OC对象。</p>
-<p>对应关系如下图所示：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/2.png" alt="2"></p>
-<p>在调用的时候<code>WWBlock-&gt;FuncPtr(WWBlock)</code>，相当于是拿到<code>WWBlock</code>结构里面的函数指针<code>FuncPtr</code>去调用对应的方法，这个函数指针里面其实存放的就是Block代码块的地址。</p>
-<h2 id="Block对变量的捕获">Block对变量的捕获</h2>
-<p>为什么Block会对变量进行捕获？</p>
-<p>因为在Block里面可能需要访问Block外部变量的值，所以需要捕获（capture）变量保证我们能正确访问到变量。</p>
-<p>我们现在分别来分析【auto变量】、【static变量】、【全局变量】三种不同的变量，Block对其捕获是不是也不一样呢？</p>
-<h3 id="auto变量">auto变量</h3>
-<p>auto变量：离开当前作用域就会销毁的变量。</p>
-<h4 id="1、非对象类型的auto变量">1、非对象类型的auto变量</h4>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;对auoto变量的捕获 - %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line">age = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">20</span>:<span class="number">18</span>:<span class="number">28.957166</span>+<span class="number">0800</span> BlockDemo[<span class="number">54326</span>:<span class="number">5689813</span>] 对auoto变量的捕获 - <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>底层C++代码如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/3.png" alt="3"></p>
-<p>跟前面我们没有捕获变量相比，会把<code>age</code>传递到Block里面：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/4.png" alt="4"></p>
-<p>从底层结构我们也看到了：Block会对auto变量进行捕获，访问的方式是【值传递】。</p>
-<h4 id="2、对象类型的auto变量">2、对象类型的auto变量</h4>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="type">void</span>(^WWBlock)(<span class="type">void</span>);</span><br><span class="line">        &#123;</span><br><span class="line">            Person *person = [[Person alloc] init];</span><br><span class="line">            person.age = <span class="number">10</span>;</span><br><span class="line">            WWBlock = ^&#123;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;person&#x27;s age is %d&quot;</span>,person.age);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;-----&quot;</span>);</span><br><span class="line">        WWBlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">31.593895</span>+<span class="number">0800</span> BlockDemo[<span class="number">2248</span>:<span class="number">6132111</span>] -----</span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">45</span>:<span class="number">31.594542</span>+<span class="number">0800</span> BlockDemo[<span class="number">2248</span>:<span class="number">6132111</span>] person<span class="string">&#x27;s age is 10</span></span><br><span class="line"><span class="string">2022-12-07 15:45:31.594693+0800 BlockDemo[2248:6132111] -[Person dealloc]</span></span><br></pre></td></tr></table></figure>
-<p>底层结构代码如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/11.png" alt="11"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/12.png" alt="12"></p>
-<p>对照上面的底层数据结构发现：多了两个函数<code>__main_block_copy_0</code>和<code>__main_block_dispose_0</code>。</p>
-<p>当Block被拷贝到堆上时，会调用Block内部的copy函数<code>__main_block_copy_0</code>，函数里面调用<code>_Block_object_assign</code>，在<code>_Block_object_assign</code>里面根据auto变量的修饰符做出相应的操作：强引用或弱引用。</p>
-<p>当Block从对上移除时，会调用Block内部的dispose函数<code>__main_block_dispose_0</code>，函数里面调用<code>_Block_object_dispose</code>，<code>_Block_object_dispose</code>去对引用的auto变量进行一次release操作。</p>
-<div class="note pink no-icon flat"><p>在使用clang转换OC为C++代码时，如果有<code>__weak</code>可能会出现下面报错：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/13.png" alt="13"></p>
-<p>让其支持ARC、指定运行时系统版本即可，比如：</p>
-<p>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-14.0.0 main.m</p>
-</div>
-<h3 id="static变量">static变量</h3>
-<p>static变量：离开当前作用域不会销毁的变量。</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个Block</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;对static变量的捕获 - %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line">age = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用Block</span></span><br><span class="line">WWBlock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-06</span> <span class="number">20</span>:<span class="number">27</span>:<span class="number">55.716204</span>+<span class="number">0800</span> BlockDemo[<span class="number">54594</span>:<span class="number">5700817</span>] 对<span class="keyword">static</span>变量的捕获 - <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p>底层C++代码如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/5.png" alt="5"></p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/6.png" alt="6"></p>
-<p>从底层结构我们也看到了：Block会对static变量进行捕获，访问的方式是【指针传递】。</p>
-<h3 id="全局变量">全局变量</h3>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> age;</span><br><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">  <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">      <span class="comment">// 定义一个Block</span></span><br><span class="line">      age = <span class="number">10</span>;</span><br><span class="line">      <span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">          <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>,age);</span><br><span class="line">      &#125;;</span><br><span class="line">      age = <span class="number">20</span>;</span><br><span class="line">      <span class="comment">// 调用Block</span></span><br><span class="line">      WWBlock();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">13</span>:<span class="number">39</span>:<span class="number">45.012065</span>+<span class="number">0800</span> BlockDemo[<span class="number">197</span>:<span class="number">6032120</span>] age is <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p>底层C++代码如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/7.png" alt="7"></p>
-<p>从底层结构我们发现：Block不会对全局变量进行捕获，直接访问全局变量即可。</p>
-<div class="note green no-icon flat"><p><strong>思考</strong>：</p>
-<p>1、为什么Block不会捕获全局变量，但是局部变量需要捕获？</p>
-<p>全局变量在任何时候任何地方都是可以访问到的，因此不需要捕获可以直接访问。</p>
-<p>局部变量因为作用域的问题需要被捕获，保证Block内部能够正确访问到该变量。</p>
-<p>2、Block会对捕获self吗？</p>
-<p>会，说明self是个局部变量。</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="type">void</span>)test &#123;</span><br><span class="line">    <span class="keyword">self</span>.age = <span class="number">10</span>;</span><br><span class="line">    <span class="type">void</span>(^WWBlock)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, <span class="keyword">self</span>.age);</span><br><span class="line">    &#125;;</span><br><span class="line">    WWBlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>底层C++代码如下：</p>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/9.png" alt="9"></p>
-<p><code>self</code>和<code>_cmd</code>其实是两个隐式参数，所以我们能在里面正常访问<code>self</code>、<code>_cmd</code>。</p>
-</div>
-<h3 id="Block捕获变量总结">Block捕获变量总结</h3>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/8.png" alt="8"></p>
-<h2 id="Block的类型">Block的类型</h2>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span>(^block1)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;This is block...&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="type">void</span>(^block2)(<span class="type">void</span>) = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>,age);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %@ %@&quot;</span>,[block1 <span class="keyword">class</span>],[block2 <span class="keyword">class</span>],[^&#123;<span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, age);&#125; <span class="keyword">class</span>]);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%@ %@ %@&quot;</span>,[[block1 <span class="keyword">class</span>] superclass], [[block2 <span class="keyword">class</span>] superclass], [[^&#123;<span class="built_in">NSLog</span>(<span class="string">@&quot;age is %d&quot;</span>, age);&#125; <span class="keyword">class</span>] superclass]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果：</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">40</span>:<span class="number">29.626370</span>+<span class="number">0800</span> BlockDemo[<span class="number">2188</span>:<span class="number">6126897</span>] __NSGlobalBlock__ __NSMallocBlock__ __NSStackBlock__</span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-07</span> <span class="number">15</span>:<span class="number">40</span>:<span class="number">29.627050</span>+<span class="number">0800</span> BlockDemo[<span class="number">2188</span>:<span class="number">6126897</span>] <span class="built_in">NSBlock</span> <span class="built_in">NSBlock</span> <span class="built_in">NSBlock</span></span><br></pre></td></tr></table></figure>
-<p>Block有三种类型：<code>__NSGlobalBlock__</code>、<code>__NSMallocBlock__</code>、<code>__NSStackBlock__</code>，都继承自<code>NSBlock</code>。</p>
-<div class="note blue no-icon flat"><p><strong>注意</strong>：编译完的Block类型和运行时的Block类型会有一些区别。</p>
-</div>
-<h3 id="应用程序的内存分配">应用程序的内存分配</h3>
-<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1206/10.png" alt="10"></p>
-<p>程序区域（代码段）：存放的就是我们写的一些代码。</p>
-<p>数据区域：一般是存放一些全局变量。</p>
-<p>堆：动态分配内存，自己管理内存。</p>
-<p>栈：系统自动分配内存，不需要自己管理内存。</p>
-<h3 id="Block类型总结">Block类型总结</h3>
-<div class="note blue no-icon flat"><p>1、只要没有访问auto变量的Block都是<code>__NSGlobalBlock__</code>类型的。</p>
-<p>2、访问了auto变量的Block是<code>__NSStackBlock__</code>类型的，因为我们是在ARC环境下，会自动进行copy操作，所以是<code>__NSMallocBlock__</code>类型的。</p>
-<p>3、<code>__NSGlobalBlock__</code>类型的Block调用了copy还是<code>__NSGlobalBlock__</code>类型。</p>
-</div>
-<h3 id="Block的copy操作">Block的copy操作</h3>
-<p>在ARC环境下，编译器会根据情况自动将栈上的Block复制到堆上，比如以下情况：</p>
-<ul>
-<li>block作为函数返回值</li>
-<li>将block赋值给<code>__strong</code>指针时</li>
-<li>block作为Cocoa API中方法名含有usingBlock的方法参数时</li>
-<li>block作为GCD API的方法参数时</li>
-</ul>
-<div class="note orange no-icon flat"><p><strong>注意</strong>：MRC下Block使用copy关键字修饰，ARC下Block使用strong或copy都可以，建议使用copy，与MRC下保持一致。</p>
-</div>
 <h2 id="写在最后-13">写在最后</h2>
-<p>关于Block底层原理的第一篇我们就分享到这里，如有错误请多多指教。</p>
+<p>关于<code>super</code>调用本质的原理我们在这片文章就分析清楚了，如有错误请多多指教。</p>
 ]]></content>
       <categories>
         <category>iOS</category>
@@ -2250,6 +2250,143 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
       </tags>
   </entry>
   <entry>
+    <title>【iOS重学】制作.a静态库和.framework静态库最全流程</title>
+    <url>/posts/38437bd9/</url>
+    <content><![CDATA[<h2 id="写在前面-22">写在前面</h2>
+<p>本文记录的主要有两点：</p>
+<ul>
+<li><code>.a</code>静态库的制作流程以及使用</li>
+<li><code>.framework</code>静态库的制作流程以及使用</li>
+</ul>
+<h2 id="制作-a静态库">制作.a静态库</h2>
+<p>第一步：Xcode新建项目 - Frame &amp; Library - Static Library。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/1.png" alt="1"></p>
+<p>第二步：博主这里取名为：StaticLibrary，这里出现的两个文件没有用可以删掉。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/2.png" alt="2"></p>
+<p>第三步：把想要打成静态库的文件放在<code>StaticLibrary</code>文件夹下面，博主这里以<code>WWPerson</code>文件为例。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/3.png" alt="3"></p>
+<p>第四步：修改<code>BuildSetting</code>配置，将<code>Build Active Architeture Only</code> 设置为<code>NO</code>。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/4.png" alt="4"></p>
+<p>第五步：添加需要暴露在外面的<code>.h</code>文件，<code>.m</code>文件会自动编译到<code>.a</code>文件中。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/5.png" alt="5"></p>
+<p>在未添加之前是下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/6.png" alt="6"></p>
+<p>点击+添加，添加之后：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/7.png" alt="7"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/8.png" alt="8"></p>
+<p>需要注意的是：这里需要暴露的<code>.h</code>文件需要放在<code>Public</code>列表栏里面。</p>
+<p>第六步：<code>Edit Scheme</code> - 模式改为<code>release</code>模式。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/9.png" alt="9"></p>
+<p>第八步：分别在真机和模拟器上都要<code>Command+B</code>编译，编译之后我们可以看到如下内容。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/10.png" alt="10"></p>
+<p>其中，<code>Release-iphoneos</code>代表的是真机下的静态库文件，<code>Release-iphonesimulator</code>表示的是模拟器下的静态文库文件。</p>
+<div class="note pink no-icon flat"><p><strong>温馨提示</strong>：</p>
+<ol>
+<li>在模拟器上编译静态库时最好选择高端一点的设备，这样低端设备也可以用，如果选择低端设备可能会出现在高端模拟器上出现错误等问题。</li>
+<li>通过<code>Xcode</code> -<code>Preferences</code>- <code>Location</code> 可以找到上面的静态库内容。</li>
+</ol>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/11.png" alt="11"></p>
+</div>
+<p>到这里静态库的制作方法就基本完成了，但是还有一个重要的问题我们还没有解决，那就是模拟器和真机下的静态库需要合并，接下来我们看一下如何合并静态库。</p>
+<h2 id="合并静态库">合并静态库</h2>
+<ul>
+<li>新建一个文件夹用来存放真机和模拟器下打包出来的静态库，博主这里新建一个“合并静态库”的文件夹</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/12.png" alt="12"></p>
+<ul>
+<li>打开终端，在终端输入<code>lipo -create 模拟器下的.a 真机下的.a -output 新合并的静态库的存放路径</code>，如下：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/13.png" alt="13"></p>
+<div class="note green no-icon flat"><p><strong>温馨提示</strong>：</p>
+<p>如果在合并的过程中有人碰到跟博主一样的错误的话，请按照下面的方式修改Xcode配置，然后重新编译生成新的.a静态库：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/14.png" alt="14"></p>
+<p>出现错误的原因在于：在Xcode12之后编译的模拟器静态库也支持arm64，会导致真机和模拟器有相同的支持架构arm64，这也就导致模拟器和真机不能合并的问题。</p>
+<p>上面Xcode设置就是将arm64架构移除。</p>
+</div>
+<ul>
+<li>合并之后，可以在目标文件夹下看到我们刚合并的静态库：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/15.png" alt="15"></p>
+<ul>
+<li>可以使用<code>lipo -info</code>看一下我们打出来的这个静态库支持的架构是哪些：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/16.png" alt="16"></p>
+<h2 id="a静态库的使用">.a静态库的使用</h2>
+<p>静态库的使用很简单，只需要将暴露在外面的<code>.h</code>文件和<code>.a</code>静态库放在项目中即可使用：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/17.png" alt="17"></p>
+<h2 id="framework静态库制作流程">.framework静态库制作流程</h2>
+<p>第一步：Xcode新建项目 - Frame &amp; Library - Framework。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/18.png" alt="18"></p>
+<div class="note green no-icon flat"><p><strong>配置framwork</strong>:</p>
+<ol>
+<li>
+<p><code>Build Settings</code>配置：</p>
+<ul>
+<li><code>Product Name</code> ：可以修改名称，这里的名称是最终打包出来的<code>framework</code>的名称，博主这里叫<code>PrintFramework</code>。</li>
+<li><code>Mac-O Type</code>：选择<code>Static Library</code>。</li>
+<li><code>Build Active Architeture Only</code>：设置为<code>NO</code>。</li>
+<li><code>Base SDK</code>：选择<code>iOS</code>。</li>
+<li><code>iOS Deployment Target</code>：选择打包出来的<code>framework</code>最低支持的iOS版本。</li>
+</ul>
+</li>
+<li>
+<p><code>Build Phases</code>配置：</p>
+<ul>
+<li><code>Copy Bundle Resource</code>：在这里面添加 <code>framework</code>项目使用到的一些资源文件，包括：<code>xib</code>、<code>plist</code>、图片等。</li>
+<li><code>Link Binary With Libraries</code>：在这里面添加 <code>framework</code>项目的依赖库。</li>
+<li><code>Compile Sources </code>：<code>framework</code>项目包含的实现文件。</li>
+<li><code>Headers</code>：将要暴露出来的头文件放在<code>public</code> 下，不需要暴露在外面的头文件放在<code>project</code>下。</li>
+</ul>
+</li>
+</ol>
+</div>
+<p>第二步：如果项目中用到了图片、<code>Xib</code>等资源时需要创建一个<code>Bundle</code>：File - New - Target - macOS - Bundle。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/19.png" alt="19"></p>
+<div class="note red no-icon flat"><p><strong>注意</strong>：</p>
+<p>在创建<code>Bundle</code>时的名称不能和<code>framework</code>的名称一样，一样会导致失败。</p>
+<p><strong>配置Bundle</strong>：</p>
+<ul>
+<li>
+<p>选中<code>Bundle</code>Target，<code>Product Name</code> - 修改<code>Bundle</code>名称，博主这里叫<code>PrintFramework</code>。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/22.png" alt="22"></p>
+</li>
+<li>
+<p><code>Base SDK</code>：修改为<code>iOS</code>。</p>
+</li>
+<li>
+<p><code>Supported Platforms</code>：修改为<code>iOS</code>。</p>
+</li>
+<li>
+<p><code>Enable Bitcode</code>：设置为<code>NO</code>。</p>
+</li>
+<li>
+<p><code>COMBILE_HIDPI_IMAGES</code>：设置为<code>NO</code>。（避免<code>Bundle</code>中的图片变成<code>tiff</code>格式而无法使用）</p>
+</li>
+</ul>
+</div>
+<p>第三步：将创建好的<code>Bundle</code>添加到<code>framework</code>项目的依赖中去。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/23.png" alt="23"></p>
+<p>第四步：<code>Edit Scheme</code> - 模式改为<code>release</code>模式。</p>
+<p>第五步：分别在真机和模拟器下编译<code>framework</code>项目，得到两个文件如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/24.png" alt="24"></p>
+<p>到这里，我们制作的<code>framework</code>静态库就基本完成，接下来就是和制作<code>.a</code>静态库一样需要合并静态库，博主这里久不过多阐述了，按照上面的方式产生新的<code>framework</code>静态库。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/21.png" alt="21"></p>
+<p>第六步：将新合并的<code>framework</code>文件替换掉之前的<code>xxx.framework</code>中的<code>framework</code>文件。</p>
+<h2 id="framework静态库使用">.framework静态库使用</h2>
+<p>将打包出来的<code>xxx.framework</code>和<code>Bundle</code>导入项目中即可使用：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/25.png" alt="25"></p>
+<p>到这里，关于<code>.framework</code>静态库的制作方法就结束了。</p>
+<h2 id="写在最后-16">写在最后</h2>
+<p>iOS中关于制作<code>.a</code>和<code>.framework</code>静态库的流程到这里就基本结束了，下一篇文章博主将来详细讲一下静态库和动态库的区别。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【iOS重学】启动优化（一）</title>
     <url>/posts/a5b508b2/</url>
     <content><![CDATA[<h2 id="APP是如何启动的">APP是如何启动的</h2>
@@ -2379,7 +2516,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【 iOS重学】启动优化（三）- Clang插桩</title>
     <url>/posts/37cd28e5/</url>
-    <content><![CDATA[<h2 id="写在前面-22">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-23">写在前面</h2>
 <p>在 上一篇文章<a href="https://codersunny.com/posts/23c5d0e7/">iOS重学之启动优化（二）- 二进制重排</a> 最后我们提出了一个问题：如何精确获取应用启动时刻的符号调用顺序，本篇文章我们就来详细介绍如何通过Clang插桩来对所有的符号进行100%的Hook。</p>
 <h2 id="Clang插桩">Clang插桩</h2>
 <p>LLVM内置了一个简单的代码覆盖率检测(SanitizerCoverage)。它在函数级、基本块级和边缘级插入对用户定义函数的调用，并提供了这些回调的默认实现。在认为启动结束的位置添加代码，就能够拿到启动到指定位置调用到的所有函数符号。</p>
@@ -2457,7 +2594,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【iOS重学】启动优化（二）- 二进制重排</title>
     <url>/posts/23c5d0e7/</url>
-    <content><![CDATA[<h2 id="写在前面-23">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-24">写在前面</h2>
 <p>在第一部分<a href="https://codersunny.com/posts/a5b508b2/">iOS重学之启动优化（一）</a>中，我们主要从<code>Pre-main</code>和<code>main</code>之后两个时间来衡量一个iOS应用启动的时长，以及详细分析了<code>Pre-main</code>的四个阶段，其中也提到了一些概念：比如<strong>物理内存</strong>、<strong>虚拟内存</strong>、<strong>缺页中断</strong>等，感兴趣的可以移步上一篇文章了解一下，本文主要跟大家详细讨论一下什么是<strong>二进制重排</strong>、<strong>二进制重排为什么能够优化iOS应用启动时间</strong>等问题。</p>
 <h2 id="物理内存-虚拟内存">物理内存 &amp; 虚拟内存</h2>
 <p><strong>物理内存</strong>：指的是通过物理内存条获得的内存空间。</p>
@@ -2534,7 +2671,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
 <p>经过二进制重排之后我们发现<code>Link Map File</code>文件里面的符号排列顺序已经按照我们指定的顺序排列，其中我们在<code>LaunchDemo.order</code>文件里面指定的<code>-[LaunchDemo test]</code>符号，项目里面没有这个方法，所以只会被忽略不会报错。</p>
 </div>
 <p>到这里为止，二进制重排的整个核心我们就分析得差不多了，但是这个二进制重排有个最大的问题，那就是：我们如何才能准确获取项目启动时刻调用的方法顺序，换句话说我怎么知道我这个项目启动需要调用到哪些方法。</p>
-<h2 id="写在最后-16">写在最后</h2>
+<h2 id="写在最后-17">写在最后</h2>
 <p>二进制重排最大的问题我们已经抛出来了，有兴趣的也可以想想应该怎么办，<a href="https://codersunny.com/posts/37cd28e5/">下一篇文章</a>我们将重点分析如何精确获取项目启动时刻调用的方法顺序。</p>
 ]]></content>
       <categories>
@@ -2548,7 +2685,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【 iOS重学】探究OC对象的本质</title>
     <url>/posts/431bd9b3/</url>
-    <content><![CDATA[<h2 id="写在前面-24">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-25">写在前面</h2>
 <p>苹果官方源码下载：<a href="http://opensource.apple.com/tarballs">opensource.apple.com/tarballs</a> -&gt; 搜索objc/4 -&gt; 下载最新源码</p>
 <h2 id="Objective-C的本质">Objective-C的本质</h2>
 <p>在iOS开发中如果我们使用OC编写的代码，其底层都是C/C++代码。</p>
@@ -2642,7 +2779,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【iOS重学】方法缓存cache_t的分析</title>
     <url>/posts/39324100/</url>
-    <content><![CDATA[<h2 id="写在前面-25">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-26">写在前面</h2>
 <p>本文我们主要来分析一下方法缓存<code>cache_t</code>的数据结构是什么样的，苹果是怎么实现方法缓存的。</p>
 <h2 id="Class的结构">Class的结构</h2>
 <p>在<a href="!https://codersunny.com/posts/b55a18a8/">【iOS重学】窥探Class的结构</a>文中，我们主要分析了<code>Class</code>的结构，结构主要如下：</p>
@@ -2734,7 +2871,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.305299</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">0</span> - SEL：personTest2 - IMP：<span class="number">0xb540</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.305390</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">1</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.317936</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">2</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318011</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">3</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318081</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">4</span> - SEL：personTest1 - IMP：<span class="number">0xb5b0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318147</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">5</span> - SEL：personTest3 - IMP：<span class="number">0xb510</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318214</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 索引值：<span class="number">6</span> - SEL：(null) - IMP：<span class="number">0x0</span></span><br><span class="line"><span class="number">2022</span><span class="number">-12</span><span class="number">-22</span> <span class="number">15</span>:<span class="number">24</span>:<span class="number">41.318280</span>+<span class="number">0800</span> RuntimeDemo[<span class="number">80143</span>:<span class="number">9031426</span>] 已缓存的方法个数：<span class="number">3</span> - 散列表实际长度：<span class="number">7</span></span><br></pre></td></tr></table></figure>
 <h3 id="cache-t总结">cache_t总结</h3>
 <p>方法缓存散列表其实就是利用空间来换时间，提高了方法查找的效率。</p>
-<h2 id="写在最后-17">写在最后</h2>
+<h2 id="写在最后-18">写在最后</h2>
 <p>关于方法缓存的底层实现我们就写到这里了，希望对大家有所帮助，如有错误请多多指教。</p>
 </li>
 </ul>
@@ -2989,7 +3126,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【iOS重学】消息发送的完整流程</title>
     <url>/posts/4a47f2ea/</url>
-    <content><![CDATA[<h2 id="写在前面-26">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-27">写在前面</h2>
 <p>​	在OC里面，调用对象的某个方法其实就是给这个对象发送一个消息，这个过程我们把它分为三大阶段，分别为：消息发送阶段、动态解析阶段、消息转发阶段，本文将细细剖析这三个阶段，但是在剖析这三大阶段之前我们需要先回顾一下Class的结构。</p>
 <h2 id="Class结构">Class结构</h2>
 <p>苹果源码最新下载地址请点击：<a href="https://opensource.apple.com/tarballs/objc4/">苹果源码</a><br>
@@ -3199,7 +3336,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【iOS重学】窥探Class的结构</title>
     <url>/posts/b55a18a8/</url>
-    <content><![CDATA[<h2 id="写在前面-27">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-28">写在前面</h2>
 <p>本文主要探究<code>Class</code>的内部结构，博主这里使用的objc4的源码版本是<code>objc4-838</code>，建议大家在看的时候可以下载最新源码。</p>
 <h2 id="Class的结构-2">Class的结构</h2>
 <p>在前面关于<a href="https://codersunny.com/posts/9efafc5a/">isa和superclass</a>文章中，我们提到了类对象和元类对象的类型都是<code>Class</code>，内存里面保存的是：</p>
@@ -3231,7 +3368,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
 <p>用一张图来表示Class结构：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202211/1123/3.png" alt="3"></p>
 <p>从上面的结构分析我们可以看到：class对象或meta-class对象里面确实保存了<strong>方法列表、属性列表、协议列表、成员变量列表</strong>等信息。</p>
-<h2 id="写在最后-18">写在最后</h2>
+<h2 id="写在最后-19">写在最后</h2>
 <p>关于<code>Class</code>结构信息我们就分析到这里了，如果有什么不对的地方望指教。</p>
 ]]></content>
       <categories>
@@ -3245,7 +3382,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【iOS重学】线程保活</title>
     <url>/posts/f68de671/</url>
-    <content><![CDATA[<h2 id="写在前面-28">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-29">写在前面</h2>
 <p>本文主要讲一下线程保活是什么、线程保活的意义、如何实现线程保活。</p>
 <h2 id="线程保活">线程保活</h2>
 <h3 id="线程生命周期">线程生命周期</h3>
@@ -3268,7 +3405,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">  [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">  <span class="comment">// 创建一个线程对象</span></span><br><span class="line">  <span class="keyword">self</span>.thread = [[WWPermenantThread alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">  [<span class="keyword">self</span>.thread excuteTask:^&#123;</span><br><span class="line">      <span class="built_in">NSLog</span>(<span class="string">@&quot;执行任务 - %@&quot;</span>, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>执行结果：</p>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">56.211402</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">56.830085</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">57.279150</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">18</span>:<span class="number">58.212741</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512893</span>] 执行任务 - &lt;<span class="built_in">NSThread</span>: <span class="number">0x600002e99680</span>&gt;&#123;number = <span class="number">9</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">19</span>:<span class="number">32.672529</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512038</span>] -[OneViewController dealloc]</span><br><span class="line"><span class="number">2023</span><span class="number">-02</span><span class="number">-15</span> <span class="number">10</span>:<span class="number">19</span>:<span class="number">32.672800</span>+<span class="number">0800</span> 线程保活Demo1[<span class="number">10526</span>:<span class="number">21512038</span>] -[WWPermenantThread dealloc]</span><br></pre></td></tr></table></figure>
-<h2 id="写在最后-19">写在最后</h2>
+<h2 id="写在最后-20">写在最后</h2>
 <p>关于如何实现线程保活的笔记就记录到这里了，如有错误请多多指教。</p>
 ]]></content>
       <categories>
@@ -3282,7 +3419,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【 iOS重学】详细分析isa和superclass</title>
     <url>/posts/9efafc5a/</url>
-    <content><![CDATA[<h2 id="写在前面-29">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-30">写在前面</h2>
 <p>本文将从源码上来详细剖析OC对象的分类、isa、superclass，带大家重新认识iOS。</p>
 <p>苹果源码下载：</p>
 <p>1.<a href="https://opensource.apple.com/releases/">https://opensource.apple.com/releases/</a>  搜索objc4找到最新资源进行下载</p>
@@ -3394,7 +3531,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
   <entry>
     <title>【工具使用】Reveal工具的使用介绍</title>
     <url>/posts/745be31f/</url>
-    <content><![CDATA[<h2 id="写在前面-30">写在前面</h2>
+    <content><![CDATA[<h2 id="写在前面-31">写在前面</h2>
 <p>有时候我们可能想要分析其他APP的一些整体View结构，就像在Xcode分析我们自己的APP一样能够清楚看到个层级结构，Reveal这个APP主要就是这个功能：用来分析APP的层级结构。</p>
 <h2 id="Reveal">Reveal</h2>
 <p>Reveal APP 官网：<a href="https://revealapp.com/">https://revealapp.com/</a></p>
@@ -3446,7 +3583,7 @@ RunLoop在启动时只能选择其中的一个Mode作为CurrentMode。<br>
 <p>打开手机上的某个APP - 打开Reveal - 会在Reveal看到我们刚打开的APP 如下：</p>
 <p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/202212/1226/9.png" alt="9"></p>
 <p>上面一个是通过网络连接、一个是通过USB连接，我们选择更快的USB连接即可使用Reveal。</p>
-<h2 id="写在最后-20">写在最后</h2>
+<h2 id="写在最后-21">写在最后</h2>
 <p>关于Reveal使用前的配置就简单介绍到这里啦，如有错误请多多指教。</p>
 ]]></content>
       <categories>

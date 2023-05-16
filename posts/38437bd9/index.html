@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【iOS重学】制作.a静态库和.framework静态库最全流程 | Sunny's Blog</title><meta name="keywords" content="iOS"><meta name="author" content="Sunny"><meta name="copyright" content="Sunny"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面 本文记录的主要有两点：  .a静态库的制作流程以及使用 .framework静态库的制作流程以及使用  制作.a静态库 第一步：Xcode新建项目 - Frame &amp; Library - Static Library。  第二步：博主这里取名为：StaticLibrary，这里出现的两个文件没有用可以删掉。  第三步：把想要打成静态库的文件放在StaticLibrary文件夹下面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS重学】制作.a静态库和.framework静态库最全流程">
+<meta property="og:url" content="https://codersunny.com/posts/38437bd9/index.html">
+<meta property="og:site_name" content="Sunny&#39;s Blog">
+<meta property="og:description" content="写在前面 本文记录的主要有两点：  .a静态库的制作流程以及使用 .framework静态库的制作流程以及使用  制作.a静态库 第一步：Xcode新建项目 - Frame &amp; Library - Static Library。  第二步：博主这里取名为：StaticLibrary，这里出现的两个文件没有用可以删掉。  第三步：把想要打成静态库的文件放在StaticLibrary文件夹下面">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg">
+<meta property="article:published_time" content="2023-05-02T09:28:46.000Z">
+<meta property="article:modified_time" content="2023-05-16T07:52:54.767Z">
+<meta property="article:author" content="Sunny">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://codersunny.com/posts/38437bd9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-n3yl43eW4P"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【iOS重学】制作.a静态库和.framework静态库最全流程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-16 15:52:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sunny's Blog" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sunny's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐库</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐库</span></a></li><li><a class="site-page child" href="/pictures/"><i class="fa-fw fas fa-images"></i><span> 图片库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【iOS重学】制作.a静态库和.framework静态库最全流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-02T09:28:46.000Z" title="发表于 2023-05-02 17:28:46">2023-05-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-16T07:52:54.767Z" title="更新于 2023-05-16 15:52:54">2023-05-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面-22">写在前面</h2>
+<p>本文记录的主要有两点：</p>
+<ul>
+<li><code>.a</code>静态库的制作流程以及使用</li>
+<li><code>.framework</code>静态库的制作流程以及使用</li>
+</ul>
+<h2 id="制作-a静态库">制作.a静态库</h2>
+<p>第一步：Xcode新建项目 - Frame &amp; Library - Static Library。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/1.png" alt="1"></p>
+<p>第二步：博主这里取名为：StaticLibrary，这里出现的两个文件没有用可以删掉。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/2.png" alt="2"></p>
+<p>第三步：把想要打成静态库的文件放在<code>StaticLibrary</code>文件夹下面，博主这里以<code>WWPerson</code>文件为例。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/3.png" alt="3"></p>
+<p>第四步：修改<code>BuildSetting</code>配置，将<code>Build Active Architeture Only</code> 设置为<code>NO</code>。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/4.png" alt="4"></p>
+<p>第五步：添加需要暴露在外面的<code>.h</code>文件，<code>.m</code>文件会自动编译到<code>.a</code>文件中。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/5.png" alt="5"></p>
+<p>在未添加之前是下图所示：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/6.png" alt="6"></p>
+<p>点击+添加，添加之后：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/7.png" alt="7"></p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/8.png" alt="8"></p>
+<p>需要注意的是：这里需要暴露的<code>.h</code>文件需要放在<code>Public</code>列表栏里面。</p>
+<p>第六步：<code>Edit Scheme</code> - 模式改为<code>release</code>模式。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/9.png" alt="9"></p>
+<p>第八步：分别在真机和模拟器上都要<code>Command+B</code>编译，编译之后我们可以看到如下内容。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/10.png" alt="10"></p>
+<p>其中，<code>Release-iphoneos</code>代表的是真机下的静态库文件，<code>Release-iphonesimulator</code>表示的是模拟器下的静态文库文件。</p>
+<div class="note pink no-icon flat"><p><strong>温馨提示</strong>：</p>
+<ol>
+<li>在模拟器上编译静态库时最好选择高端一点的设备，这样低端设备也可以用，如果选择低端设备可能会出现在高端模拟器上出现错误等问题。</li>
+<li>通过<code>Xcode</code> -<code>Preferences</code>- <code>Location</code> 可以找到上面的静态库内容。</li>
+</ol>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/11.png" alt="11"></p>
+</div>
+<p>到这里静态库的制作方法就基本完成了，但是还有一个重要的问题我们还没有解决，那就是模拟器和真机下的静态库需要合并，接下来我们看一下如何合并静态库。</p>
+<h2 id="合并静态库">合并静态库</h2>
+<ul>
+<li>新建一个文件夹用来存放真机和模拟器下打包出来的静态库，博主这里新建一个“合并静态库”的文件夹</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/12.png" alt="12"></p>
+<ul>
+<li>打开终端，在终端输入<code>lipo -create 模拟器下的.a 真机下的.a -output 新合并的静态库的存放路径</code>，如下：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/13.png" alt="13"></p>
+<div class="note green no-icon flat"><p><strong>温馨提示</strong>：</p>
+<p>如果在合并的过程中有人碰到跟博主一样的错误的话，请按照下面的方式修改Xcode配置，然后重新编译生成新的.a静态库：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/14.png" alt="14"></p>
+<p>出现错误的原因在于：在Xcode12之后编译的模拟器静态库也支持arm64，会导致真机和模拟器有相同的支持架构arm64，这也就导致模拟器和真机不能合并的问题。</p>
+<p>上面Xcode设置就是将arm64架构移除。</p>
+</div>
+<ul>
+<li>合并之后，可以在目标文件夹下看到我们刚合并的静态库：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/15.png" alt="15"></p>
+<ul>
+<li>可以使用<code>lipo -info</code>看一下我们打出来的这个静态库支持的架构是哪些：</li>
+</ul>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/16.png" alt="16"></p>
+<h2 id="a静态库的使用">.a静态库的使用</h2>
+<p>静态库的使用很简单，只需要将暴露在外面的<code>.h</code>文件和<code>.a</code>静态库放在项目中即可使用：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/17.png" alt="17"></p>
+<h2 id="framework静态库制作流程">.framework静态库制作流程</h2>
+<p>第一步：Xcode新建项目 - Frame &amp; Library - Framework。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/18.png" alt="18"></p>
+<div class="note green no-icon flat"><p><strong>配置framwork</strong>:</p>
+<ol>
+<li>
+<p><code>Build Settings</code>配置：</p>
+<ul>
+<li><code>Product Name</code> ：可以修改名称，这里的名称是最终打包出来的<code>framework</code>的名称，博主这里叫<code>PrintFramework</code>。</li>
+<li><code>Mac-O Type</code>：选择<code>Static Library</code>。</li>
+<li><code>Build Active Architeture Only</code>：设置为<code>NO</code>。</li>
+<li><code>Base SDK</code>：选择<code>iOS</code>。</li>
+<li><code>iOS Deployment Target</code>：选择打包出来的<code>framework</code>最低支持的iOS版本。</li>
+</ul>
+</li>
+<li>
+<p><code>Build Phases</code>配置：</p>
+<ul>
+<li><code>Copy Bundle Resource</code>：在这里面添加 <code>framework</code>项目使用到的一些资源文件，包括：<code>xib</code>、<code>plist</code>、图片等。</li>
+<li><code>Link Binary With Libraries</code>：在这里面添加 <code>framework</code>项目的依赖库。</li>
+<li><code>Compile Sources </code>：<code>framework</code>项目包含的实现文件。</li>
+<li><code>Headers</code>：将要暴露出来的头文件放在<code>public</code> 下，不需要暴露在外面的头文件放在<code>project</code>下。</li>
+</ul>
+</li>
+</ol>
+</div>
+<p>第二步：如果项目中用到了图片、<code>Xib</code>等资源时需要创建一个<code>Bundle</code>：File - New - Target - macOS - Bundle。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/19.png" alt="19"></p>
+<div class="note red no-icon flat"><p><strong>注意</strong>：</p>
+<p>在创建<code>Bundle</code>时的名称不能和<code>framework</code>的名称一样，一样会导致失败。</p>
+<p><strong>配置Bundle</strong>：</p>
+<ul>
+<li>
+<p>选中<code>Bundle</code>Target，<code>Product Name</code> - 修改<code>Bundle</code>名称，博主这里叫<code>PrintFramework</code>。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/22.png" alt="22"></p>
+</li>
+<li>
+<p><code>Base SDK</code>：修改为<code>iOS</code>。</p>
+</li>
+<li>
+<p><code>Supported Platforms</code>：修改为<code>iOS</code>。</p>
+</li>
+<li>
+<p><code>Enable Bitcode</code>：设置为<code>NO</code>。</p>
+</li>
+<li>
+<p><code>COMBILE_HIDPI_IMAGES</code>：设置为<code>NO</code>。（避免<code>Bundle</code>中的图片变成<code>tiff</code>格式而无法使用）</p>
+</li>
+</ul>
+</div>
+<p>第三步：将创建好的<code>Bundle</code>添加到<code>framework</code>项目的依赖中去。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/23.png" alt="23"></p>
+<p>第四步：<code>Edit Scheme</code> - 模式改为<code>release</code>模式。</p>
+<p>第五步：分别在真机和模拟器下编译<code>framework</code>项目，得到两个文件如下：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/24.png" alt="24"></p>
+<p>到这里，我们制作的<code>framework</code>静态库就基本完成，接下来就是和制作<code>.a</code>静态库一样需要合并静态库，博主这里久不过多阐述了，按照上面的方式产生新的<code>framework</code>静态库。</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/21.png" alt="21"></p>
+<p>第六步：将新合并的<code>framework</code>文件替换掉之前的<code>xxx.framework</code>中的<code>framework</code>文件。</p>
+<h2 id="framework静态库使用">.framework静态库使用</h2>
+<p>将打包出来的<code>xxx.framework</code>和<code>Bundle</code>导入项目中即可使用：</p>
+<p><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/2023/05/02/25.png" alt="25"></p>
+<p>到这里，关于<code>.framework</code>静态库的制作方法就结束了。</p>
+<h2 id="写在最后-16">写在最后</h2>
+<p>iOS中关于制作<code>.a</code>和<code>.framework</code>静态库的流程到这里就基本结束了，下一篇文章博主将来详细讲一下静态库和动态库的区别。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://codersunny.com">Sunny</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codersunny.com/posts/38437bd9/">https://codersunny.com/posts/38437bd9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codersunny.com" target="_blank">Sunny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><div class="post_share"><div class="social-share" data-image="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/ShareJS/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechat_pay.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/ali_pay.png" target="_blank"><img class="post-qr-code-img" src="/img/ali_pay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/f68de671/"><img class="next-cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover78.jpg" onerror="onerror=null;src='/img/default_post_cover.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【iOS重学】线程保活</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/7495500c/" title="【iOS逆向】Cycript的基本使用"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover57.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">【iOS逆向】Cycript的基本使用</div></div></a></div><div><a href="/posts/1bf7fb0b/" title="【iOS逆向】一键越狱教程"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover67.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-29</div><div class="title">【iOS逆向】一键越狱教程</div></div></a></div><div><a href="/posts/7df93f3b/" title="【iOS逆向】如何让Mac和iPhone建立安全连接"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover66.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">【iOS逆向】如何让Mac和iPhone建立安全连接</div></div></a></div><div><a href="/posts/beccfc53/" title="【iOS逆向】最全的SSH通信过程"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover58.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-09</div><div class="title">【iOS逆向】最全的SSH通信过程</div></div></a></div><div><a href="/posts/57c4c4a9/" title="【iOS重学】Block底层原理（二）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover70.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-08</div><div class="title">【iOS重学】Block底层原理（二）</div></div></a></div><div><a href="/posts/67d22871/" title="【iOS重学】Block底层原理（一）"><img class="cover" src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover68.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-06</div><div class="title">【iOS重学】Block底层原理（一）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sunny</div><div class="author-info__description">千里之行，始于足下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=532619121&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://codersunny.com/images/wechat.png" target="_blank" title="WeChat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/HappyCoderSunny" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:532619121@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">阅读过程中如果遇到问题，请及时评论或者留言，看到了会第一时间回复，如果未收到回复也可加博主vx（申请时请备注）。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2-22"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-a%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">制作.a静态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">合并静态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">.a静态库的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework%E9%9D%99%E6%80%81%E5%BA%93%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">.framework静态库制作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework%E9%9D%99%E6%80%81%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">.framework静态库使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E-16"><span class="toc-number">7.</span> <span class="toc-text">写在最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/38437bd9/" title="【iOS重学】制作.a静态库和.framework静态库最全流程"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】制作.a静态库和.framework静态库最全流程"/></a><div class="content"><a class="title" href="/posts/38437bd9/" title="【iOS重学】制作.a静态库和.framework静态库最全流程">【iOS重学】制作.a静态库和.framework静态库最全流程</a><time datetime="2023-05-02T09:28:46.000Z" title="发表于 2023-05-02 17:28:46">2023-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f68de671/" title="【iOS重学】线程保活"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover78.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】线程保活"/></a><div class="content"><a class="title" href="/posts/f68de671/" title="【iOS重学】线程保活">【iOS重学】线程保活</a><time datetime="2023-02-14T11:52:56.000Z" title="发表于 2023-02-14 19:52:56">2023-02-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a5190dfd/" title="【iOS重学】关于RunLoop的简单介绍"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】关于RunLoop的简单介绍"/></a><div class="content"><a class="title" href="/posts/a5190dfd/" title="【iOS重学】关于RunLoop的简单介绍">【iOS重学】关于RunLoop的简单介绍</a><time datetime="2023-02-13T02:28:09.000Z" title="发表于 2023-02-13 10:28:09">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover80.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】Runtime中常用的一些API汇总"/></a><div class="content"><a class="title" href="/posts/b38791c9/" title="【iOS重学】Runtime中常用的一些API汇总">【iOS重学】Runtime中常用的一些API汇总</a><time datetime="2023-01-31T07:46:11.000Z" title="发表于 2023-01-31 15:46:11">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super"><img src="https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover82.jpg" onerror="this.onerror=null;this.src='/img/default_post_cover.png'" alt="【iOS重学】一篇文章讲清楚super"/></a><div class="content"><a class="title" href="/posts/d1a1e187/" title="【iOS重学】一篇文章讲清楚super">【iOS重学】一篇文章讲清楚super</a><time datetime="2023-01-30T08:42:21.000Z" title="发表于 2023-01-30 16:42:21">2023-01-30</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://sunny-blog.oss-cn-beijing.aliyuncs.com/%E5%8D%9A%E5%AE%A2%E5%B0%81%E9%9D%A2%E5%9B%BE%E6%96%87%E4%BB%B6/cover77.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Sunny</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://codersunny.com">blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'sunny-blogs-twikoo-0dzxpda182873',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://fastly.jsdelivr.net/gh/zhheo/twikoo@dev/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script defer src="https://fastly.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer data-pjax src="/js/wow_init.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/MetingJS/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
